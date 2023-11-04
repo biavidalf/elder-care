@@ -25,7 +25,12 @@ const Login = () => {
           secureTextEntry={true}
         />
       </View>
-      <Button text="Login" />
+      <Button 
+        text="Login" 
+        onPress={() => {
+          navigation.navigate('Home');
+        }} 
+      />
     </View>
   );
 };
@@ -49,4 +54,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { Login };
+export default Login;
