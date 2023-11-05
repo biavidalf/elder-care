@@ -1,9 +1,13 @@
 export const Colors = {
   BLUE: "#2C72DA",
-  LIGHT_BLUE: "#7BBFDC",
+  LIGHT_BLUE: "#D3E0F5",
+  CYAN: "#7BBFDC",
+  YELLOW: "#DDCD37",
+  LIGHT_GREEN: "#75D690",
   GRAY: "#8696BB",
   LIGHT_GRAY: "#DBDBDB",
-  LIGHT_GREEN: "#75D690",
-  YELLOW: "#DDCD37",
+  WHITE: "#F5F5F5",
+  WHITE_200: "#F4F3F3",
+  WHITE_300: "#EFEFEF",
   BLACK: "#292D32",
 };

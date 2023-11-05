@@ -1,25 +1,49 @@
-import { StyleSheet, Pressable } from 'react-native';
+import { StyleSheet, Pressable, Text } from "react-native";
+import { useFonts, Poppins_400Regular } from "@expo-google-fonts/poppins";
+
+import { Colors } from "../../../utilities/Colors";
 
 export default function Home({ navigation, isActive, label }) {
-  
+  const [fontsLoaded, fontError] = useFonts({ Poppins_400Regular });
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
+
   return (
-    <Pressable style={[styles.rotinaDiaBotao, !isActive || styles.rotinaDiaBotaoActive]}>
-      {label}
+    <Pressable>
+      <Text
+        style={[
+          styles.weekDayButton,
+          !isActive || styles.weekDayButtonActive,
+        ]}
+      >
+        {label}
+      </Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  rotinaDiaBotao:{
-    backgroundColor: '#F2F2F2',
+  weekDayButton: {
+    backgroundColor: Colors.WHITE_300,
     paddingVertical: 6,
     paddingHorizontal: 10,
     borderRadius: 3,
-    color: '#8696BB',
-    fontWeight: '500',
+    color: "#8696BB",
+    fontFamily: "Poppins_400Regular",
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity:  0.16,
+    shadowRadius: 1.51,
+    elevation: 2
   },
-  rotinaDiaBotaoActive: {
-    backgroundColor: '#2C72DA',
-    color: '#F5F5F5',
-  }
+  weekDayButtonActive: {
+    backgroundColor: "#2C72DA",
+    color: "#F5F5F5",
+    fontFamily: "Poppins_400Regular",
+  },
 });

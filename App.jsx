@@ -1,17 +1,18 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 
-import LoginScreen from './src/pages/Login';
-import PerfilScreen from './src/pages/Perfil';
-import HomeScreen from './src/pages/Home';
-import MedicamentosScreen from './src/pages/Medicamentos';
-import NutricaoScreen from './src/pages/Nutricao';
-import CuidadosScreen from './src/pages/Cuidados';
+import { Landing } from "./src/screens/Landing";
+import { Login } from "./src/screens/Login";
+import { Home } from "./src/screens/Home";
+import { Perfil } from "./src/screens/Perfil";
+import { Medicamentos } from "./src/screens/Medicamentos";
+import { Nutricao } from "./src/screens/Nutricao";
+import { Cuidados } from "./src/screens/Cuidados";
 
-import { IconHome, IconPill, IconStetoscope } from './src/components/Icons';
+import { IconHome, IconPill, IconStetoscope } from "./src/components/Icons";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -21,7 +22,7 @@ function MyTabs() {
     <Tab.Navigator>
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={Home}
         options={{
           headerShown: false,
           tabBarShowLabel: false,
@@ -37,7 +38,7 @@ function MyTabs() {
 
       <Tab.Screen
         name="Medicamentos"
-        component={MedicamentosScreen}
+        component={Medicamentos}
         options={{
           headerShown: false,
           tabBarShowLabel: false,
@@ -53,7 +54,7 @@ function MyTabs() {
 
       <Tab.Screen
         name="Nutricao"
-        component={NutricaoScreen}
+        component={Nutricao}
         options={{
           headerShown: false,
           tabBarShowLabel: false,
@@ -69,7 +70,7 @@ function MyTabs() {
 
       <Tab.Screen
         name="Cuidados"
-        component={CuidadosScreen}
+        component={Cuidados}
         options={{
           headerShown: false,
           tabBarShowLabel: false,
@@ -90,8 +91,9 @@ function MyStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Tab" component={MyTabs} />
-      <Stack.Screen name="Perfil" component={PerfilScreen} />
-      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Landing" component={Landing} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Perfil" component={Perfil} />
     </Stack.Navigator>
   );
 }

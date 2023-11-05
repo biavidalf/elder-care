@@ -1,15 +1,19 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Pressable, Text } from "react-native";
 
 import { Back } from "../../components/Back";
 import { Title } from "../../components/Title";
 import { TextField } from "../../components/TextField";
 import { Button } from "../../components/Button";
 
-const Login = () => {
+import { Colors } from "../../utilities/Colors";
+
+export const Login = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Back />
+      <Back navigation={navigation} />
+
       <Title>Login</Title>
+
       <View style={styles.inputs}>
         <TextField
           type="email"
@@ -25,11 +29,12 @@ const Login = () => {
           secureTextEntry={true}
         />
       </View>
-      <Button 
-        text="Login" 
+      <Button
+        title="Login"
+        type="primary"
         onPress={() => {
-          navigation.navigate('Home');
-        }} 
+          navigation.navigate("Tab");
+        }}
       />
     </View>
   );
@@ -37,10 +42,10 @@ const Login = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: "100%",
+    flex: 1,
     paddingTop: 64,
     paddingHorizontal: 24,
+    backgroundColor: Colors.WHITE,
   },
   title: {
     marginBottom: 16,
@@ -53,5 +58,3 @@ const styles = StyleSheet.create({
     gap: 16,
   },
 });
-
-export default Login;

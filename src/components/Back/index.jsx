@@ -3,10 +3,14 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 
 import { Colors } from "../../utilities/Colors";
 
-const Back = ({ ...props }) => {
+const Back = ({ navigation, ...props }) => {
   return (
-    <TouchableOpacity style={styles.icon} {...props}>
-      <Feather name="chevron-left" size={24} color={Colors.BLACK} />
+    <TouchableOpacity
+      style={styles.icon}
+      onPress={() => navigation.goBack()}
+      {...props}
+    >
+      <Feather name="chevron-left" size={26} color={Colors.BLACK} />
     </TouchableOpacity>
   );
 };

@@ -1,16 +1,33 @@
-import { StyleSheet, View, Text, Image, Pressable } from 'react-native';
-
-import { Feather } from '@expo/vector-icons';
+import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { Feather } from "@expo/vector-icons";
+import {
+  useFonts,
+  Poppins_500Medium,
+  Poppins_600SemiBold,
+} from "@expo-google-fonts/poppins";
 
 export default function Header({ navigation }) {
+  const [fontsLoaded, fontError] = useFonts({
+    Poppins_500Medium,
+    Poppins_600SemiBold,
+  });
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
+
   return (
     <View style={styles.header}>
       <View style={styles.profileContainer}>
         <Pressable
           onPress={() => {
-            navigation.navigate('Perfil');
-          }}>
-          <Image style={{width: 40, height: 40}} source={require('./../../../assets/profile-pic.svg')} />
+            navigation.navigate("Perfil");
+          }}
+        >
+          <Image
+            style={{ width: 40, height: 40 }}
+            source={require("./../../assets/images/profile-pic.svg")}
+          />
         </Pressable>
 
         <View style={styles.profile}>
@@ -20,7 +37,7 @@ export default function Header({ navigation }) {
       </View>
       <Pressable
         onPress={() => {
-          navigation.navigate('Login');
+          navigation.navigate("Login");
         }}
       >
         <Feather name="bell" size={22} />
@@ -31,25 +48,28 @@ export default function Header({ navigation }) {
 
 const styles = StyleSheet.create({
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     height: 50,
   },
   profileContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   profile: {
     marginLeft: 8,
+    justifyContent: "center",
   },
   profileSubtitle: {
-    fontSize: 12,
-    color: '#8696BB',
-    fontWeight: '500',
+    fontSize: 14,
+    lineHeight: 18,
+    color: "#8696BB",
+    fontFamily: "Poppins_500Medium",
   },
   profileTitle: {
-    color: '#2C72DA',
-    fontWeight: '600',
-    fontSize: 17,
+    color: "#2C72DA",
+    fontSize: 18,
+    lineHeight: 18,
+    fontFamily: "Poppins_500Medium",
   },
 });
