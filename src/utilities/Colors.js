@@ -10,4 +10,7 @@ export const Colors = {
   WHITE_200: "#F4F3F3",
   WHITE_300: "#EFEFEF",
   BLACK: "#292D32",
+  RED: "#9F1919",
+  RED_200: "#CC3C3C",
+  LIGHT_RED: "#F5D3D3",
 };
