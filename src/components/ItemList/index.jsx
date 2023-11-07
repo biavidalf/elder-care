@@ -1,10 +1,10 @@
 import { Pressable, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 import { Feather } from "@expo/vector-icons";
-import { Colors } from "../../../utilities/Colors";
+import { Colors } from "../../utilities/Colors";
 import { useFonts, Poppins_400Regular } from "@expo-google-fonts/poppins";
 
-function TaskContainer({ hour = "7:20", label = "Acordar", color = "GRAY" }) {
+function TaskContainer({ data }) {
   const [fontsLoaded, fontError] = useFonts({ Poppins_400Regular });
 
   if (!fontsLoaded && !fontError) {
@@ -13,10 +13,10 @@ function TaskContainer({ hour = "7:20", label = "Acordar", color = "GRAY" }) {
 
   return (
     <Pressable
-      style={[styles.taskContainer, { borderLeftColor: Colors[color] }]}
+      style={[styles.taskContainer, { borderLeftColor: Colors[data.color] }]}
     >
-      <Text style={styles.hourText}>{hour}</Text>
-      <Text style={styles.labelText}>{label}</Text>
+      <Text style={styles.hourText}>{data.hour}</Text>
+      <Text style={styles.labelText}>{data.label}</Text>
       <TouchableOpacity style={styles.iconContainer}>
         <Feather name="more-horizontal" size={20} color={Colors.GRAY} />
       </TouchableOpacity>
@@ -32,8 +32,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 14,
-    paddingVertical: 8,
+    paddingVertical: 10,
     borderLeftWidth: 3,
+    marginBottom: 10
   },
   hourText: {
     color: Colors.GRAY,
@@ -43,6 +44,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 10,
     fontFamily: "Poppins_400Regular",
+    fontSize: '1rem'
   },
   iconContainer: {
     paddingHorizontal: 4,

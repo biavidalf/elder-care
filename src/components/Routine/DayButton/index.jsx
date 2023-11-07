@@ -3,7 +3,7 @@ import { useFonts, Poppins_400Regular } from "@expo-google-fonts/poppins";
 
 import { Colors } from "../../../utilities/Colors";
 
-export default function Home({ navigation, isActive, label }) {
+export default function Home({ navigation, isActive, label, ...props }) {
   const [fontsLoaded, fontError] = useFonts({ Poppins_400Regular });
 
   if (!fontsLoaded && !fontError) {
@@ -11,7 +11,7 @@ export default function Home({ navigation, isActive, label }) {
   }
 
   return (
-    <Pressable>
+    <Pressable {...props}>
       <Text
         style={[
           styles.weekDayButton,

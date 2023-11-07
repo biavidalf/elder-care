@@ -17,73 +17,77 @@ import { IconHome, IconPill, IconStetoscope } from "./src/components/Icons";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+import { WeekDayContextProvider } from './src/contexts/WeekDayContext';
+
 function MyTabs() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused }) => {
-            return focused ? (
-              <IconHome size={20} color="#2C72DA" />
-            ) : (
-              <IconHome size={20} color="#8696BB" />
-            );
-          },
-        }}
-      />
+    <WeekDayContextProvider>
+      <Tab.Navigator>
+          <Tab.Screen
+            name="Home"
+            component={Home}
+            options={{
+              headerShown: false,
+              tabBarShowLabel: false,
+              tabBarIcon: ({ focused }) => {
+                return focused ? (
+                  <IconHome size={20} color="#2C72DA" />
+                ) : (
+                  <IconHome size={20} color="#8696BB" />
+                );
+              },
+            }}
+          />
+        
+        <Tab.Screen
+          name="Medicamentos"
+          component={Medicamentos}
+          options={{
+            headerShown: false,
+            tabBarShowLabel: false,
+            tabBarIcon: ({ focused }) => {
+              return focused ? (
+                <IconPill size={21} color="#2C72DA" />
+              ) : (
+                <IconPill size={21} color="#8696BB" />
+              );
+            },
+          }}
+        />
 
-      <Tab.Screen
-        name="Medicamentos"
-        component={Medicamentos}
-        options={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused }) => {
-            return focused ? (
-              <IconPill size={21} color="#2C72DA" />
-            ) : (
-              <IconPill size={21} color="#8696BB" />
-            );
-          },
-        }}
-      />
+        <Tab.Screen
+          name="Nutricao"
+          component={Nutricao}
+          options={{
+            headerShown: false,
+            tabBarShowLabel: false,
+            tabBarIcon: ({ focused }) => {
+              return focused ? (
+                <Ionicons name="restaurant-outline" size={20} color="#2C72DA" />
+              ) : (
+                <Ionicons name="restaurant-outline" size={20} color="#8696BB" />
+              );
+            },
+          }}
+        />
 
-      <Tab.Screen
-        name="Nutricao"
-        component={Nutricao}
-        options={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused }) => {
-            return focused ? (
-              <Ionicons name="restaurant-outline" size={20} color="#2C72DA" />
-            ) : (
-              <Ionicons name="restaurant-outline" size={20} color="#8696BB" />
-            );
-          },
-        }}
-      />
-
-      <Tab.Screen
-        name="Cuidados"
-        component={Cuidados}
-        options={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused }) => {
-            return focused ? (
-              <IconStetoscope size={20} color="#2C72DA" />
-            ) : (
-              <IconStetoscope size={20} color="#8696BB" />
-            );
-          },
-        }}
-      />
-    </Tab.Navigator>
+        <Tab.Screen
+          name="Cuidados"
+          component={Cuidados}
+          options={{
+            headerShown: false,
+            tabBarShowLabel: false,
+            tabBarIcon: ({ focused }) => {
+              return focused ? (
+                <IconStetoscope size={20} color="#2C72DA" />
+              ) : (
+                <IconStetoscope size={20} color="#8696BB" />
+              );
+            },
+          }}
+        />
+      </Tab.Navigator>
+    </WeekDayContextProvider>
   );
 }
 
