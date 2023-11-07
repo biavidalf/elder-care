@@ -16,7 +16,7 @@ export const ModalCustom = ({ title, children }) => {
   }
 
   return (
-    <View style={styles.centeredView}>
+    <View style={[styles.main, modalVisible && styles.bgLowOpacity]}>
       <Modal
         animationType="slide"
         transparent={true}
@@ -54,18 +54,30 @@ export const ModalCustom = ({ title, children }) => {
 };
 
 const styles = StyleSheet.create({
+  main: {
+    flex: 1,
+    justifyContent: "end",
+    alignItems: "center",
+    position: 'absolute',
+    bottom: 0,
+  },
+  bgLowOpacity: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0 / 0.5)',
+  },
   centeredView: {
     flex: 1,
     justifyContent: "end",
     alignItems: "center",
-    marginTop: 22,
   },
   modalView: {
+    width: '100%',
     gap: 16,
-    backgroundColor: Colors.WHITE_300,
     borderTopLeftRadius: 34,
     borderTopRightRadius: 34,
     padding: 50,
+    backgroundColor: Colors.WHITE_300,
   },
   button: {
     alignSelf: "center",
