@@ -8,7 +8,7 @@ import { Landing } from "./src/screens/Landing";
 import { Login } from "./src/screens/Login";
 import { Home } from "./src/screens/Home";
 import { Perfil } from "./src/screens/Perfil";
-import { Medicamentos } from "./src/screens/Medicamentos";
+import { Drugs } from "./src/screens/Drugs";
 import { Nutricao } from "./src/screens/Nutricao";
 import { Cuidados } from "./src/screens/Cuidados";
 
@@ -40,8 +40,8 @@ function MyTabs() {
           />
         
         <Tab.Screen
-          name="Medicamentos"
-          component={Medicamentos}
+          name="Drugs"
+          component={Drugs}
           options={{
             headerShown: false,
             tabBarShowLabel: false,
