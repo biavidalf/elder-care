@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
   },
   text: {
-    fontSize: 14,
+    fontSize: '1rem',
     fontFamily: "Poppins_500Medium",
   },
 });
