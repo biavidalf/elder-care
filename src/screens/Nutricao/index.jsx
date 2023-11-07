@@ -1,10 +1,31 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { ModalCustom } from "../../components/Modal";
+import { TextField } from "../../components/TextField";
 
 export const Nutricao = ({ navigation }) => {
   return (
     <View style={styles.main}>
-      <Text style={styles.titleText}>Nutrição</Text>
+      <ModalCustom title={"Adicionar Restrição"}>
+        <TextField
+          type="email"
+          name="email"
+          label="E-mail"
+          placeholder="example@email.com"
+        />
+        <TextField
+          type="email"
+          name="email"
+          label="E-mail"
+          placeholder="example@email.com"
+        />
+        <TextField
+          type="email"
+          name="email"
+          label="E-mail"
+          placeholder="example@email.com"
+        />
+      </ModalCustom>
     </View>
   );
 };
