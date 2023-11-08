@@ -7,20 +7,35 @@ import { Button } from "../../components/Button";
 
 import { Colors } from "../../utilities/Colors";
 
-export const Login = ({ navigation }) => {
+export const Cadastro = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Back navigation={navigation} style={styles.back} />
 
-      <Title>Login</Title>
+      <Title>Criar Conta</Title>
 
       <View style={styles.inputs}>
+        <TextField
+          type="text"
+          name="first_name"
+          label="Nome"
+          placeholder="John"
+        />
+
+        <TextField
+          type="text"
+          name="last_name"
+          label="Sobrenome"
+          placeholder="Doe"
+        />
+
         <TextField
           type="email"
           name="email"
           label="E-mail"
           placeholder="example@email.com"
         />
+
         <TextField
           type="password"
           name="password"
@@ -29,8 +44,9 @@ export const Login = ({ navigation }) => {
           secureTextEntry={true}
         />
       </View>
+
       <Button
-        title="Login"
+        title="Criar"
         type="primary"
         onPress={() => {
           navigation.navigate("Tab");
@@ -43,9 +59,9 @@ export const Login = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.WHITE,
-    flex: 1,
     paddingTop: 80,
     paddingHorizontal: 40,
+    flex: 1,
   },
   inputs: {
     width: "auto",
