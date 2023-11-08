@@ -7,9 +7,15 @@ import { Colors } from "../../utilities/Colors";
 function TaskContainer({ data }) {
   return (
     <Pressable
-      style={[styles.taskContainer, { borderLeftColor: Colors[data.color] }]}
+      style={[
+        styles.taskContainer,
+        data.color && {
+          borderLeftWidth: 3,
+          borderLeftColor: Colors[data.color],
+        },
+      ]}
     >
-      <Text style={styles.hourText}>{data.hour}</Text>
+      {data.hour && <Text style={styles.hourText}>{data.hour}</Text>}
       <Text style={styles.labelText}>{data.label}</Text>
       <Pressable activeOpacity={0.7} style={styles.iconContainer}>
         <Feather name="more-horizontal" size={20} color={Colors.GRAY} />
@@ -27,7 +33,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 14,
     paddingVertical: 10,
-    borderLeftWidth: 3,
     marginBottom: 10,
   },
   hourText: {
@@ -38,7 +43,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 10,
     fontFamily: "Poppins-Regular",
-    fontSize: 16,
+    fontSize: 15,
   },
   iconContainer: {
     paddingHorizontal: 4,
