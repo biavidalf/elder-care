@@ -1,19 +1,16 @@
-import { useState } from "react";
-import { StyleSheet, View, Text, Dimensions, ScrollView } from "react-native";
-import { Feather } from "@expo/vector-icons";
 import {
-  useFonts,
   Poppins_500Medium,
   Poppins_600SemiBold,
+  useFonts,
 } from "@expo-google-fonts/poppins";
+import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 
-import DayButton from "./DayButton";
 import DayTask from "../ItemList";
-import { Button } from "../../components/Button";
-
-import { Colors } from "../../utilities/Colors";
+import DayButton from "./DayButton";
 
 import { useWeekDay } from "../../contexts/WeekDayContext";
+import { ModalCustom } from "../Modal";
+import { TextField } from "../TextField";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -133,11 +130,15 @@ export const Routine = () => {
             })}
         </ScrollView>
       </View>
-
       <View style={styles.button}>
-        <Button title="Adicionar Tarefa" type="secondary">
-          <Feather name="plus" size={18} color={Colors.BLUE} />
-        </Button>
+        <ModalCustom title="Adicionar Tarefa">
+          <TextField
+            type="text"
+            name="category"
+            label="Categoria"
+            placeholder="Selecione a categoria"
+          />
+        </ModalCustom>
       </View>
     </View>
   );

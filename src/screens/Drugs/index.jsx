@@ -1,21 +1,16 @@
 import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
-import {
-  useFonts,
   Poppins_500Medium,
   Poppins_600SemiBold,
+  useFonts,
 } from "@expo-google-fonts/poppins";
+import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 
-import { Accordion } from '../../components/Accordion';
-import { Colors } from '../../utilities/Colors'
+import { Accordion } from "../../components/Accordion";
+import { ModalCustom } from "../../components/Modal";
+import { TextField } from "../../components/TextField";
+import { Colors } from "../../utilities/Colors";
 
-const windowHeight = Dimensions.get('window').height;
+const windowHeight = Dimensions.get("window").height;
 
 export const Drugs = ({ navigation }) => {
   const [fontsLoaded, fontError] = useFonts({
@@ -34,78 +29,112 @@ export const Drugs = ({ navigation }) => {
           <ScrollView>
             <View style={styles.accordion}>
               <Accordion
-                title='Para cê ta mol'
-                content='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi.'
+                title="Losartana"
+                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
               />
-              
+
               <Accordion
-                title='Para cê ta mol'
-                content='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi.'
+                title="Glicazida"
+                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
               />
-              
+
               <Accordion
-                title='Para cê ta mol'
-                content='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi.'
+                title="Sinvastatina"
+                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
               />
-              
+
               <Accordion
-                title='Para cê ta mol'
-                content='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi.'
+                title="Dipirona"
+                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
               />
-              
+
               <Accordion
-                title='Para cê ta mol'
-                content='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi.'
+                title="Paracetamol"
+                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
               />
-              
+
               <Accordion
-                title='Para cê ta mol'
-                content='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi.'
+                title="Ibuprofeno"
+                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
               />
-              
+
               <Accordion
-                title='Para cê ta mol'
-                content='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi.'
+                title="Atorvastatina"
+                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
               />
-              
+
               <Accordion
-                title='Para cê ta mol'
-                content='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi.'
+                title="Amoxicilina"
+                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
               />
-              
+
               <Accordion
-                title='Para cê ta mol'
-                content='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi.'
+                title="Omeprazol"
+                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
               />
-              
+
               <Accordion
-                title='Para cê ta mol'
-                content='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi.'
+                title="Aspirina"
+                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
               />
-              
+
               <Accordion
-                title='Para cê ta mol'
-                content='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi.'
+                title="Cetirizina"
+                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
               />
-              
+
               <Accordion
-                title='Para cê ta mol'
-                content='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi.'
+                title="Loratadina"
+                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
               />
-              
+
               <Accordion
-                title='Para cê ta mol'
-                content='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi.'
+                title="Metformina"
+                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
               />
-              
             </View>
           </ScrollView>
         </View>
       </View>
 
-      <TouchableOpacity activeOpacity={0.7} style={styles.button}>
-        + Adicionar medicamento
-      </TouchableOpacity>
+      <ModalCustom title="Adicionar Remédio">
+        <TextField
+          type="text"
+          name="name"
+          label="Nome"
+          placeholder="Glicazida"
+        />
+        <TextField
+          type="text"
+          name="dosage"
+          label="Dosagem diária Máxima"
+          placeholder="2"
+        />
+        <TextField
+          type="text"
+          name="fastingBefore"
+          label="Jejum antes"
+          placeholder="0"
+        />
+        <TextField
+          type="text"
+          name="fastingAfter"
+          label="Jejum depois"
+          placeholder="30min"
+        />
+        <TextField
+          type="text"
+          name="care"
+          label="Tratamento"
+          placeholder="Diabetes"
+        />
+        <TextField
+          type="text"
+          name="sideEffects"
+          label="Efeitos colaterais"
+          placeholder="Tontura, enjôo"
+        />
+      </ModalCustom>
     </View>
   );
 };
@@ -122,7 +151,7 @@ const styles = StyleSheet.create({
     color: Colors.BLACK,
     fontSize: 24,
     fontFamily: "Poppins_500Medium",
-    textAlign: 'center',
+    textAlign: "center",
   },
   subTitle: {
     fontSize: 14,
@@ -133,11 +162,11 @@ const styles = StyleSheet.create({
   accordion: {
     flex: 1,
     gap: 6,
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   button: {
     backgroundColor: Colors.LIGHT_BLUE,
-    textAlign: 'center',
+    textAlign: "center",
     color: Colors.BLUE,
     fontSize: 15,
     fontFamily: "Poppins_500Medium",
