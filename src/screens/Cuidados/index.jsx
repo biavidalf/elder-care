@@ -7,6 +7,9 @@ import { Colors } from "../../utilities/Colors";
 
 const windowHeight = Dimensions.get("window").height;
 
+import { screenMainStyle } from "../../assets/styles/screenMainStyle";
+import { textStyles } from "../../assets/styles/textStyles";
+
 export const Cuidados = ({ navigation }) => {
   const cares = [
     {
@@ -32,14 +35,14 @@ export const Cuidados = ({ navigation }) => {
   ];
 
   return (
-    <View style={styles.main}>
+    <View style={screenMainStyle.main}>
       <ScrollView style={styles.scroll}>
         <View>
-          <Text style={styles.title}>Cuidados</Text>
-          <Text style={styles.subTitle}>Cuidados gerais</Text>
+          <Text style={textStyles.title}>Cuidados</Text>
+          <Text style={textStyles.subTitle}>Cuidados gerais</Text>
 
           <View style={styles.list}>
-            <ScrollView>
+            <ScrollView style={styles.scroll}>
               {cares.map((care) => {
                 return <Care data={care} key={care.id} />;
               })}
@@ -68,26 +71,10 @@ export const Cuidados = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   main: {
-    flex: 1,
-    justifyContent: "space-between",
-    paddingHorizontal: 27,
-    paddingTop: 60,
-    backgroundColor: Colors.WHITE_200,
+    
   },
   scroll: {
-
-  },
-  title: {
-    color: Colors.BLACK,
-    fontSize: 24,
-    fontFamily: "Poppins-Medium",
-    textAlign: "center",
-  },
-  subTitle: {
-    fontSize: 17,
-    fontFamily: "Poppins-Medium",
-    marginTop: 15,
-    marginBottom: 16,
+    
   },
   list: {
     maxHeight: windowHeight / 2,

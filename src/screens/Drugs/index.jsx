@@ -5,82 +5,97 @@ import { ModalCustom } from "../../components/Modal";
 import { TextField } from "../../components/TextField";
 import { Colors } from "../../utilities/Colors";
 
+import { textStyles } from "../../assets/styles/textStyles";
+import { screenMainStyle } from "../../assets/styles/screenMainStyle";
+
 const windowHeight = Dimensions.get("window").height;
 
 export const Drugs = ({ navigation }) => {
+  const drugs = [
+    {
+      id: 1,
+      nome: 'Losartana',
+      dosagemMaxDia: 'Dosagem máxima diária de 2 unidades',
+      tratamento: 'Diabetes',
+      jejumDepois: '30min de jejum depois',
+      efeitosColaterais: 'Tontura, enjôo'
+    },
+    {
+      id: 2,
+      nome: "Glicazida",
+      dosagemMaxDia: 'Dosagem máxima diária de 2 unidades',
+      tratamento: 'Diabetes',
+      jejumDepois: '30min de jejum depois',
+      efeitosColaterais: 'Tontura, enjôo'
+    },
+    {
+      id: 3,
+      nome: "Sinvastatina",
+      dosagemMaxDia: 'Dosagem máxima diária de 2 unidades',
+      tratamento: 'Diabetes',
+      jejumDepois: '30min de jejum depois',
+      efeitosColaterais: 'Tontura, enjôo'
+    },
+    {
+      id: 4,
+      nome: "Dipirona",
+      dosagemMaxDia: 'Dosagem máxima diária de 2 unidades',
+      tratamento: 'Diabetes',
+      jejumDepois: '30min de jejum depois',
+      efeitosColaterais: 'Tontura, enjôo'
+    },
+    {
+      id: 5,
+      nome: "Paracetamol",
+      dosagemMaxDia: 'Dosagem máxima diária de 2 unidades',
+      tratamento: 'Diabetes',
+      jejumDepois: '30min de jejum depois',
+      efeitosColaterais: 'Tontura, enjôo'
+    },
+    {
+      id: 6,
+      nome: "Ibuprofeno",
+      dosagemMaxDia: 'Dosagem máxima diária de 2 unidades',
+      tratamento: 'Diabetes',
+      jejumDepois: '30min de jejum depois',
+      efeitosColaterais: 'Tontura, enjôo'
+    },
+    {
+      id: 7,
+      nome: "Atorvastatina",
+      dosagemMaxDia: 'Dosagem máxima diária de 2 unidades',
+      tratamento: 'Diabetes',
+      jejumDepois: '30min de jejum depois',
+      efeitosColaterais: 'Tontura, enjôo'
+    },
+    {
+      id: 8,
+      nome: "Omeprazol",
+      dosagemMaxDia: 'Dosagem máxima diária de 2 unidades',
+      tratamento: 'Diabetes',
+      jejumDepois: '30min de jejum depois',
+      efeitosColaterais: 'Tontura, enjôo'
+    },
+    {
+      id: 9,
+      nome: "Aspirina",
+      dosagemMaxDia: 'Dosagem máxima diária de 2 unidades',
+      tratamento: 'Diabetes',
+      jejumDepois: '30min de jejum depois',
+      efeitosColaterais: 'Tontura, enjôo'
+    },
+  ]
+
   return (
-    <View style={styles.main}>
+    <View style={screenMainStyle.main}>
       <View>
-        <Text style={styles.title}>Medicamentos</Text>
-        <Text style={styles.subTitle}>Sua lista de medicamentos</Text>
+        <Text style={textStyles.title}>Medicamentos</Text>
+        <Text style={textStyles.subTitle}>Sua lista de medicamentos</Text>
         <View style={styles.screen}>
           <ScrollView>
-            <View style={styles.accordion}>
-              <Accordion
-                title="Losartana"
-                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
-              />
-
-              <Accordion
-                title="Glicazida"
-                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
-              />
-
-              <Accordion
-                title="Sinvastatina"
-                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
-              />
-
-              <Accordion
-                title="Dipirona"
-                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
-              />
-
-              <Accordion
-                title="Paracetamol"
-                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
-              />
-
-              <Accordion
-                title="Ibuprofeno"
-                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
-              />
-
-              <Accordion
-                title="Atorvastatina"
-                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
-              />
-
-              <Accordion
-                title="Amoxicilina"
-                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
-              />
-
-              <Accordion
-                title="Omeprazol"
-                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
-              />
-
-              <Accordion
-                title="Aspirina"
-                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
-              />
-
-              <Accordion
-                title="Cetirizina"
-                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
-              />
-
-              <Accordion
-                title="Loratadina"
-                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
-              />
-
-              <Accordion
-                title="Metformina"
-                content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, voluptatum sunt. Assumenda exercitationem officiis sed. Et atque, quod in obcaecati aliquid illo culpa commodi expedita veritatis deleniti, tempora, incidunt modi."
-              />
-            </View>
+            {drugs.map((drug) => {
+              return <Accordion data={drug} title={drug.nome} key={drug.id} />;
+            })}
           </ScrollView>
         </View>
       </View>
@@ -129,12 +144,7 @@ export const Drugs = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   main: {
-    backgroundColor: Colors.WHITE_200,
-    paddingTop: 80,
-    paddingHorizontal: 40,
-    flex: 1,
-    gap: 16,
-    justifyContent: "space-between",
+    
   },
   title: {
     color: Colors.BLACK,

@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   routineDayTitle: {
-    fontSize: 20,
+    fontSize: 19,
     textAlign: "center",
     fontFamily: "Poppins-Medium",
     marginTop: 12,

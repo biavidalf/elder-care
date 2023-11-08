@@ -2,17 +2,20 @@ import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import Nutrition from "../../components/ItemList";
 import { ModalCustom } from "../../components/Modal";
+import { Title } from "../../components/Title";
 import { TextField } from "../../components/TextField";
 import { Colors } from "../../utilities/Colors";
 
 const windowHeight = Dimensions.get("window").height;
+
+import { textStyles } from "../../assets/styles/textStyles";
 
 export const Nutricao = ({ navigation }) => {
   const restrictions = [
     {
       id: "0",
       label: "Intolerância à lactose",
-      color: "GRAY",
+      color: "RED",
     },
     {
       id: "1",
@@ -27,7 +30,7 @@ export const Nutricao = ({ navigation }) => {
     {
       id: "3",
       label: "Alergia à glúten",
-      color: "GRAY",
+      color: "RED",
     },
   ];
 
@@ -35,31 +38,28 @@ export const Nutricao = ({ navigation }) => {
     {
       id: "0",
       label: "Feijão preto com frango",
-      color: "GRAY",
     },
     {
       id: "1",
       label: "Salada de repolho",
-      color: "LIGHT_GREEN",
     },
     {
       id: "2",
       label: "Canja de frango",
-      color: "YELLOW",
     },
     {
       id: "3",
       label: "Feijão verde com purê",
-      color: "GRAY",
     },
   ];
 
   return (
     <View style={styles.main}>
-      <ScrollView>
+      <Title>Nutrição</Title>
+      
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View>
-          <Text style={styles.title}>Nutrição</Text>
-          <Text style={styles.subTitle}>Restrições alimentares</Text>
+          <Text style={textStyles.subTitle}>Restrições alimentares</Text>
 
           <View style={styles.list}>
             <ScrollView>
@@ -92,7 +92,7 @@ export const Nutricao = ({ navigation }) => {
         </View>
 
         <View>
-          <Text style={styles.subTitle}>Refeições recomendadas</Text>
+          <Text style={textStyles.subTitle}>Refeições recomendadas</Text>
           <View style={styles.list}>
             <ScrollView>
               {meals.map((meal) => {
@@ -130,22 +130,11 @@ export const Nutricao = ({ navigation }) => {
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    justifyContent: "space-between",
-    paddingHorizontal: 40,
-    paddingTop: 80,
+    paddingTop: 65,
     backgroundColor: Colors.WHITE_200,
   },
-  title: {
-    color: Colors.BLACK,
-    fontSize: 24,
-    fontFamily: "Poppins-Medium",
-    textAlign: "center",
-  },
-  subTitle: {
-    fontSize: 17,
-    fontFamily: "Poppins-Medium",
-    marginTop: 25,
-    marginBottom: 16,
+  scroll: {
+    paddingHorizontal: 27,
   },
   list: {
     maxHeight: windowHeight / 2,
