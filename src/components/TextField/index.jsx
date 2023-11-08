@@ -3,7 +3,7 @@ import { useFonts, Poppins_400Regular } from "@expo-google-fonts/poppins";
 
 import { Colors } from "../../utilities/Colors";
 
-export const TextField = ({ label, name, ...props }) => {
+export const TextField = ({ label, name, isEdit = true, ...props }) => {
   const [fontsLoaded, fontError] = useFonts({ Poppins_400Regular });
 
   if (!fontsLoaded && !fontError) {
@@ -12,10 +12,10 @@ export const TextField = ({ label, name, ...props }) => {
 
   return (
     <View style={styles.container}>
-      <Text htmlFor={name} style={styles.label}>
+      <Text htmlFor={name} style={[styles.label, !isEdit && {color: Colors.GRAY}]}>
         {label}
       </Text>
-      <TextInput id={name} name={name} style={styles.input} {...props} />
+      <TextInput id={name} name={name} style={[styles.input, !isEdit && {border: 'none'}]} {...props} />
     </View>
   );
 };
