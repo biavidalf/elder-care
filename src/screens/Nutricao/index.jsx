@@ -1,8 +1,3 @@
-import {
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  useFonts,
-} from "@expo-google-fonts/poppins";
 import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import Nutrition from "../../components/ItemList";
@@ -13,14 +8,6 @@ import { Colors } from "../../utilities/Colors";
 const windowHeight = Dimensions.get("window").height;
 
 export const Nutricao = ({ navigation }) => {
-  const [fontsLoaded, fontError] = useFonts({
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-  });
-  if (!fontsLoaded && !fontError) {
-    return null;
-  }
-
   const restrictions = [
     {
       id: "0",
@@ -144,19 +131,19 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     justifyContent: "space-between",
-    paddingHorizontal: 24,
-    paddingTop: 20,
+    paddingHorizontal: 40,
+    paddingTop: 80,
     backgroundColor: Colors.WHITE_200,
   },
   title: {
     color: Colors.BLACK,
     fontSize: 24,
-    fontFamily: "Poppins_500Medium",
+    fontFamily: "Poppins-Medium",
     textAlign: "center",
   },
   subTitle: {
     fontSize: 17,
-    fontFamily: "Poppins_500Medium",
+    fontFamily: "Poppins-Medium",
     marginTop: 25,
     marginBottom: 16,
   },

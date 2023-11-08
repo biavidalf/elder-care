@@ -1,8 +1,3 @@
-import {
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  useFonts,
-} from "@expo-google-fonts/poppins";
 import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { Accordion } from "../../components/Accordion";
@@ -13,13 +8,6 @@ import { Colors } from "../../utilities/Colors";
 const windowHeight = Dimensions.get("window").height;
 
 export const Drugs = ({ navigation }) => {
-  const [fontsLoaded, fontError] = useFonts({
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-  });
-  if (!fontsLoaded && !fontError) {
-    return null;
-  }
   return (
     <View style={styles.main}>
       <View>
@@ -141,21 +129,22 @@ export const Drugs = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   main: {
-    flex: 1,
-    justifyContent: "space-between",
-    paddingHorizontal: 24,
-    paddingTop: 20,
     backgroundColor: Colors.WHITE_200,
+    paddingTop: 80,
+    paddingHorizontal: 40,
+    flex: 1,
+    gap: 16,
+    justifyContent: "space-between",
   },
   title: {
     color: Colors.BLACK,
     fontSize: 24,
-    fontFamily: "Poppins_500Medium",
+    fontFamily: "Poppins-Medium",
     textAlign: "center",
   },
   subTitle: {
     fontSize: 14,
-    fontFamily: "Poppins_500Medium",
+    fontFamily: "Poppins-Medium",
     marginTop: 25,
     marginBottom: 16,
   },
@@ -169,7 +158,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: Colors.BLUE,
     fontSize: 15,
-    fontFamily: "Poppins_500Medium",
+    fontFamily: "Poppins-Medium",
     marginTop: 15,
     marginBottom: 48,
     padding: 12,

@@ -1,10 +1,7 @@
-import { Poppins_500Medium, useFonts } from "@expo-google-fonts/poppins";
-import { Feather } from "@expo/vector-icons";
-
 import React, { useState } from "react";
 import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
-
 import Modal from "react-native-modal";
+import { Feather } from "@expo/vector-icons";
 
 import { Colors } from "../../utilities/Colors";
 import { Button } from "../Button";
@@ -12,12 +9,7 @@ import { Button } from "../Button";
 const windowHeight = Dimensions.get("window").height;
 
 export const ModalCustom = ({ title, children }) => {
-  const [fontsLoaded, fontError] = useFonts({ Poppins_500Medium });
   const [isModalVisible, setModalVisible] = useState(false);
-
-  if (!fontsLoaded && !fontError) {
-    return null;
-  }
 
   return (
     <View style={styles.main}>
@@ -29,11 +21,7 @@ export const ModalCustom = ({ title, children }) => {
         <Feather name="plus" size={20} color={Colors.BLUE} />
       </Button>
 
-      <Modal
-        isVisible={isModalVisible}
-        style={styles.modalCustom}
-        deviceWidth="100%"
-      >
+      <Modal isVisible={isModalVisible} style={styles.modalCustom}>
         <View style={styles.modalView}>
           <Text style={styles.modalText}>{title}</Text>
 
@@ -81,7 +69,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.WHITE_300,
   },
   modalText: {
-    fontFamily: "Poppins_500Medium",
+    fontFamily: "Poppins-Medium",
     fontSize: 17,
     marginBottom: 15,
     textAlign: "center",
@@ -92,5 +80,6 @@ const styles = StyleSheet.create({
   },
   buttons: {
     marginTop: 20,
+    gap: 16,
   },
 });

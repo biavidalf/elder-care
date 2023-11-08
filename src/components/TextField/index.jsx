@@ -1,41 +1,41 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
-import { useFonts, Poppins_400Regular } from "@expo-google-fonts/poppins";
 
 import { Colors } from "../../utilities/Colors";
 
-export const TextField = ({ label, name, isEdit = true, ...props }) => {
-  const [fontsLoaded, fontError] = useFonts({ Poppins_400Regular });
-
-  if (!fontsLoaded && !fontError) {
-    return null;
-  }
-
+export const TextField = ({ label, name, isEdit = true, ...otherProps }) => {
   return (
     <View style={styles.container}>
-      <Text htmlFor={name} style={[styles.label, !isEdit && {color: Colors.GRAY}]}>
+      <Text
+        htmlFor={name}
+        style={[styles.label, !isEdit && { color: Colors.GRAY }]}
+      >
         {label}
       </Text>
-      <TextInput id={name} name={name} style={[styles.input, !isEdit && {border: 'none'}]} {...props} />
+      <TextInput
+        id={name}
+        name={name}
+        placeholderTextColor={Colors.GRAY}
+        style={[styles.input, !isEdit && { borderColor: "transparent" }]}
+        {...otherProps}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    display: "flex",
+    width: "auto",
     gap: 4,
   },
   label: {
     color: Colors.BLACK,
     fontSize: 12,
-    fontFamily: "Poppins_400Regular",
+    fontFamily: "Poppins-Regular",
   },
   input: {
-    color: Colors.BLACK,
-    placeholderTextColor: Colors.GRAY,
     fontSize: 16,
-    fontFamily: "Poppins_400Regular",
+    color: Colors.BLACK,
+    fontFamily: "Poppins-Regular",
     height: 32,
     paddingHorizontal: 4,
     borderBottomWidth: 1,

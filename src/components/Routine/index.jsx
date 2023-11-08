@@ -1,9 +1,4 @@
-import {
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  useFonts,
-} from "@expo-google-fonts/poppins";
-import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View, Text, Dimensions, ScrollView } from "react-native";
 
 import DayTask from "../ItemList";
 import DayButton from "./DayButton";
@@ -15,10 +10,6 @@ import { TextField } from "../TextField";
 const windowHeight = Dimensions.get("window").height;
 
 export const Routine = () => {
-  const [fontsLoaded, fontError] = useFonts({
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-  });
   const { weekDayContext, setWeekDayContext } = useWeekDay();
 
   const weekDays = [
@@ -96,10 +87,6 @@ export const Routine = () => {
     },
   ];
 
-  if (!fontsLoaded && !fontError) {
-    return null;
-  }
-
   return (
     <View style={styles.routine}>
       <Text style={styles.routineTitle}>Rotina diária</Text>
@@ -126,7 +113,7 @@ export const Routine = () => {
           {tasks
             .filter((task) => task.day === weekDayContext)
             .map((task, index) => {
-              return <DayTask data={task} />;
+              return <DayTask key={index} data={task} />;
             })}
         </ScrollView>
       </View>
@@ -147,30 +134,30 @@ export const Routine = () => {
 const styles = StyleSheet.create({
   routine: {
     marginTop: 20,
-    gap: 10,
     flex: 1,
+    gap: 10,
   },
   routineTitle: {
-    fontSize: "1.3rem",
+    fontFamily: "Poppins-SemiBold",
+    fontSize: 20,
     marginBottom: 2,
-    fontFamily: "Poppins_600SemiBold",
   },
   routineDayContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
   routineDayTitle: {
-    fontSize: "1.2rem",
-    marginBottom: 2,
-    fontFamily: "Poppins_500Medium",
+    fontSize: 20,
     textAlign: "center",
+    fontFamily: "Poppins-Medium",
     marginTop: 12,
+    marginBottom: 2,
   },
   list: {
     maxHeight: windowHeight / 2,
   },
   button: {
-    alignSelf: "center",
     marginTop: 10,
+    alignSelf: "center",
   },
 });
