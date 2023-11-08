@@ -1,10 +1,13 @@
-import { Text, StyleSheet, TouchableOpacity } from "react-native";
-import { useFonts, Poppins_500Medium } from "@expo-google-fonts/poppins";
+import { Poppins_500Medium, useFonts } from "@expo-google-fonts/poppins";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import { Colors } from "../../utilities/Colors";
 
 export const Button = ({ title, type, children, ...props }) => {
   const [fontsLoaded, fontError] = useFonts({ Poppins_500Medium });
+
+  const containerStyle = styles[type];
+  const textStyle = styles[`${type}Text`];
 
   if (!fontsLoaded && !fontError) {
     return null;
@@ -16,16 +19,14 @@ export const Button = ({ title, type, children, ...props }) => {
       {...props}
       style={[
         styles.button,
-        {
-          backgroundColor: type === "primary" ? Colors.BLUE : Colors.LIGHT_BLUE,
-        },
+        containerStyle
       ]}
     >
       {children}
       <Text
         style={[
           styles.text,
-          { color: type === "primary" ? "white" : Colors.BLUE },
+          textStyle
         ]}
       >
         {title}
@@ -45,8 +46,27 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     borderRadius: 40,
   },
+  primary: {
+    backgroundColor: Colors.BLUE,
+  },
+  primaryText: {
+    color: Colors.WHITE,
+  },
+  secondary: {
+    backgroundColor: Colors.LIGHT_BLUE,
+  },
+  secondaryText: {
+    color: Colors.BLUE,
+  },
+  cancel: {
+    backgroundColor: 'transparent',
+  },
+  cancelText: {
+    color: Colors.RED,
+    textDecorationLine: "underline"
+  },
   text: {
-    fontSize: '1rem',
+    fontSize: "1rem",
     fontFamily: "Poppins_500Medium",
   },
 });
