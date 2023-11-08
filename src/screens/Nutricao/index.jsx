@@ -3,16 +3,11 @@ import {
   Poppins_600SemiBold,
   useFonts,
 } from "@expo-google-fonts/poppins";
-import {
-  Dimensions,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 
-import DayTask from "../../components/ItemList";
+import Nutrition from "../../components/ItemList";
+import { ModalCustom } from "../../components/Modal";
+import { TextField } from "../../components/TextField";
 import { Colors } from "../../utilities/Colors";
 
 const windowHeight = Dimensions.get("window").height;
@@ -29,100 +24,117 @@ export const Nutricao = ({ navigation }) => {
   const restrictions = [
     {
       id: "0",
-      hour: "",
       label: "Intolerância à lactose",
       color: "GRAY",
-      day: "Segunda-Feira",
     },
     {
       id: "1",
-      hour: "",
       label: "Alergia à amendoim",
       color: "LIGHT_GREEN",
-      day: "Segunda-Feira",
     },
     {
       id: "2",
-      hour: "",
       label: "Alergia à frutos do mar",
       color: "YELLOW",
-      day: "Terça-Feira",
     },
     {
-      id: "2",
-      hour: "",
+      id: "3",
       label: "Alergia à glúten",
       color: "GRAY",
-      day: "Quarta-Feira",
     },
   ];
 
   const meals = [
     {
       id: "0",
-      hour: "",
       label: "Feijão preto com frango",
       color: "GRAY",
-      day: "Segunda-Feira",
     },
     {
       id: "1",
-      hour: "",
       label: "Salada de repolho",
       color: "LIGHT_GREEN",
-      day: "Segunda-Feira",
     },
     {
       id: "2",
-      hour: "",
       label: "Canja de frango",
       color: "YELLOW",
-      day: "Terça-Feira",
     },
     {
-      id: "2",
-      hour: "",
+      id: "3",
       label: "Feijão verde com purê",
       color: "GRAY",
-      day: "Quarta-Feira",
     },
   ];
 
   return (
     <View style={styles.main}>
       <ScrollView>
-      <View>
-        <Text style={styles.title}>Nutrição</Text>
-        <Text style={styles.subTitle}>Restrições alimentares</Text>
+        <View>
+          <Text style={styles.title}>Nutrição</Text>
+          <Text style={styles.subTitle}>Restrições alimentares</Text>
 
-        <View style={styles.list}>
-          <ScrollView>
-            {restrictions.map((restriction, index) => {
-              return <DayTask data={restriction} />;
-            })}
-          </ScrollView>
+          <View style={styles.list}>
+            <ScrollView>
+              {restrictions.map((restriction) => {
+                return <Nutrition data={restriction} key={restriction.id} />;
+              })}
+            </ScrollView>
+          </View>
+
+          <ModalCustom title="Adicionar Restrição">
+            <TextField
+              type="text"
+              name="name"
+              label="Nome"
+              placeholder="Alergia à amendoim"
+            />
+            <TextField
+              type="text"
+              name="level"
+              label="Nível"
+              placeholder="Grave"
+            />
+            <TextField
+              type="text"
+              name="suggestion"
+              label="Recomendação"
+              placeholder="Encaminhar para o hospital"
+            />
+          </ModalCustom>
         </View>
-      </View>
 
-      <TouchableOpacity activeOpacity={0.7} style={styles.button}>
-        + Adicionar Restrição
-      </TouchableOpacity>
+        <View>
+          <Text style={styles.subTitle}>Refeições recomendadas</Text>
+          <View style={styles.list}>
+            <ScrollView>
+              {meals.map((meal) => {
+                return <Nutrition data={meal} key={meal.id} />;
+              })}
+            </ScrollView>
+          </View>
 
-      <View>
-        <Text style={styles.subTitle}>Refeições recomendadas</Text>
-
-        <View style={styles.list}>
-          <ScrollView>
-            {meals.map((meal, index) => {
-              return <DayTask data={meal} />;
-            })}
-          </ScrollView>
+          <ModalCustom title="Adicionar Refeição">
+            <TextField
+              type="text"
+              name="name"
+              label="Nome"
+              placeholder="Canja de frango"
+            />
+            <TextField
+              type="text"
+              name="ingredients"
+              label="Ingredientes"
+              placeholder="Frango, pimentão, arroz"
+            />
+            <TextField
+              type="text"
+              name="calories"
+              label="Calorias"
+              placeholder="350cal"
+            />
+          </ModalCustom>
         </View>
-      </View>
-
-      <TouchableOpacity activeOpacity={0.7} style={styles.button}>
-        + Adicionar Refeição
-      </TouchableOpacity>
       </ScrollView>
     </View>
   );
@@ -150,19 +162,5 @@ const styles = StyleSheet.create({
   },
   list: {
     maxHeight: windowHeight / 2,
-  },
-  button: {
-    backgroundColor: Colors.LIGHT_BLUE,
-    textAlign: "center",
-    color: Colors.BLUE,
-    fontSize: 15,
-    fontFamily: "Poppins_500Medium",
-    marginTop: 15,
-    marginBottom: 15,
-    padding: 12,
-    borderRadius: 117,
-  },
-  screen: {
-    maxHeight: windowHeight / 1.8,
   },
 });
