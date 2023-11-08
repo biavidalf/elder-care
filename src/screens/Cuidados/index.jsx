@@ -1,23 +1,21 @@
-import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+
+import { Title } from "../../components/Title";
+import { Colors } from "../../utilities/Colors";
 
 export const Cuidados = ({ navigation }) => {
   return (
     <View style={styles.main}>
-      <Text style={styles.titleText}>Cuidados</Text>
+      <Title>Cuidados</Title>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  titleText: {
-    fontSize: 24,
-  },
   main: {
+    backgroundColor: Colors.WHITE_200,
+    paddingTop: 80,
+    paddingHorizontal: 40,
     flex: 1,
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "3rem",
-    backgroundColor: "#fff",
   },
 });
