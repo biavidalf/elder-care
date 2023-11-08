@@ -3,7 +3,7 @@ import { Feather } from "@expo/vector-icons";
 import { Colors } from "../../utilities/Colors";
 import { Pressable } from "../../components/Pressable";
 
-const Back = ({ style, navigation, ...otherProps }) => {
+const Back = ({ navigation, style, ...otherProps }) => {
   return (
     <Pressable
       activeOpacity={0.7}

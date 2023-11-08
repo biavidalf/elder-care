@@ -6,6 +6,7 @@ import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 
 import { Landing } from "./src/screens/Landing";
+import { Cadastro } from "./src/screens/Cadastro";
 import { Login } from "./src/screens/Login";
 import { Home } from "./src/screens/Home";
 import { Perfil } from "./src/screens/Perfil";
@@ -14,11 +15,10 @@ import { Nutricao } from "./src/screens/Nutricao";
 import { Cuidados } from "./src/screens/Cuidados";
 
 import { IconHome, IconPill, IconStetoscope } from "./src/components/Icons";
+import { WeekDayContextProvider } from "./src/contexts/WeekDayContext";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
-import { WeekDayContextProvider } from "./src/contexts/WeekDayContext";
 
 function MyTabs() {
   return (
@@ -96,6 +96,7 @@ function MyStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Landing" component={Landing} />
+      <Stack.Screen name="Cadastro" component={Cadastro} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Tab" component={MyTabs} />
       <Stack.Screen name="Perfil" component={Perfil} />

@@ -4,7 +4,7 @@ import { Colors } from "../../../utilities/Colors";
 
 import { Pressable } from "../../Pressable";
 
-export default function Home({ label, isActive, navigation, ...otherProps }) {
+export default function Home({ navigation, label, isActive, ...otherProps }) {
   return (
     <Pressable {...otherProps}>
       <Text
