@@ -4,11 +4,14 @@ import { Feather } from "@expo/vector-icons";
 import { Pressable } from "../Pressable";
 import { Colors } from "../../utilities/Colors";
 
+import { shadowStyle } from "../../assets/styles/shadowStyle";
+
 function TaskContainer({ data }) {
   return (
     <Pressable
       style={[
         styles.taskContainer,
+        shadowStyle.lightShadow,
         data.color && {
           borderLeftWidth: 3,
           borderLeftColor: Colors[data.color],
@@ -31,6 +34,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginHorizontal: 5,
     paddingHorizontal: 14,
     paddingVertical: 10,
     marginBottom: 10,

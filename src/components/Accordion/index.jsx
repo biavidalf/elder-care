@@ -5,26 +5,34 @@ import { Feather } from "@expo/vector-icons";
 import { Colors } from "../../utilities/Colors";
 import { Pressable } from "../../components/Pressable";
 
-export function Accordion({ title, content }) {
+import { shadowStyle } from "../../assets/styles/shadowStyle";
+
+export function Accordion({ title, data }) {
   const [expanded, setExpanded] = useState(false);
 
   function toggleItem() {
     setExpanded(!expanded);
   }
 
-  const body = <Text style={styles.content}>{content}</Text>;
-
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, shadowStyle.lightShadow]}>
       <Pressable activeOpacity={0.7} style={styles.button} onPress={toggleItem}>
         <Text style={styles.title}>{title}</Text>
         {expanded ? (
-          <Feather name="chevron-up" size={22} />
+          <Feather name="chevron-up" size={22} color={Colors.BLACK} />
         ) : (
-          <Feather name="chevron-down" size={22} />
+          <Feather name="chevron-down" size={22} color={Colors.BLACK} />
         )}
       </Pressable>
-      {expanded && body}
+      {expanded && 
+        <View style={styles.content}>
+           {
+            Object.entries(data).map(([key, value]) => {
+              return key !== 'id' && key !== 'nome' && <Text style={styles.textItem} key={key}>{value}</Text>
+            })
+           }
+        </View>
+      }
     </View>
   );
 }
@@ -32,18 +40,16 @@ export function Accordion({ title, content }) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.WHITE_300,
-    shadowColor: "rgba(0, 0, 0, 0.15)",
-    shadowOffset: {
-      width: 1.95,
-      height: 1.95,
-    },
-    paddingHorizontal: 10,
-    paddingVertical: 13,
-    borderRadius: 5,
+    borderRadius: 4,
+    marginHorizontal: 5,
+    paddingVertical: 10,
+    marginBottom: 10,
+    paddingHorizontal: 14,
   },
   title: {
     fontFamily: "Poppins-Medium",
     fontSize: 13,
+    color: Colors.BLACK
   },
   button: {
     flex: 1,
@@ -52,6 +58,10 @@ const styles = StyleSheet.create({
   },
   content: {
     marginTop: 8,
-    fontSize: 13,
+    gap: 2
   },
+  textItem: {
+    fontSize: 13,
+    color: Colors.BLACK,
+  }
 });
