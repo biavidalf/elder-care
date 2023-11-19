@@ -1,26 +1,31 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
 
-import { Colors } from "../../utilities/Colors";
+import { Colors } from "../../utils/Colors";
+import { forwardRef } from "react";
 
-export const TextField = ({ label, name, isEdit = true, ...otherProps }) => {
-  return (
-    <View style={styles.container}>
-      <Text
-        htmlFor={name}
-        style={[styles.label, !isEdit && { color: Colors.GRAY }]}
-      >
-        {label}
-      </Text>
-      <TextInput
-        id={name}
-        name={name}
-        placeholderTextColor={Colors.GRAY}
-        style={[styles.input, !isEdit && { borderColor: "transparent" }]}
-        {...otherProps}
-      />
-    </View>
-  );
-};
+export const TextField = forwardRef(
+  ({ label, name, isEdit = true, error, ...otherProps }, ref) => {
+    return (
+      <View style={styles.container}>
+        <Text
+          htmlFor={name}
+          style={[styles.label, !isEdit && { color: Colors.GRAY }]}
+        >
+          {label}
+        </Text>
+        <TextInput
+          ref={ref}
+          id={name}
+          name={name}
+          placeholderTextColor={Colors.GRAY}
+          style={[styles.input, !isEdit && { borderColor: "transparent" }]}
+          {...otherProps}
+        />
+        {error && <Text style={styles.error}>{error.message}</Text>}
+      </View>
+    );
+  }
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -40,5 +45,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     borderBottomWidth: 1,
     borderBottomColor: Colors.LIGHT_GRAY,
+  },
+  error: {
+    color: Colors.RED,
+    fontFamily: "Poppins-Regular",
+    fontSize: 12,
   },
 });

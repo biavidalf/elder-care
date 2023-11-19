@@ -4,7 +4,7 @@ import Nutrition from "../../components/ItemList";
 import { ModalCustom } from "../../components/Modal";
 import { Title } from "../../components/Title";
 import { TextField } from "../../components/TextField";
-import { Colors } from "../../utilities/Colors";
+import { Colors } from "../../utils/Colors";
 
 const windowHeight = Dimensions.get("window").height;
 

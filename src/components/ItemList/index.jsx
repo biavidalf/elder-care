@@ -2,7 +2,7 @@ import { Text, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 import { Pressable } from "../Pressable";
-import { Colors } from "../../utilities/Colors";
+import { Colors } from "../../utils/Colors";
 
 import { shadowStyle } from "../../assets/styles/shadowStyle";
 

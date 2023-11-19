@@ -5,7 +5,7 @@ import { Title } from "../../components/Title";
 import { TextField } from "../../components/TextField";
 import { Button } from "../../components/Button";
 
-import { Colors } from "../../utilities/Colors";
+import { Colors } from "../../utils/Colors";
 
 export const Login = ({ navigation }) => {
   return (

@@ -1,6 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 
-import { Colors } from "../../utilities/Colors";
+import { Colors } from "../../utils/Colors";
 import { Pressable } from "../../components/Pressable";
 
 const Back = ({ navigation, style, ...otherProps }) => {

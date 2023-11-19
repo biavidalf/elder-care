@@ -3,7 +3,7 @@ import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 import Care from "../../components/ItemList";
 import { ModalCustom } from "../../components/Modal";
 import { TextField } from "../../components/TextField";
-import { Colors } from "../../utilities/Colors";
+import { Colors } from "../../utils/Colors";
 
 const windowHeight = Dimensions.get("window").height;
 

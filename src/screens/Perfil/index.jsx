@@ -6,7 +6,7 @@ import { Title } from "../../components/Title";
 import { TextField } from "../../components/TextField";
 import { Button } from "../../components/Button";
 
-import { Colors } from "../../utilities/Colors";
+import { Colors } from "../../utils/Colors";
 
 import { Pressable } from "../../components/Pressable";
 import { ElderCareLogo, ProfilePicture } from "../../components/Icons";

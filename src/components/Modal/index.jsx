@@ -3,7 +3,7 @@ import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 import Modal from "react-native-modal";
 import { Feather } from "@expo/vector-icons";
 
-import { Colors } from "../../utilities/Colors";
+import { Colors } from "../../utils/Colors";
 import { Button } from "../Button";
 
 const windowHeight = Dimensions.get("window").height;

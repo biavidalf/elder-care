@@ -3,7 +3,7 @@ import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Accordion } from "../../components/Accordion";
 import { ModalCustom } from "../../components/Modal";
 import { TextField } from "../../components/TextField";
-import { Colors } from "../../utilities/Colors";
+import { Colors } from "../../utils/Colors";
 
 import { textStyles } from "../../assets/styles/textStyles";
 import { screenMainStyle } from "../../assets/styles/screenMainStyle";

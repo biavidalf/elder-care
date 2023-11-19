@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Image } from "react-native";
 
 import { Button } from "../../components/Button";
 
-import { Colors } from "../../utilities/Colors";
+import { Colors } from "../../utils/Colors";
 
 export const Landing = ({ navigation }) => {
   return (

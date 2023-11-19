@@ -95,8 +95,8 @@ function MyTabs() {
 function MyStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Landing" component={Landing} />
       <Stack.Screen name="Cadastro" component={Cadastro} />
+      <Stack.Screen name="Landing" component={Landing} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Tab" component={MyTabs} />
       <Stack.Screen name="Perfil" component={Perfil} />
