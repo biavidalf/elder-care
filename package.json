@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "seed": "tsx src/config/seed.js"
   },
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
@@ -29,7 +30,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "react-native-svg-transformer": "^1.1.0"
+    "react-native-svg-transformer": "^1.1.0",
+    "tsx": "^4.2.0"
   },
   "private": true
 }
