@@ -27,7 +27,7 @@ const formSchema = yup
   })
   .required();
 
-export const Cadastro = ({ navigation }) => {
+export const SignUp = ({ navigation }) => {
   const {
     register,
     setValue,
@@ -42,6 +42,11 @@ export const Cadastro = ({ navigation }) => {
       await createUser(firstName, lastName, email, password);
 
       navigation.navigate("Tab");
+
+      // Reset field values
+      ["firstName", "lastName", "email", "password"].forEach((field) => {
+        setValue(field, "");
+      });
     } catch (error) {
       Alert.alert(error.message);
     }

@@ -36,7 +36,7 @@ export const Landing = ({ navigation }) => {
           <Button
             title="Criar Conta"
             type="secondary"
-            onPress={() => navigation.navigate("Cadastro")}
+            onPress={() => navigation.navigate("SignUp")}
           />
         </View>
       </View>

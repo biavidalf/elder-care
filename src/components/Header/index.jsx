@@ -10,7 +10,7 @@ export default function Header({ navigation }) {
       <View style={styles.profileContainer}>
         <Pressable
           onPress={() => {
-            navigation.navigate("Perfil");
+            navigation.navigate("Profile");
           }}
         >
           <ProfilePicture size={40} />

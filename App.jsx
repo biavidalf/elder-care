@@ -6,13 +6,13 @@ import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 
 import { Landing } from "./src/screens/Landing";
-import { Cadastro } from "./src/screens/Cadastro";
+import { SignUp } from "./src/screens/SignUp";
 import { Login } from "./src/screens/Login";
 import { Home } from "./src/screens/Home";
-import { Perfil } from "./src/screens/Perfil";
+import { Profile } from "./src/screens/Profile";
 import { Drugs } from "./src/screens/Drugs";
-import { Nutricao } from "./src/screens/Nutricao";
-import { Cuidados } from "./src/screens/Cuidados";
+import { Nutrition } from "./src/screens/Nutrition";
+import { Precautions } from "./src/screens/Precautions";
 
 import { IconHome, IconPill, IconStetoscope } from "./src/components/Icons";
 import { WeekDayContextProvider } from "./src/contexts/WeekDayContext";
@@ -57,8 +57,8 @@ function MyTabs() {
         />
 
         <Tab.Screen
-          name="Nutricao"
-          component={Nutricao}
+          name="Nutrition"
+          component={Nutrition}
           options={{
             headerShown: false,
             tabBarShowLabel: false,
@@ -73,8 +73,8 @@ function MyTabs() {
         />
 
         <Tab.Screen
-          name="Cuidados"
-          component={Cuidados}
+          name="Precautions"
+          component={Precautions}
           options={{
             headerShown: false,
             tabBarShowLabel: false,
@@ -95,11 +95,11 @@ function MyTabs() {
 function MyStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Cadastro" component={Cadastro} />
       <Stack.Screen name="Landing" component={Landing} />
+      <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Tab" component={MyTabs} />
-      <Stack.Screen name="Perfil" component={Perfil} />
+      <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
   );
 }

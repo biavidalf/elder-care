@@ -1,16 +1,15 @@
 import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 
-import Care from "../../components/ItemList";
+import { TaskContainer } from "../../components/ItemList";
 import { ModalCustom } from "../../components/Modal";
 import { TextField } from "../../components/TextField";
-import { Colors } from "../../utils/Colors";
 
 const windowHeight = Dimensions.get("window").height;
 
 import { screenMainStyle } from "../../assets/styles/screenMainStyle";
 import { textStyles } from "../../assets/styles/textStyles";
 
-export const Cuidados = ({ navigation }) => {
+export const Precautions = ({ navigation }) => {
   const cares = [
     {
       id: "0",
@@ -44,7 +43,7 @@ export const Cuidados = ({ navigation }) => {
           <View style={styles.list}>
             <ScrollView style={styles.scroll}>
               {cares.map((care) => {
-                return <Care data={care} key={care.id} />;
+                return <TaskContainer data={care} key={care.id} />;
               })}
             </ScrollView>
           </View>
@@ -70,12 +69,8 @@ export const Cuidados = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  main: {
-    
-  },
-  scroll: {
-    
-  },
+  main: {},
+  scroll: {},
   list: {
     maxHeight: windowHeight / 2,
   },

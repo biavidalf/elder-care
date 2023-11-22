@@ -1,6 +1,6 @@
 import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 
-import Nutrition from "../../components/ItemList";
+import {TaskContainer} from "../../components/ItemList";
 import { ModalCustom } from "../../components/Modal";
 import { Title } from "../../components/Title";
 import { TextField } from "../../components/TextField";
@@ -10,7 +10,7 @@ const windowHeight = Dimensions.get("window").height;
 
 import { textStyles } from "../../assets/styles/textStyles";
 
-export const Nutricao = ({ navigation }) => {
+export const Nutrition = ({ navigation }) => {
   const restrictions = [
     {
       id: "0",
@@ -64,7 +64,7 @@ export const Nutricao = ({ navigation }) => {
           <View style={styles.list}>
             <ScrollView>
               {restrictions.map((restriction) => {
-                return <Nutrition data={restriction} key={restriction.id} />;
+                return <TaskContainer data={restriction} key={restriction.id} />;
               })}
             </ScrollView>
           </View>
@@ -96,7 +96,7 @@ export const Nutricao = ({ navigation }) => {
           <View style={styles.list}>
             <ScrollView>
               {meals.map((meal) => {
-                return <Nutrition data={meal} key={meal.id} />;
+                return <TaskContainer data={meal} key={meal.id} />;
               })}
             </ScrollView>
           </View>

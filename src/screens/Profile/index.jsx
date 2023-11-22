@@ -11,7 +11,7 @@ import { Colors } from "../../utils/Colors";
 import { Pressable } from "../../components/Pressable";
 import { ElderCareLogo, ProfilePicture } from "../../components/Icons";
 
-export const Perfil = ({ navigation }) => {
+export const Profile = ({ navigation }) => {
   const [editMode, setEditMode] = useState(false);
 
   return (

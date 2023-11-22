@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, Dimensions, ScrollView } from "react-native";
 
-import DayTask from "../ItemList";
+import { TaskContainer } from "../ItemList";
 import DayButton from "./DayButton";
 
 import { useWeekDay } from "../../contexts/WeekDayContext";
@@ -113,7 +113,7 @@ export const Routine = () => {
           {tasks
             .filter((task) => task.day === weekDayContext)
             .map((task, index) => {
-              return <DayTask key={index} data={task} />;
+              return <TaskContainer key={index} data={task} />;
             })}
         </ScrollView>
       </View>

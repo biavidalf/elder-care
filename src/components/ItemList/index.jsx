@@ -6,7 +6,7 @@ import { Colors } from "../../utils/Colors";
 
 import { shadowStyle } from "../../assets/styles/shadowStyle";
 
-function TaskContainer({ data }) {
+export const TaskContainer = ({ data }) => {
   return (
     <Pressable
       style={[
@@ -25,7 +25,7 @@ function TaskContainer({ data }) {
       </Pressable>
     </Pressable>
   );
-}
+};
 
 const styles = StyleSheet.create({
   taskContainer: {
@@ -53,5 +53,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
 });
-
-export default TaskContainer;
