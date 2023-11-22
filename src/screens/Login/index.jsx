@@ -1,4 +1,7 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Alert } from "react-native";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 import { Back } from "../../components/Back";
 import { Title } from "../../components/Title";
@@ -6,8 +9,44 @@ import { TextField } from "../../components/TextField";
 import { Button } from "../../components/Button";
 
 import { Colors } from "../../utils/Colors";
+import { authenticateUser } from "../../utils/firebase/auth";
+
+const formSchema = yup
+  .object()
+  .shape({
+    email: yup
+      .string()
+      .required("O campo e-mail é obrigatório.")
+      .email("Digite um e-mail válido."),
+    password: yup.string().required("O campo senha é obrigatório."),
+  })
+  .required();
 
 export const Login = ({ navigation }) => {
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(formSchema),
+  });
+
+  const onSubmit = async ({ email, password }) => {
+    try {
+      await authenticateUser(email, password);
+
+      navigation.navigate("Tab");
+
+      // Reset field values
+      ["email", "password"].forEach((field) => {
+        setValue(field, "");
+      });
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Back navigation={navigation} style={styles.back} />
@@ -20,6 +59,9 @@ export const Login = ({ navigation }) => {
           name="email"
           label="E-mail"
           placeholder="example@email.com"
+          error={errors?.email}
+          onChangeText={(value) => setValue("email", value)}
+          {...register("email")}
         />
         <TextField
           type="password"
@@ -27,15 +69,12 @@ export const Login = ({ navigation }) => {
           label="Senha"
           placeholder="********"
           secureTextEntry={true}
+          error={errors?.password}
+          onChangeText={(value) => setValue("password", value)}
+          {...register("password")}
         />
       </View>
-      <Button
-        title="Login"
-        type="primary"
-        onPress={() => {
-          navigation.navigate("Tab");
-        }}
-      />
+      <Button title="Login" type="primary" onPress={handleSubmit(onSubmit)} />
     </View>
   );
 };
