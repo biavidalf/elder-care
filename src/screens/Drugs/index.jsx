@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { Accordion } from "../../components/Accordion";
@@ -7,84 +8,18 @@ import { Colors } from "../../utils/Colors";
 
 import { textStyles } from "../../assets/styles/textStyles";
 import { screenMainStyle } from "../../assets/styles/screenMainStyle";
+import { getDrugs } from "../../utils/firebase/database/drug";
 
 const windowHeight = Dimensions.get("window").height;
 
 export const Drugs = ({ navigation }) => {
-  const drugs = [
-    {
-      id: 1,
-      nome: 'Losartana',
-      dosagemMaxDia: 'Dosagem máxima diária de 2 unidades',
-      tratamento: 'Diabetes',
-      jejumDepois: '30min de jejum depois',
-      efeitosColaterais: 'Tontura, enjôo'
-    },
-    {
-      id: 2,
-      nome: "Glicazida",
-      dosagemMaxDia: 'Dosagem máxima diária de 2 unidades',
-      tratamento: 'Diabetes',
-      jejumDepois: '30min de jejum depois',
-      efeitosColaterais: 'Tontura, enjôo'
-    },
-    {
-      id: 3,
-      nome: "Sinvastatina",
-      dosagemMaxDia: 'Dosagem máxima diária de 2 unidades',
-      tratamento: 'Diabetes',
-      jejumDepois: '30min de jejum depois',
-      efeitosColaterais: 'Tontura, enjôo'
-    },
-    {
-      id: 4,
-      nome: "Dipirona",
-      dosagemMaxDia: 'Dosagem máxima diária de 2 unidades',
-      tratamento: 'Diabetes',
-      jejumDepois: '30min de jejum depois',
-      efeitosColaterais: 'Tontura, enjôo'
-    },
-    {
-      id: 5,
-      nome: "Paracetamol",
-      dosagemMaxDia: 'Dosagem máxima diária de 2 unidades',
-      tratamento: 'Diabetes',
-      jejumDepois: '30min de jejum depois',
-      efeitosColaterais: 'Tontura, enjôo'
-    },
-    {
-      id: 6,
-      nome: "Ibuprofeno",
-      dosagemMaxDia: 'Dosagem máxima diária de 2 unidades',
-      tratamento: 'Diabetes',
-      jejumDepois: '30min de jejum depois',
-      efeitosColaterais: 'Tontura, enjôo'
-    },
-    {
-      id: 7,
-      nome: "Atorvastatina",
-      dosagemMaxDia: 'Dosagem máxima diária de 2 unidades',
-      tratamento: 'Diabetes',
-      jejumDepois: '30min de jejum depois',
-      efeitosColaterais: 'Tontura, enjôo'
-    },
-    {
-      id: 8,
-      nome: "Omeprazol",
-      dosagemMaxDia: 'Dosagem máxima diária de 2 unidades',
-      tratamento: 'Diabetes',
-      jejumDepois: '30min de jejum depois',
-      efeitosColaterais: 'Tontura, enjôo'
-    },
-    {
-      id: 9,
-      nome: "Aspirina",
-      dosagemMaxDia: 'Dosagem máxima diária de 2 unidades',
-      tratamento: 'Diabetes',
-      jejumDepois: '30min de jejum depois',
-      efeitosColaterais: 'Tontura, enjôo'
-    },
-  ]
+  const [drugs, setDrugs] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      setDrugs(await getDrugs());
+    })();
+  }, []);
 
   return (
     <View style={screenMainStyle.main}>
@@ -94,7 +29,7 @@ export const Drugs = ({ navigation }) => {
         <View style={styles.screen}>
           <ScrollView>
             {drugs.map((drug) => {
-              return <Accordion data={drug} title={drug.nome} key={drug.id} />;
+              return <Accordion key={drug.id} title={drug.name} data={drug} />;
             })}
           </ScrollView>
         </View>
@@ -143,9 +78,7 @@ export const Drugs = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  main: {
-    
-  },
+  main: {},
   title: {
     color: Colors.BLACK,
     fontSize: 24,

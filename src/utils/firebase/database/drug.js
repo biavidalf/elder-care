@@ -1,6 +1,8 @@
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 
 import { db } from "../../../config/firebase";
+
+const COLLECTION = "drugs";
 
 export const addDrug = async (
   name,
@@ -9,7 +11,7 @@ export const addDrug = async (
   fastingPeriod,
   sideEffects
 ) => {
-  const docRef = await addDoc(collection(db, "drugs"), {
+  const docRef = await addDoc(collection(db, COLLECTION), {
     name,
     maximumDailyDosage,
     treatment,
@@ -18,4 +20,14 @@ export const addDrug = async (
   });
 
   return docRef.id;
+};
+
+export const getDrugs = async () => {
+  const querySnapshot = await getDocs(collection(db, COLLECTION));
+  const documents = [];
+  querySnapshot.forEach((document) => {
+    documents.push({ id: document.id, ...document.data() });
+  });
+
+  return documents;
 };

@@ -7,7 +7,7 @@ import { Pressable } from "../../components/Pressable";
 
 import { shadowStyle } from "../../assets/styles/shadowStyle";
 
-export function Accordion({ title, data }) {
+export function Accordion({ title, data, key }) {
   const [expanded, setExpanded] = useState(false);
 
   function toggleItem() {
@@ -15,7 +15,7 @@ export function Accordion({ title, data }) {
   }
 
   return (
-    <View style={[styles.container, shadowStyle.lightShadow]}>
+    <View key={key} style={[styles.container, shadowStyle.lightShadow]}>
       <Pressable activeOpacity={0.7} style={styles.button} onPress={toggleItem}>
         <Text style={styles.title}>{title}</Text>
         {expanded ? (
@@ -24,15 +24,19 @@ export function Accordion({ title, data }) {
           <Feather name="chevron-down" size={22} color={Colors.BLACK} />
         )}
       </Pressable>
-      {expanded && 
+      {expanded && (
         <View style={styles.content}>
-           {
-            Object.entries(data).map(([key, value]) => {
-              return key !== 'id' && key !== 'nome' && <Text style={styles.textItem} key={key}>{value}</Text>
-            })
-           }
+          {Object.entries(data).map(([key, value]) => {
+            return (
+              !["id", "name"].includes(key) && (
+                <Text style={styles.textItem} key={key}>
+                  {value}
+                </Text>
+              )
+            );
+          })}
         </View>
-      }
+      )}
     </View>
   );
 }
@@ -49,7 +53,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: "Poppins-Medium",
     fontSize: 13,
-    color: Colors.BLACK
+    color: Colors.BLACK,
   },
   button: {
     flex: 1,
@@ -58,10 +62,10 @@ const styles = StyleSheet.create({
   },
   content: {
     marginTop: 8,
-    gap: 2
+    gap: 2,
   },
   textItem: {
     fontSize: 13,
     color: Colors.BLACK,
-  }
+  },
 });
