@@ -16,7 +16,5 @@ export const Home = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  main: {
-    
-  },
+  main: {},
 });
