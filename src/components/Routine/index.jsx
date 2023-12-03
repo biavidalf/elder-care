@@ -17,6 +17,7 @@ const windowHeight = Dimensions.get("window").height;
 export const Routine = () => {
   const { weekDayContext, setWeekDayContext } = useWeekDay();
   const [selectedCategory, setSelectedCategory] = useState("geral");
+  const [selectedDrugs, setSelectedDrugs] = useState("");
   const [date, setDate] = useState(new Date(1598051730000));
   const [showTimepicker, setShowTimepicker] = useState(false);
 
@@ -34,18 +35,59 @@ export const Routine = () => {
     {
       label: "Geral",
       value: "geral",
+      inputs: (index) => {
+        return (
+          <View style={styles.mainGap} key={index}>
+            <TextField name="title" label="Título" placeholder="" />
+            <TextField name="observacoes" label="Observações" placeholder="" />
+          </View>
+        );
+      },
     },
     {
       label: "Medicamento",
       value: "medicamento",
+      inputs: (index) => {
+        return (
+          <View style={[styles.mainGap, { gap: 20, flexDirection: "row", width: "100%" }]} key={index}>
+            <View style={{flex: 1}}>
+              <SelectField
+                selectedValue={selectedDrugs}
+                setSelectedValue={setSelectedDrugs}
+                values={["Dipirona", "Paracetamol"]}
+                label="Remédio"
+              />
+            </View>
+            <View>
+              <TextField name="quantidade" label="Quantidade" placeholder="0" />
+            </View>
+          </View>
+        );
+      },
     },
     {
       label: "Alimentação",
       value: "alimentacao",
+      inputs: (index) => {
+        return (
+          <View style={styles.mainGap} key={index}>
+            <TextField name="resumo" label="Resumo" placeholder="" />
+            <TextField name="ingredientes" label="Ingredientes" placeholder="" />
+          </View>
+        );
+      },
     },
     {
       label: "Atividade Física",
       value: "atividadeFisica",
+      inputs: (index) => {
+        return (
+          <View style={styles.mainGap} key={index}>
+            <TextField name="atividade" label="Tipo de atividade" placeholder="" />
+            <TextField name="local" label="Local" placeholder="" />
+          </View>
+        );
+      },
     },
   ];
 
@@ -57,36 +99,6 @@ export const Routine = () => {
     "Sexta-Feira",
     "Sábado",
     "Domingo",
-  ];
-  const weekDaysSelectValues = [
-    {
-      label: "Segunda-Feira",
-      value: "Segunda-Feira",
-    },
-    {
-      label: "Terça-Feira",
-      value: "Terça-Feira",
-    },
-    {
-      label: "Quarta-Feira",
-      value: "Quarta-Feira",
-    },
-    {
-      label: "Quinta-Feira",
-      value: "Quinta-Feira",
-    },
-    {
-      label: "Sexta-Feira",
-      value: "Sexta-Feira",
-    },
-    {
-      label: "Sábado",
-      value: "Sábado",
-    },
-    {
-      label: "Domingo",
-      value: "Domingo",
-    },
   ];
   const tasks = [
     {
@@ -194,19 +206,23 @@ export const Routine = () => {
             dialogTitle="Selecione a categoria"
           />
 
-          <View style={{gap: 20, flexDirection: "row", width: "100%"}}>
-            <View style={{flex:1}}>
+          <View style={{ gap: 20, flexDirection: "row", width: "100%" }}>
+            <View style={{ flex: 1 }}>
               <SelectField
                 selectedValue={weekDayContext}
                 setSelectedValue={setWeekDayContext}
-                values={weekDaysSelectValues}
+                values={weekDays}
                 label="Dia da Semana"
                 dialogTitle="Selecione o dia da semana"
               />
-            </View >
+            </View>
 
             <View>
-              <TimeField hour={date.getHours()} minutes={date.getMinutes()} showFuncion={showPicker} />
+              <TimeField
+                hour={date.getHours()}
+                minutes={date.getMinutes()}
+                showFuncion={showPicker}
+              />
               {showTimepicker && (
                 <DateTimePicker
                   testID="dateTimePicker"
@@ -219,15 +235,9 @@ export const Routine = () => {
             </View>
           </View>
 
-          {/* {
-            selectedCategory === "medicamento" &&
-            <TextField
-              type="text"
-              name="medicamento"
-              label="Medicamento"
-              placeholder="Selecione o medicamento"
-            />
-          } */}
+          {categories
+            .filter((category) => category.value === selectedCategory)
+            .map((category, index) => category.inputs(index))}
         </ModalCustom>
       </View>
     </View>
@@ -262,5 +272,8 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 10,
     alignSelf: "center",
+  },
+  mainGap: {
+    gap: 20,
   },
 });

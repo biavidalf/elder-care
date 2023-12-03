@@ -25,8 +25,8 @@ export function SelectField({
             return (
               <Picker.Item
                 key={index}
-                label={value.label}
-                value={value.value}
+                label={typeof value === "object" ? value.label : value}
+                value={typeof value === "object" ? value.value : value}
               />
             );
           })}
