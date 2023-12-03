@@ -16,22 +16,22 @@ export const Routine = () => {
   const [selectedCategory, setSelectedCategory] = useState("geral");
   const categories = [
     {
-      label: 'Geral',
-      value: 'geral'
+      label: "Geral",
+      value: "geral",
     },
     {
-      label: 'Medicamento',
-      value: 'medicamento'
+      label: "Medicamento",
+      value: "medicamento",
     },
     {
-      label: 'Alimentação',
-      value: 'alimentacao'
+      label: "Alimentação",
+      value: "alimentacao",
     },
     {
-      label: 'Atividade Física',
-      value: 'atividadeFisica'
+      label: "Atividade Física",
+      value: "atividadeFisica",
     },
-  ]
+  ];
 
   const weekDays = [
     "Segunda-Feira",
@@ -140,14 +140,24 @@ export const Routine = () => {
       </View>
       <View style={styles.button}>
         <ModalCustom title="Adicionar Tarefa">
-          <TextField
-            type="text"
-            name="category"
+          <SelectField
+            selectedValue={selectedCategory}
+            setSelectedValue={setSelectedCategory}
+            values={categories}
             label="Categoria"
-            placeholder="Selecione a categoria"
+            dialogTitle="Selecione a categoria"
           />
+          
+          {
+            selectedCategory === "medicamento" &&
+            <TextField
+              type="text"
+              name="medicamento"
+              label="Medicamento"
+              placeholder="Selecione o medicamento"
+            />
+          }
 
-          <SelectField selectedValue={selectedCategory} setSelectedValue={setSelectedCategory} values={categories} />
         </ModalCustom>
       </View>
     </View>
