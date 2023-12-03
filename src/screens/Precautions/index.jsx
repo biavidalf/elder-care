@@ -81,28 +81,24 @@ export const Precautions = ({ navigation }) => {
 
   return (
     <View style={screenMainStyle.main}>
-      <ScrollView>
-        <View>
-          <Text style={textStyles.title}>Cuidados</Text>
-          <Text style={textStyles.subTitle}>Cuidados gerais</Text>
+      <View style={styles.screen}>
+        <Text style={textStyles.title}>Cuidados</Text>
+        <Text style={textStyles.subTitle}>Cuidados gerais</Text>
 
-          {isLoading ? (
-            <ActivityIndicator color={Colors.BLUE} />
-          ) : precautions.length ? (
-            <View style={styles.list}>
-              <ScrollView>
-                {precautions.map((precaution) => {
-                  return (
-                    <TaskContainer key={precaution.id} data={precaution} />
-                  );
-                })}
-              </ScrollView>
-            </View>
-          ) : (
-            <Text style={styles.text}>Nenhum cuidado cadastrado.</Text>
-          )}
-        </View>
-      </ScrollView>
+        {isLoading ? (
+          <ActivityIndicator color={Colors.BLUE} />
+        ) : precautions.length ? (
+          <View style={styles.screen}>
+            <ScrollView>
+              {precautions.map((precaution) => {
+                return <TaskContainer key={precaution.id} data={precaution} />;
+              })}
+            </ScrollView>
+          </View>
+        ) : (
+          <Text style={styles.text}>Nenhum cuidado cadastrado.</Text>
+        )}
+      </View>
 
       {!isLoading && (
         <ModalCustom
@@ -136,11 +132,11 @@ export const Precautions = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  list: {
-    maxHeight: windowHeight / 2,
-  },
   text: {
     fontFamily: "Poppins-Regular",
     fontSize: 16,
+  },
+  screen: {
+    flex: 1,
   },
 });

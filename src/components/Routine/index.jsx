@@ -14,12 +14,15 @@ import { TimeField } from "../TimeField";
 const windowHeight = Dimensions.get("window").height;
 
 export const Routine = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const { weekDayContext, setWeekDayContext } = useWeekDay();
-  const [selectedCategory, setSelectedCategory] = useState("geral");
+
+  const [weekDay, setWeekDay] = useState(weekDayContext);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedDrugs, setSelectedDrugs] = useState("");
-  const [date, setDate] = useState(new Date(1598051730000));
   const [showTimepicker, setShowTimepicker] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("geral");
+
+  const [date, setDate] = useState(new Date(1598051730000));
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -191,6 +194,7 @@ export const Routine = () => {
               key={index}
               onPress={() => {
                 setWeekDayContext(weekDay);
+                setWeekDay(weekDay);
               }}
               isActive={weekDayContext === weekDay}
               label={weekDay[0]}
@@ -201,7 +205,7 @@ export const Routine = () => {
 
       <Text style={[styles.routineDayTitle]}>{weekDayContext}</Text>
 
-      <View style={styles.list}>
+      <View style={styles.screen}>
         <ScrollView>
           {tasks
             .filter((task) => task.day === weekDayContext)
@@ -210,51 +214,50 @@ export const Routine = () => {
             })}
         </ScrollView>
       </View>
-      <View style={styles.button}>
-        <ModalCustom
-          title="Adicionar Tarefa"
-          modalState={[isModalVisible, setIsModalVisible]}
-        >
-          <SelectField
-            selectedValueState={[selectedCategory, setSelectedCategory]}
-            values={categories}
-            label="Categoria"
-            dialogTitle="Selecione a categoria"
-          />
 
-          <View style={{ gap: 20, flexDirection: "row", width: "100%" }}>
-            <View style={{ flex: 1 }}>
-              <SelectField
-                selectedValueState={[weekDayContext, setWeekDayContext]}
-                values={weekDays}
-                label="Dia da Semana"
-                dialogTitle="Selecione o dia da semana"
-              />
-            </View>
+      <ModalCustom
+        title="Adicionar Tarefa"
+        modalState={[isModalVisible, setIsModalVisible]}
+      >
+        <SelectField
+          selectedValueState={[selectedCategory, setSelectedCategory]}
+          values={categories}
+          label="Categoria"
+          dialogTitle="Selecione a categoria"
+        />
 
-            <View>
-              <TimeField
-                hour={date.getHours()}
-                minutes={date.getMinutes()}
-                showFuncion={showPicker}
-              />
-              {showTimepicker && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={date}
-                  mode="time"
-                  is24Hour={true}
-                  onChange={onChange}
-                />
-              )}
-            </View>
+        <View style={{ gap: 20, flexDirection: "row", width: "100%" }}>
+          <View style={{ flex: 1 }}>
+            <SelectField
+              selectedValueState={[weekDay, setWeekDay]}
+              values={weekDays}
+              label="Dia da Semana"
+              dialogTitle="Selecione o dia da semana"
+            />
           </View>
 
-          {categories
-            .filter((category) => category.value === selectedCategory)
-            .map((category, index) => category.inputs(index))}
-        </ModalCustom>
-      </View>
+          <View>
+            <TimeField
+              hour={date.getHours()}
+              minutes={date.getMinutes()}
+              showFuncion={showPicker}
+            />
+            {showTimepicker && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode="time"
+                is24Hour={true}
+                onChange={onChange}
+              />
+            )}
+          </View>
+        </View>
+
+        {categories
+          .filter((category) => category.value === selectedCategory)
+          .map((category, index) => category.inputs(index))}
+      </ModalCustom>
     </View>
   );
 };
@@ -281,8 +284,8 @@ const styles = StyleSheet.create({
     marginTop: 12,
     marginBottom: 2,
   },
-  list: {
-    maxHeight: windowHeight / 2,
+  screen: {
+    flex: 1,
   },
   button: {
     marginTop: 10,

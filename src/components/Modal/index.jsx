@@ -56,7 +56,6 @@ export const ModalCustom = ({
 
 const styles = StyleSheet.create({
   main: {
-    flex: 1,
     justifyContent: "end",
     alignItems: "center",
     paddingVertical: 10,

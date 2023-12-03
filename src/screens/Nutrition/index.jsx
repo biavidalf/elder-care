@@ -16,16 +16,17 @@ import { TaskContainer } from "../../components/ItemList";
 import { ModalCustom } from "../../components/Modal";
 import { Title } from "../../components/Title";
 import { TextField } from "../../components/TextField";
+import { SelectField } from "../../components/SelectField";
 
 import { Colors } from "../../utils/Colors";
 import { textStyles } from "../../assets/styles/textStyles";
+import { screenMainStyle } from "../../assets/styles/screenMainStyle";
 import { addMeal, getMeals } from "../../utils/firebase/database/meal";
 import {
   addRestriction,
   getRestrictions,
 } from "../../utils/firebase/database/restriction";
 import { getRestrictionLevels } from "../../utils/firebase/database/restrictionLevel";
-import { SelectField } from "../../components/SelectField";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -162,131 +163,124 @@ export const Nutrition = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={styles.main}>
+    <View style={screenMainStyle.main}>
       <Title>Nutrição</Title>
 
-      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-        <View>
+      <View style={styles.screen}>
+        <View style={styles.screen}>
           <Text style={textStyles.subTitle}>Restrições alimentares</Text>
 
           {areRestrictionsLoading ? (
             <ActivityIndicator color={Colors.BLUE} />
+          ) : restrictions.length ? (
+            <View style={styles.screen}>
+              <ScrollView>
+                {restrictions.map((restriction) => {
+                  return (
+                    <TaskContainer data={restriction} key={restriction.id} />
+                  );
+                })}
+              </ScrollView>
+            </View>
           ) : (
-            <>
-              {restrictions.length ? (
-                <View style={styles.list}>
-                  <ScrollView>
-                    {restrictions.map((restriction) => {
-                      return (
-                        <TaskContainer
-                          data={restriction}
-                          key={restriction.id}
-                        />
-                      );
-                    })}
-                  </ScrollView>
-                </View>
-              ) : (
-                <Text style={styles.text}>Nenhuma restrição cadastrada.</Text>
-              )}
+            <Text style={styles.text}>Nenhuma restrição cadastrada.</Text>
+          )}
 
-              <ModalCustom
-                title="Adicionar Restrição"
-                isLoading={isLoadingRestrictionSubmit}
-                modalState={[
-                  isRestrictionModalVisible,
-                  setIsRestrictionModalVisible,
-                ]}
-                onPress={handleRestrictionSubmit(onSubmitRestriction)}
-              >
-                <TextField
-                  type="text"
-                  name="label"
-                  label="Nome"
-                  placeholder="Alergia à amendoim"
-                  error={restrictionErrors?.label}
-                  onChangeText={(value) => setRestrictionValue("label", value)}
-                  {...registerRestriction("label")}
-                />
-                <SelectField
-                  label={"Nível"}
-                  values={restrictionLevels}
-                  selectedValueState={[selectedLevel, setSelectedLevel]}
-                />
-                <TextField
-                  type="text"
-                  name="suggestion"
-                  label="Recomendação"
-                  placeholder="Encaminhar para o hospital"
-                  error={restrictionErrors?.suggestion}
-                  onChangeText={(value) =>
-                    setRestrictionValue("suggestion", value)
-                  }
-                  {...registerRestriction("suggestion")}
-                />
-              </ModalCustom>
-            </>
+          {!areRestrictionsLoading && (
+            <ModalCustom
+              title="Adicionar Restrição"
+              isLoading={isLoadingRestrictionSubmit}
+              modalState={[
+                isRestrictionModalVisible,
+                setIsRestrictionModalVisible,
+              ]}
+              onPress={handleRestrictionSubmit(onSubmitRestriction)}
+            >
+              <TextField
+                type="text"
+                name="label"
+                label="Nome"
+                placeholder="Alergia à amendoim"
+                error={restrictionErrors?.label}
+                onChangeText={(value) => setRestrictionValue("label", value)}
+                {...registerRestriction("label")}
+              />
+              <SelectField
+                label={"Nível"}
+                values={restrictionLevels}
+                selectedValueState={[selectedLevel, setSelectedLevel]}
+              />
+              <TextField
+                type="text"
+                name="suggestion"
+                label="Recomendação"
+                placeholder="Encaminhar para o hospital"
+                error={restrictionErrors?.suggestion}
+                onChangeText={(value) =>
+                  setRestrictionValue("suggestion", value)
+                }
+                {...registerRestriction("suggestion")}
+              />
+            </ModalCustom>
           )}
         </View>
 
-        <View>
+        <View style={styles.screen}>
           <Text style={textStyles.subTitle}>Refeições recomendadas</Text>
 
           {areMealsLoading ? (
             <ActivityIndicator color={Colors.BLUE} />
+          ) : meals.length ? (
+            <View style={styles.screen}>
+              <ScrollView>
+                {meals.map((meal) => {
+                  return <TaskContainer data={meal} key={meal.id} />;
+                })}
+              </ScrollView>
+            </View>
           ) : (
-            <>
-              {meals.length ? (
-                <View style={styles.list}>
-                  <ScrollView>
-                    {meals.map((meal) => {
-                      return <TaskContainer data={meal} key={meal.id} />;
-                    })}
-                  </ScrollView>
-                </View>
-              ) : (
-                <Text style={styles.text}>Nenhuma refeição cadastrada.</Text>
-              )}
+            <Text style={styles.text}>Nenhuma refeição cadastrada.</Text>
+          )}
 
-              <ModalCustom
-                title="Adicionar Refeição"
-                isLoading={isLoadingMealSubmit}
-                modalState={[isMealModalVisible, setIsMealModalVisible]}
-                onPress={handleMealSubmit(onSubmitMeal)}
-              >
-                <TextField
-                  type="text"
-                  name="name"
-                  label="Nome"
-                  placeholder="Canja de frango"
-                  error={mealErrors?.label}
-                  onChangeText={(value) => setMealValue("label", value)}
-                  {...registerMeal("label")}
-                />
-                <TextField
-                  type="text"
-                  name="ingredients"
-                  label="Ingredientes"
-                  placeholder="Frango, pimentão, arroz"
-                  error={mealErrors?.ingredients}
-                  onChangeText={(value) => setMealValue("ingredients", value)}
-                  {...registerMeal("ingredients")}
-                />
-                <TextField
-                  type="text"
-                  name="calories"
-                  label="Calorias"
-                  placeholder="350"
-                  inputMode="numeric"
-                  error={mealErrors?.calories}
-                  onChangeText={(value) => setMealValue("calories", value)}
-                  {...registerMeal("calories")}
-                />
-              </ModalCustom>
-            </>
+          {!areMealsLoading && (
+            <ModalCustom
+              title="Adicionar Refeição"
+              isLoading={isLoadingMealSubmit}
+              modalState={[isMealModalVisible, setIsMealModalVisible]}
+              onPress={handleMealSubmit(onSubmitMeal)}
+            >
+              <TextField
+                type="text"
+                name="name"
+                label="Nome"
+                placeholder="Canja de frango"
+                error={mealErrors?.label}
+                onChangeText={(value) => setMealValue("label", value)}
+                {...registerMeal("label")}
+              />
+              <TextField
+                type="text"
+                name="ingredients"
+                label="Ingredientes"
+                placeholder="Frango, pimentão, arroz"
+                error={mealErrors?.ingredients}
+                onChangeText={(value) => setMealValue("ingredients", value)}
+                {...registerMeal("ingredients")}
+              />
+              <TextField
+                type="text"
+                name="calories"
+                label="Calorias"
+                placeholder="350"
+                inputMode="numeric"
+                error={mealErrors?.calories}
+                onChangeText={(value) => setMealValue("calories", value)}
+                {...registerMeal("calories")}
+              />
+            </ModalCustom>
           )}
         </View>
-      </ScrollView>
+      </View>
     </View>
   );
 };
@@ -297,11 +291,8 @@ const styles = StyleSheet.create({
     paddingTop: 65,
     backgroundColor: Colors.WHITE_200,
   },
-  scroll: {
-    paddingHorizontal: 27,
-  },
-  list: {
-    maxHeight: windowHeight / 2,
+  screen: {
+    flex: 1,
   },
   text: {
     fontFamily: "Poppins-Regular",

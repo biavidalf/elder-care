@@ -118,7 +118,7 @@ export const Drugs = ({ navigation }) => {
 
   return (
     <View style={screenMainStyle.main}>
-      <View>
+      <View style={styles.screen}>
         <Text style={textStyles.title}>Medicamentos</Text>
         <Text style={textStyles.subTitle}>Sua lista de medicamentos</Text>
 
@@ -234,6 +234,6 @@ const styles = StyleSheet.create({
     borderRadius: 117,
   },
   screen: {
-    maxHeight: windowHeight / 1.8,
+    flex: 1,
   },
 });
