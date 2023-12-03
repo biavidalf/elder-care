@@ -19,7 +19,7 @@ import { TextField } from "../../components/TextField";
 
 import { Colors } from "../../utils/Colors";
 import { textStyles } from "../../assets/styles/textStyles";
-import { getMeals } from "../../utils/firebase/database/meal";
+import { addMeal, getMeals } from "../../utils/firebase/database/meal";
 import {
   addRestriction,
   getRestrictions,
@@ -37,30 +37,49 @@ const restrictionFormSchema = yup
   })
   .required();
 
+const mealFormSchema = yup
+  .object()
+  .shape({
+    label: yup.string().required("O campo nome é obrigatório."),
+    ingredients: yup.string().required("O campo ingredientes é obrigatório."),
+    calories: yup.string().required("O campo calorias é obrigatório."),
+  })
+  .required();
+
 export const Nutrition = ({ navigation }) => {
   const {
-    register,
-    setValue,
-    handleSubmit,
-    formState: { errors },
+    register: registerRestriction,
+    setValue: setRestrictionValue,
+    handleSubmit: handleRestrictionSubmit,
+    formState: { errors: restrictionErrors },
   } = useForm({ resolver: yupResolver(restrictionFormSchema) });
 
-  const [restrictions, setRestrictions] = useState([]);
-  const [meals, setMeals] = useState([]);
-  const [restrictionLevels, setRestrictionLevels] = useState([]);
-  const [selectedLevel, setSelectedLevel] = useState();
+  const {
+    register: registerMeal,
+    setValue: setMealValue,
+    handleSubmit: handleMealSubmit,
+    formState: { errors: mealErrors },
+  } = useForm({ resolver: yupResolver(mealFormSchema) });
 
-  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
+  const [selectedLevel, setSelectedLevel] = useState(null);
+  const [restrictionLevels, setRestrictionLevels] = useState([]);
+
+  const [restrictions, setRestrictions] = useState([]);
+  const [isLoadingRestrictionSubmit, setIsLoadingRestrictionSubmit] =
+    useState(false);
   const [areRestrictionsLoading, setAreRestrictionsLoading] = useState(true);
+
+  const [meals, setMeals] = useState([]);
+  const [isLoadingMealSubmit, setIsLoadingMealSubmit] = useState(false);
   const [areMealsLoading, setAreMealsLoading] = useState(true);
 
   const [isRestrictionModalVisible, setIsRestrictionModalVisible] =
     useState(false);
   const [isMealModalVisible, setIsMealModalVisible] = useState(false);
 
-  const onSubmit = async ({ label, suggestion }) => {
+  const onSubmitRestriction = async ({ label, suggestion }) => {
     try {
-      setIsLoadingSubmit(true);
+      setIsLoadingRestrictionSubmit(true);
 
       const id = await addRestriction({
         label,
@@ -81,11 +100,38 @@ export const Nutrition = ({ navigation }) => {
       setIsRestrictionModalVisible(false);
 
       // Reset field values
-      ["label", "suggestion"].forEach((field) => setValue(field, ""));
+      ["label", "suggestion"].forEach((field) =>
+        setRestrictionValue(field, "")
+      );
     } catch (error) {
       Alert.alert(error.message);
     } finally {
-      setIsLoadingSubmit(false);
+      setIsLoadingRestrictionSubmit(false);
+    }
+  };
+
+  const onSubmitMeal = async ({ label, ingredients, calories }) => {
+    try {
+      setIsLoadingMealSubmit(true);
+
+      const id = await addMeal({
+        label,
+        ingredients,
+        calories,
+      });
+
+      setMeals([...meals, { id, label, ingredients, calories }]);
+
+      setIsMealModalVisible(false);
+
+      // Reset field values
+      ["label", "ingredients", "calories"].forEach((field) =>
+        setMealValue(field, "")
+      );
+    } catch (error) {
+      Alert.alert(error.message);
+    } finally {
+      setIsLoadingMealSubmit(false);
     }
   };
 
@@ -146,21 +192,21 @@ export const Nutrition = ({ navigation }) => {
 
               <ModalCustom
                 title="Adicionar Restrição"
-                isLoading={isLoadingSubmit}
+                isLoading={isLoadingRestrictionSubmit}
                 modalState={[
                   isRestrictionModalVisible,
                   setIsRestrictionModalVisible,
                 ]}
-                onPress={handleSubmit(onSubmit)}
+                onPress={handleRestrictionSubmit(onSubmitRestriction)}
               >
                 <TextField
                   type="text"
                   name="label"
                   label="Nome"
                   placeholder="Alergia à amendoim"
-                  error={errors?.label}
-                  onChangeText={(value) => setValue("label", value)}
-                  {...register("label")}
+                  error={restrictionErrors?.label}
+                  onChangeText={(value) => setRestrictionValue("label", value)}
+                  {...registerRestriction("label")}
                 />
                 <SelectField
                   label={"Nível"}
@@ -172,9 +218,11 @@ export const Nutrition = ({ navigation }) => {
                   name="suggestion"
                   label="Recomendação"
                   placeholder="Encaminhar para o hospital"
-                  error={errors?.suggestion}
-                  onChangeText={(value) => setValue("suggestion", value)}
-                  {...register("suggestion")}
+                  error={restrictionErrors?.suggestion}
+                  onChangeText={(value) =>
+                    setRestrictionValue("suggestion", value)
+                  }
+                  {...registerRestriction("suggestion")}
                 />
               </ModalCustom>
             </>
@@ -202,25 +250,36 @@ export const Nutrition = ({ navigation }) => {
 
               <ModalCustom
                 title="Adicionar Refeição"
+                isLoading={isLoadingMealSubmit}
                 modalState={[isMealModalVisible, setIsMealModalVisible]}
+                onPress={handleMealSubmit(onSubmitMeal)}
               >
                 <TextField
                   type="text"
                   name="name"
                   label="Nome"
                   placeholder="Canja de frango"
+                  error={mealErrors?.label}
+                  onChangeText={(value) => setMealValue("label", value)}
+                  {...registerMeal("label")}
                 />
                 <TextField
                   type="text"
                   name="ingredients"
                   label="Ingredientes"
                   placeholder="Frango, pimentão, arroz"
+                  error={mealErrors?.ingredients}
+                  onChangeText={(value) => setMealValue("ingredients", value)}
+                  {...registerMeal("ingredients")}
                 />
                 <TextField
                   type="text"
                   name="calories"
                   label="Calorias"
                   placeholder="350cal"
+                  error={mealErrors?.calories}
+                  onChangeText={(value) => setMealValue("calories", value)}
+                  {...registerMeal("calories")}
                 />
               </ModalCustom>
             </>

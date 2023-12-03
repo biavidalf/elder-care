@@ -105,10 +105,26 @@ const restrictionLevels = [
 ];
 
 const meals = [
-  { label: "Feijão preto com frango" },
-  { label: "Salada de repolho" },
-  { label: "Canja de frango" },
-  { label: "Feijão verde com purê" },
+  {
+    label: "Feijão preto com frango",
+    ingredients: "Frango, pimentão, arroz",
+    calories: "390cal",
+  },
+  {
+    label: "Salada de repolho",
+    ingredients: "Frango, pimentão, arroz",
+    calories: "390cal",
+  },
+  {
+    label: "Canja de frango",
+    ingredients: "Frango, pimentão, arroz",
+    calories: "390cal",
+  },
+  {
+    label: "Feijão verde com purê",
+    ingredients: "Frango, pimentão, arroz",
+    calories: "390cal",
+  },
 ];
 
 // const precautions = [
