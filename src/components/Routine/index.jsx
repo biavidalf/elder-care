@@ -5,12 +5,33 @@ import DayButton from "./DayButton";
 
 import { useWeekDay } from "../../contexts/WeekDayContext";
 import { ModalCustom } from "../Modal";
+import { SelectField } from "../SelectField";
 import { TextField } from "../TextField";
+import { useState } from "react";
 
 const windowHeight = Dimensions.get("window").height;
 
 export const Routine = () => {
   const { weekDayContext, setWeekDayContext } = useWeekDay();
+  const [selectedCategory, setSelectedCategory] = useState("geral");
+  const categories = [
+    {
+      label: 'Geral',
+      value: 'geral'
+    },
+    {
+      label: 'Medicamento',
+      value: 'medicamento'
+    },
+    {
+      label: 'Alimentação',
+      value: 'alimentacao'
+    },
+    {
+      label: 'Atividade Física',
+      value: 'atividadeFisica'
+    },
+  ]
 
   const weekDays = [
     "Segunda-Feira",
@@ -125,6 +146,8 @@ export const Routine = () => {
             label="Categoria"
             placeholder="Selecione a categoria"
           />
+
+          <SelectField selectedValue={selectedCategory} setSelectedValue={setSelectedCategory} values={categories} />
         </ModalCustom>
       </View>
     </View>
