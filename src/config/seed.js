@@ -2,7 +2,7 @@ import { addDrug } from "../utils/firebase/database/drug";
 import { addRestriction } from "../utils/firebase/database/restriction";
 import { addMeal } from "../utils/firebase/database/meal";
 import { addRestrictionLevel } from "../utils/firebase/database/restrictionLevel";
-// import { addPrecaution } from "../utils/firebase/database/drug";
+import { addPrecaution } from "../utils/firebase/database/precautions";
 
 const drugs = [
   {
@@ -127,16 +127,13 @@ const meals = [
   },
 ];
 
-// const precautions = [
-//   {
-//     title: "Fralda",
-//     description: "Marca BigFral, tamanho M",
-//   },
-//   {
-//     title: "Tipo sabonete",
-//     descriptions: "Sabonetes líquidos com pH fisiológico",
-//   },
-// ];
+const precautions = [
+  { label: "Detalhes fraldas", description: "Marca BigFral, tamanho M" },
+  { label: "Tipo sabonete", description: "Marca BigFral, tamanho M" },
+  { label: "Tecidos roupas", description: "Marca BigFral, tamanho M" },
+  { label: "Perfumes", description: "Marca BigFral, tamanho M" },
+  { label: "Perfumes", description: "Marca BigFral, tamanho M" },
+];
 
 (async () => {
   drugs.forEach(async (drug) => await addDrug(drug));
@@ -147,7 +144,5 @@ const meals = [
     async (restrictionLevel) => await addRestrictionLevel(restrictionLevel)
   );
   meals.forEach(async (meal) => await addMeal(meal));
-  // precautions.forEach(async ({ title, description }) => {
-  //   await addDrug(title, description);
-  // });
+  precautions.forEach(async (precaution) => await addPrecaution(precaution));
 })();

@@ -5,9 +5,9 @@ import { db } from "../../../config/firebase";
 
 const COLLECTION = "precautions";
 
-export const addPrecautions = async (title, description) => {
+export const addPrecaution = async ({ label, description }) => {
   const docRef = await addDoc(collection(db, COLLECTION), {
-    title,
+    label,
     description,
   });
 

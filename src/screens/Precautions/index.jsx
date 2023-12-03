@@ -1,67 +1,136 @@
-import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 import { TaskContainer } from "../../components/ItemList";
 import { ModalCustom } from "../../components/Modal";
 import { TextField } from "../../components/TextField";
 
+import {
+  addPrecaution,
+  getPrecautions,
+} from "../../utils/firebase/database/precautions";
+
 const windowHeight = Dimensions.get("window").height;
 
 import { screenMainStyle } from "../../assets/styles/screenMainStyle";
 import { textStyles } from "../../assets/styles/textStyles";
+import { Colors } from "../../utils/Colors";
+
+const formSchema = yup
+  .object()
+  .shape({
+    label: yup.string().required("O campo nome é obrigatório."),
+    description: yup.string().required("O campo descrição é obrigatório."),
+  })
+  .required();
 
 export const Precautions = ({ navigation }) => {
-  const cares = [
-    {
-      id: "0",
-      label: "Detalhes fraldas",
-    },
-    {
-      id: "1",
-      label: "Tipo sabonete",
-    },
-    {
-      id: "2",
-      label: "Tecidos roupas",
-    },
-    {
-      id: "3",
-      label: "Perfumes",
-    },
-    {
-      id: "4",
-      label: "Perfumes",
-    },
-  ];
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(formSchema) });
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
+  const [precautions, setPrecautions] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setPrecautions(await getPrecautions());
+      } catch (error) {
+        Alert.alert(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
+
+  const onSubmit = async ({ label, description }) => {
+    try {
+      setIsLoadingSubmit(true);
+
+      const id = await addPrecaution({ label, description });
+
+      setPrecautions([...precautions, { id, label, description }]);
+      setIsModalVisible(false);
+
+      // Reset field values
+      ["label", "description"].forEach((field) => {
+        setValue(field, "");
+      });
+    } catch (error) {
+      Alert.alert(error.message);
+    } finally {
+      setIsLoadingSubmit(false);
+    }
+  };
 
   return (
     <View style={screenMainStyle.main}>
-      <ScrollView style={styles.scroll}>
+      <ScrollView>
         <View>
           <Text style={textStyles.title}>Cuidados</Text>
           <Text style={textStyles.subTitle}>Cuidados gerais</Text>
 
-          <View style={styles.list}>
-            <ScrollView style={styles.scroll}>
-              {cares.map((care) => {
-                return <TaskContainer data={care} key={care.id} />;
-              })}
-            </ScrollView>
-          </View>
+          {isLoading ? (
+            <ActivityIndicator color={Colors.BLUE} />
+          ) : (
+            <>
+              {precautions.length ? (
+                <View style={styles.list}>
+                  <ScrollView>
+                    {precautions.map((precaution) => {
+                      return (
+                        <TaskContainer key={precaution.id} data={precaution} />
+                      );
+                    })}
+                  </ScrollView>
+                </View>
+              ) : (
+                <Text style={styles.text}>Nenhum cuidado cadastrado.</Text>
+              )}
 
-          <ModalCustom title="Adicionar Cuidado">
-            <TextField
-              type="text"
-              name="name"
-              label="Nome"
-              placeholder="Fralda"
-            />
-            <TextField
-              type="text"
-              name="level"
-              label="Descrição"
-              placeholder="Marca BigFral, tamanho M"
-            />
-          </ModalCustom>
+              <ModalCustom
+                title="Adicionar Cuidado"
+                isLoading={isLoadingSubmit}
+                modalState={[isModalVisible, setIsModalVisible]}
+                onPress={handleSubmit(onSubmit)}
+              >
+                <TextField
+                  type="text"
+                  name="label"
+                  label="Nome"
+                  placeholder="Fralda"
+                  error={errors?.label}
+                  onChangeText={(value) => setValue("label", value)}
+                  {...register("label")}
+                />
+                <TextField
+                  type="text"
+                  name="description"
+                  label="Descrição"
+                  placeholder="Marca BigFral, tamanho M"
+                  error={errors?.description}
+                  onChangeText={(value) => setValue("description", value)}
+                  {...register("description")}
+                />
+              </ModalCustom>
+            </>
+          )}
         </View>
       </ScrollView>
     </View>
@@ -69,9 +138,11 @@ export const Precautions = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  main: {},
-  scroll: {},
   list: {
     maxHeight: windowHeight / 2,
+  },
+  text: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 16,
   },
 });

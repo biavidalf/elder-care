@@ -24,7 +24,7 @@ function MyTabs() {
   return (
     <WeekDayContextProvider>
       <Tab.Navigator>
-        {/* <Tab.Screen
+        <Tab.Screen
           name="Home"
           component={Home}
           options={{
@@ -54,7 +54,7 @@ function MyTabs() {
               );
             },
           }}
-        /> */}
+        />
 
         <Tab.Screen
           name="Nutrition"

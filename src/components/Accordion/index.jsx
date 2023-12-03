@@ -37,14 +37,14 @@ export function Accordion({
           </Text>
           {fastingBefore && (
             <Text style={styles.textItem}>
-              <Text style={styles.textItemTitle}>Jejum antes (horas):</Text>{" "}
-              {fastingBefore}
+              <Text style={styles.textItemTitle}>Jejum antes:</Text>{" "}
+              {fastingBefore} hora{fastingBefore > 1 && "s"}
             </Text>
           )}
           {fastingAfter && (
             <Text style={styles.textItem}>
-              <Text style={styles.textItemTitle}>Jejum depois (horas):</Text>{" "}
-              {fastingAfter}
+              <Text style={styles.textItemTitle}>Jejum depois:</Text>{" "}
+              {fastingAfter} hora{fastingAfter > 1 && "s"}
             </Text>
           )}
           <Text style={styles.textItem}>

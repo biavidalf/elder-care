@@ -40,17 +40,29 @@ const formSchema = yup
   .required();
 
 export const Drugs = ({ navigation }) => {
-  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [drugs, setDrugs] = useState([]);
-
   const {
     register,
     setValue,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(formSchema) });
+
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [drugs, setDrugs] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setDrugs(await getDrugs());
+      } catch (error) {
+        Alert.alert(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
 
   const onSubmit = async ({
     name,
@@ -104,39 +116,24 @@ export const Drugs = ({ navigation }) => {
     }
   };
 
-  useEffect(() => {
-    (async () => {
-      try {
-        setDrugs(await getDrugs());
-      } catch (error) {
-        Alert.alert(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-  }, []);
-
   return (
     <View style={screenMainStyle.main}>
       <View>
         <Text style={textStyles.title}>Medicamentos</Text>
+        <Text style={textStyles.subTitle}>Sua lista de medicamentos</Text>
+
         {isLoading ? (
-          <ActivityIndicator color={Colors.BLUE} style={styles.loading} />
+          <ActivityIndicator color={Colors.BLUE} />
         ) : (
-          <>
-            <Text style={textStyles.subTitle}>Sua lista de medicamentos</Text>
-            <View style={styles.screen}>
-              <ScrollView>
-                {drugs.length ? (
-                  drugs.map((drug) => <Accordion key={drug.id} drug={drug} />)
-                ) : (
-                  <Text style={styles.text}>
-                    Nenhum medicamento cadastrado.
-                  </Text>
-                )}
-              </ScrollView>
-            </View>
-          </>
+          <View style={styles.screen}>
+            <ScrollView>
+              {drugs.length ? (
+                drugs.map((drug) => <Accordion key={drug.id} drug={drug} />)
+              ) : (
+                <Text style={styles.text}>Nenhum medicamento cadastrado.</Text>
+              )}
+            </ScrollView>
+          </View>
         )}
       </View>
 
@@ -238,8 +235,5 @@ const styles = StyleSheet.create({
   },
   screen: {
     maxHeight: windowHeight / 1.8,
-  },
-  loading: {
-    marginTop: 16,
   },
 });
