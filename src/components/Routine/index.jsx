@@ -1,4 +1,5 @@
 import { StyleSheet, View, Text, Dimensions, ScrollView } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 import { TaskContainer } from "../ItemList";
 import DayButton from "./DayButton";
@@ -8,12 +9,27 @@ import { ModalCustom } from "../Modal";
 import { SelectField } from "../SelectField";
 import { TextField } from "../TextField";
 import { useState } from "react";
+import { Button } from "../Button";
+import { TimeField } from "../TimeField";
 
 const windowHeight = Dimensions.get("window").height;
 
 export const Routine = () => {
   const { weekDayContext, setWeekDayContext } = useWeekDay();
   const [selectedCategory, setSelectedCategory] = useState("geral");
+  const [date, setDate] = useState(new Date(1598051730000));
+  const [showTimepicker, setShowTimepicker] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShowTimepicker(false);
+    setDate(currentDate);
+  };
+
+  const showPicker = () => {
+    setShowTimepicker(true);
+  };
+
   const categories = [
     {
       label: "Geral",
@@ -41,6 +57,36 @@ export const Routine = () => {
     "Sexta-Feira",
     "Sábado",
     "Domingo",
+  ];
+  const weekDaysSelectValues = [
+    {
+      label: "Segunda-Feira",
+      value: "Segunda-Feira",
+    },
+    {
+      label: "Terça-Feira",
+      value: "Terça-Feira",
+    },
+    {
+      label: "Quarta-Feira",
+      value: "Quarta-Feira",
+    },
+    {
+      label: "Quinta-Feira",
+      value: "Quinta-Feira",
+    },
+    {
+      label: "Sexta-Feira",
+      value: "Sexta-Feira",
+    },
+    {
+      label: "Sábado",
+      value: "Sábado",
+    },
+    {
+      label: "Domingo",
+      value: "Domingo",
+    },
   ];
   const tasks = [
     {
@@ -147,8 +193,33 @@ export const Routine = () => {
             label="Categoria"
             dialogTitle="Selecione a categoria"
           />
-          
-          {
+
+          <View style={{gap: 20, flexDirection: "row", width: "100%"}}>
+            <View style={{flex:1}}>
+              <SelectField
+                selectedValue={weekDayContext}
+                setSelectedValue={setWeekDayContext}
+                values={weekDaysSelectValues}
+                label="Dia da Semana"
+                dialogTitle="Selecione o dia da semana"
+              />
+            </View >
+
+            <View>
+              <TimeField hour={date.getHours()} minutes={date.getMinutes()} showFuncion={showPicker} />
+              {showTimepicker && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={date}
+                  mode="time"
+                  is24Hour={true}
+                  onChange={onChange}
+                />
+              )}
+            </View>
+          </View>
+
+          {/* {
             selectedCategory === "medicamento" &&
             <TextField
               type="text"
@@ -156,8 +227,7 @@ export const Routine = () => {
               label="Medicamento"
               placeholder="Selecione o medicamento"
             />
-          }
-
+          } */}
         </ModalCustom>
       </View>
     </View>

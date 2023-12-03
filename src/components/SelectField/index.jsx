@@ -15,6 +15,7 @@ export function SelectField({
       <Text style={styles.label}>{label}</Text>
       <View style={styles.containerInput}>
         <Picker
+          mode='dropdown'
           prompt={dialogTitle}
           style={styles.input}
           selectedValue={selectedValue}
@@ -38,7 +39,6 @@ export function SelectField({
 const styles = StyleSheet.create({
   container: {
     width: "auto",
-    gap: 4,
   },
   label: {
     color: Colors.BLACK,
