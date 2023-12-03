@@ -276,7 +276,8 @@ export const Nutrition = ({ navigation }) => {
                   type="text"
                   name="calories"
                   label="Calorias"
-                  placeholder="350cal"
+                  placeholder="350"
+                  inputMode="numeric"
                   error={mealErrors?.calories}
                   onChangeText={(value) => setMealValue("calories", value)}
                   {...registerMeal("calories")}

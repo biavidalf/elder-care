@@ -30,13 +30,9 @@ function MyTabs() {
           options={{
             headerShown: false,
             tabBarShowLabel: false,
-            tabBarIcon: ({ focused }) => {
-              return focused ? (
-                <IconHome size={20} color="#2C72DA" />
-              ) : (
-                <IconHome size={20} color="#8696BB" />
-              );
-            },
+            tabBarIcon: ({ focused }) => (
+              <IconHome size={20} color={focused ? "#2C72DA" : "#8696BB"} />
+            ),
           }}
         />
 
@@ -46,13 +42,9 @@ function MyTabs() {
           options={{
             headerShown: false,
             tabBarShowLabel: false,
-            tabBarIcon: ({ focused }) => {
-              return focused ? (
-                <IconPill size={21} color="#2C72DA" />
-              ) : (
-                <IconPill size={21} color="#8696BB" />
-              );
-            },
+            tabBarIcon: ({ focused }) => (
+              <IconPill size={21} color={focused ? "#2C72DA" : "#8696BB"} />
+            ),
           }}
         />
 
@@ -62,13 +54,13 @@ function MyTabs() {
           options={{
             headerShown: false,
             tabBarShowLabel: false,
-            tabBarIcon: ({ focused }) => {
-              return focused ? (
-                <Ionicons name="restaurant-outline" size={20} color="#2C72DA" />
-              ) : (
-                <Ionicons name="restaurant-outline" size={20} color="#8696BB" />
-              );
-            },
+            tabBarIcon: ({ focused }) => (
+              <Ionicons
+                name="restaurant-outline"
+                size={20}
+                color={focused ? "#2C72DA" : "#8696BB"}
+              />
+            ),
           }}
         />
 
@@ -78,13 +70,12 @@ function MyTabs() {
           options={{
             headerShown: false,
             tabBarShowLabel: false,
-            tabBarIcon: ({ focused }) => {
-              return focused ? (
-                <IconStetoscope size={20} color="#2C72DA" />
-              ) : (
-                <IconStetoscope size={20} color="#8696BB" />
-              );
-            },
+            tabBarIcon: ({ focused }) => (
+              <IconStetoscope
+                size={20}
+                color={focused ? "#2C72DA" : "#8696BB"}
+              />
+            ),
           }}
         />
       </Tab.Navigator>
@@ -95,10 +86,10 @@ function MyTabs() {
 function MyStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Tab" component={MyTabs} />
       <Stack.Screen name="Landing" component={Landing} />
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Tab" component={MyTabs} />
       <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
   );

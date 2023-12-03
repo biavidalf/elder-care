@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
   },
   title: {
-    fontFamily: "Poppins-Medium",
+    fontFamily: "Poppins-Regular",
     fontSize: 16,
     color: Colors.BLACK,
   },

@@ -88,51 +88,49 @@ export const Precautions = ({ navigation }) => {
 
           {isLoading ? (
             <ActivityIndicator color={Colors.BLUE} />
+          ) : precautions.length ? (
+            <View style={styles.list}>
+              <ScrollView>
+                {precautions.map((precaution) => {
+                  return (
+                    <TaskContainer key={precaution.id} data={precaution} />
+                  );
+                })}
+              </ScrollView>
+            </View>
           ) : (
-            <>
-              {precautions.length ? (
-                <View style={styles.list}>
-                  <ScrollView>
-                    {precautions.map((precaution) => {
-                      return (
-                        <TaskContainer key={precaution.id} data={precaution} />
-                      );
-                    })}
-                  </ScrollView>
-                </View>
-              ) : (
-                <Text style={styles.text}>Nenhum cuidado cadastrado.</Text>
-              )}
-
-              <ModalCustom
-                title="Adicionar Cuidado"
-                isLoading={isLoadingSubmit}
-                modalState={[isModalVisible, setIsModalVisible]}
-                onPress={handleSubmit(onSubmit)}
-              >
-                <TextField
-                  type="text"
-                  name="label"
-                  label="Nome"
-                  placeholder="Fralda"
-                  error={errors?.label}
-                  onChangeText={(value) => setValue("label", value)}
-                  {...register("label")}
-                />
-                <TextField
-                  type="text"
-                  name="description"
-                  label="Descrição"
-                  placeholder="Marca BigFral, tamanho M"
-                  error={errors?.description}
-                  onChangeText={(value) => setValue("description", value)}
-                  {...register("description")}
-                />
-              </ModalCustom>
-            </>
+            <Text style={styles.text}>Nenhum cuidado cadastrado.</Text>
           )}
         </View>
       </ScrollView>
+
+      {!isLoading && (
+        <ModalCustom
+          title="Adicionar Cuidado"
+          isLoading={isLoadingSubmit}
+          modalState={[isModalVisible, setIsModalVisible]}
+          onPress={handleSubmit(onSubmit)}
+        >
+          <TextField
+            type="text"
+            name="label"
+            label="Nome"
+            placeholder="Fralda"
+            error={errors?.label}
+            onChangeText={(value) => setValue("label", value)}
+            {...register("label")}
+          />
+          <TextField
+            type="text"
+            name="description"
+            label="Descrição"
+            placeholder="Marca BigFral, tamanho M"
+            error={errors?.description}
+            onChangeText={(value) => setValue("description", value)}
+            {...register("description")}
+          />
+        </ModalCustom>
+      )}
     </View>
   );
 };

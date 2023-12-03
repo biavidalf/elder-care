@@ -108,22 +108,22 @@ const meals = [
   {
     label: "Feijão preto com frango",
     ingredients: "Frango, pimentão, arroz",
-    calories: "390cal",
+    calories: 390,
   },
   {
     label: "Salada de repolho",
     ingredients: "Frango, pimentão, arroz",
-    calories: "390cal",
+    calories: 390,
   },
   {
     label: "Canja de frango",
     ingredients: "Frango, pimentão, arroz",
-    calories: "390cal",
+    calories: 390,
   },
   {
     label: "Feijão verde com purê",
     ingredients: "Frango, pimentão, arroz",
-    calories: "390cal",
+    calories: 390,
   },
 ];
 

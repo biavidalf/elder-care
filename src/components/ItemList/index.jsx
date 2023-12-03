@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 10,
     fontFamily: "Poppins-Regular",
-    fontSize: 15,
+    fontSize: 16,
   },
   iconContainer: {
     paddingHorizontal: 4,
