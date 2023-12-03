@@ -27,11 +27,7 @@ export function Accordion({
         onPress={() => setExpanded(!expanded)}
       >
         <Text style={styles.title}>{name}</Text>
-        <Feather
-          name={expanded ? "chevron-up" : "chevron-down"}
-          size={22}
-          color={Colors.BLACK}
-        />
+        <Feather name={expanded ? "chevron-up" : "chevron-down"} size={22} />
       </Pressable>
       {expanded && (
         <View style={styles.content}>
@@ -39,14 +35,18 @@ export function Accordion({
             <Text style={styles.textItemTitle}>Dosagem diária máxima:</Text>{" "}
             {maximumDailyDosage}
           </Text>
-          <Text style={styles.textItem}>
-            <Text style={styles.textItemTitle}>Jejum antes (horas):</Text>{" "}
-            {fastingBefore}
-          </Text>
-          <Text style={styles.textItem}>
-            <Text style={styles.textItemTitle}>Jejum depois (horas):</Text>{" "}
-            {fastingAfter}
-          </Text>
+          {fastingBefore && (
+            <Text style={styles.textItem}>
+              <Text style={styles.textItemTitle}>Jejum antes (horas):</Text>{" "}
+              {fastingBefore}
+            </Text>
+          )}
+          {fastingAfter && (
+            <Text style={styles.textItem}>
+              <Text style={styles.textItemTitle}>Jejum depois (horas):</Text>{" "}
+              {fastingAfter}
+            </Text>
+          )}
           <Text style={styles.textItem}>
             <Text style={styles.textItemTitle}>Tratamento:</Text> {treatment}
           </Text>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 import Modal from "react-native-modal";
 import { Feather } from "@expo/vector-icons";
@@ -8,15 +8,21 @@ import { Button } from "../Button";
 
 const windowHeight = Dimensions.get("window").height;
 
-export const ModalCustom = ({ title, children }) => {
-  const [isModalVisible, setModalVisible] = useState(false);
+export const ModalCustom = ({
+  title,
+  loading,
+  children,
+  modalState,
+  ...otherProps
+}) => {
+  const { isModalVisible, setIsModalVisible } = modalState;
 
   return (
     <View style={styles.main}>
       <Button
         title={title}
         type="secondary"
-        onPress={() => setModalVisible(true)}
+        onPress={() => setIsModalVisible(true)}
       >
         <Feather name="plus" size={20} color={Colors.BLUE} />
       </Button>
@@ -33,12 +39,13 @@ export const ModalCustom = ({ title, children }) => {
             <Button
               title="Salvar"
               type="secondary"
-              onPress={() => setModalVisible(!isModalVisible)}
+              loading={loading}
+              {...otherProps}
             />
             <Button
               title="Cancelar"
               type="cancel"
-              onPress={() => setModalVisible(!isModalVisible)}
+              onPress={() => setIsModalVisible(!isModalVisible)}
             />
           </View>
         </View>

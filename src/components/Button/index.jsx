@@ -17,7 +17,10 @@ export const Button = ({ title, type, children, loading, ...otherProps }) => {
       {children}
       <Text style={[styles.text, textStyle]}>
         {loading ? (
-          <ActivityIndicator color={Colors.WHITE_200} style={styles.loading} />
+          <ActivityIndicator
+            color={type === "primary" ? Colors.WHITE_200 : Colors.BLUE}
+            style={styles.loading}
+          />
         ) : (
           title
         )}

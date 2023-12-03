@@ -27,9 +27,11 @@ const formSchema = yup
   .object()
   .shape({
     name: yup.string().required("O campo nome é obrigatório."),
-    dosage: yup.number().required("A dosagem diária máxima é obrigatória."),
-    fastingBefore: yup.number(),
-    fastingAfter: yup.number(),
+    maximumDailyDosage: yup
+      .string()
+      .required("A dosagem diária máxima é obrigatória."),
+    fastingBefore: yup.string(),
+    fastingAfter: yup.string(),
     treatment: yup.string().required("O campo tratamento é obrigatório."),
     sideEffects: yup
       .string()
@@ -38,8 +40,11 @@ const formSchema = yup
   .required();
 
 export const Drugs = ({ navigation }) => {
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [drugs, setDrugs] = useState([]);
+
   const {
     register,
     setValue,
@@ -51,34 +56,53 @@ export const Drugs = ({ navigation }) => {
 
   const onSubmit = async ({
     name,
-    dosage,
+    maximumDailyDosage,
     fastingBefore,
     fastingAfter,
     treatment,
     sideEffects,
   }) => {
     try {
-      console.log("TESTE");
-      // await addDrug(
-      //   name,
-      //   dosage,
-      //   fastingBefore,
-      //   fastingAfter,
-      //   treatment,
-      //   sideEffects
-      // )[
-      //   // Reset field values
-      //   ("name",
-      //   "dosage",
-      //   "fastingBefore",
-      //   "fastingAfter",
-      //   "treatment",
-      //   "sideEffects")
-      // ].forEach((field) => {
-      //   setValue(field, "");
-      // });
+      setLoadingSubmit(true);
+
+      const id = await addDrug({
+        name,
+        maximumDailyDosage,
+        fastingBefore,
+        fastingAfter,
+        treatment,
+        sideEffects,
+      });
+
+      setDrugs([
+        ...drugs,
+        {
+          id,
+          name,
+          maximumDailyDosage,
+          fastingBefore,
+          fastingAfter,
+          treatment,
+          sideEffects,
+        },
+      ]);
+      setIsModalVisible(false);
+
+      // Reset field values
+      [
+        "name",
+        "maximumDailyDosage",
+        "fastingBefore",
+        "fastingAfter",
+        "treatment",
+        "sideEffects",
+      ].forEach((field) => {
+        setValue(field, "");
+      });
     } catch (error) {
       Alert.alert(error.message);
+    } finally {
+      setLoadingSubmit(false);
     }
   };
 
@@ -123,29 +147,33 @@ export const Drugs = ({ navigation }) => {
       </View>
 
       {!loading && (
-        <ModalCustom title="Adicionar Remédio" onPress={handleSubmit(onSubmit)}>
+        <ModalCustom
+          title="Adicionar Remédio"
+          loading={loadingSubmit}
+          modalState={{ isModalVisible, setIsModalVisible }}
+          onPress={handleSubmit(onSubmit)}
+        >
           <TextField
             name="name"
             label="Nome"
-            placeholder="Glicazida"
+            placeholder="Gliclazida"
             error={errors?.name}
             onChangeText={(value) => setValue("name", value)}
             {...register("name")}
           />
           <TextField
-            name="dosage"
-            label="Dosagem diária Máxima"
-            placeholder="2"
-            keyboardType="numeric"
-            error={errors?.dosage}
-            onChangeText={(value) => setValue("dosage", value)}
-            {...register("dosage")}
+            name="maximumDailyDosage"
+            label="Dosagem diária máxima"
+            placeholder="30 mg"
+            error={errors?.maximumDailyDosage}
+            onChangeText={(value) => setValue("maximumDailyDosage", value)}
+            {...register("maximumDailyDosage")}
           />
           <TextField
             name="fastingBefore"
             label="Jejum antes (horas)"
             placeholder="1"
-            keyboardType="numeric"
+            inputMode="numeric"
             error={errors?.fastingBefore}
             onChangeText={(value) => setValue("fastingBefore", value)}
             {...register("fastingBefore")}
@@ -154,7 +182,7 @@ export const Drugs = ({ navigation }) => {
             name="fastingAfter"
             label="Jejum depois (horas)"
             placeholder="2"
-            keyboardType="numeric"
+            inputMode="numeric"
             error={errors?.fastingAfter}
             onChangeText={(value) => setValue("fastingAfter", value)}
             {...register("fastingAfter")}
@@ -163,7 +191,7 @@ export const Drugs = ({ navigation }) => {
             name="treatment"
             label="Tratamento"
             placeholder="Diabetes"
-            error={errors?.care}
+            error={errors?.treatment}
             onChangeText={(value) => setValue("treatment", value)}
             {...register("treatment")}
           />
@@ -182,7 +210,6 @@ export const Drugs = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  main: {},
   title: {
     color: Colors.BLACK,
     fontSize: 24,
