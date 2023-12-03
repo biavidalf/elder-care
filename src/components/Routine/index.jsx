@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { StyleSheet, View, Text, Dimensions, ScrollView } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 import { TaskContainer } from "../ItemList";
 import DayButton from "./DayButton";
@@ -8,6 +9,7 @@ import { useWeekDay } from "../../contexts/WeekDayContext";
 import { ModalCustom } from "../Modal";
 import { SelectField } from "../SelectField";
 import { TextField } from "../TextField";
+import { TimeField } from "../TimeField";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -15,23 +17,91 @@ export const Routine = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { weekDayContext, setWeekDayContext } = useWeekDay();
   const [selectedCategory, setSelectedCategory] = useState("geral");
+  const [selectedDrugs, setSelectedDrugs] = useState("");
+  const [date, setDate] = useState(new Date(1598051730000));
+  const [showTimepicker, setShowTimepicker] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShowTimepicker(false);
+    setDate(currentDate);
+  };
+
+  const showPicker = () => {
+    setShowTimepicker(true);
+  };
 
   const categories = [
     {
       label: "Geral",
       value: "geral",
+      inputs: (index) => {
+        return (
+          <View style={styles.mainGap} key={index}>
+            <TextField name="title" label="Título" placeholder="" />
+            <TextField name="observacoes" label="Observações" placeholder="" />
+          </View>
+        );
+      },
     },
     {
       label: "Medicamento",
       value: "medicamento",
+      inputs: (index) => {
+        return (
+          <View
+            style={[
+              styles.mainGap,
+              { gap: 20, flexDirection: "row", width: "100%" },
+            ]}
+            key={index}
+          >
+            <View style={{ flex: 1 }}>
+              <SelectField
+                selectedValue={selectedDrugs}
+                setSelectedValue={setSelectedDrugs}
+                values={["Dipirona", "Paracetamol"]}
+                label="Remédio"
+              />
+            </View>
+            <View>
+              <TextField name="quantidade" label="Quantidade" placeholder="0" />
+            </View>
+          </View>
+        );
+      },
     },
     {
       label: "Alimentação",
       value: "alimentacao",
+      inputs: (index) => {
+        return (
+          <View style={styles.mainGap} key={index}>
+            <TextField name="resumo" label="Resumo" placeholder="" />
+            <TextField
+              name="ingredientes"
+              label="Ingredientes"
+              placeholder=""
+            />
+          </View>
+        );
+      },
     },
     {
       label: "Atividade Física",
       value: "atividadeFisica",
+      inputs: (index) => {
+        return (
+          <View style={styles.mainGap} key={index}>
+            <TextField
+              name="atividade"
+              label="Tipo de atividade"
+              placeholder=""
+            />
+            <TextField name="local" label="Local" placeholder="" />
+          </View>
+        );
+      },
     },
   ];
 
@@ -146,21 +216,43 @@ export const Routine = () => {
           modalState={[isModalVisible, setIsModalVisible]}
         >
           <SelectField
-            selectedValue={selectedCategory}
-            setSelectedValue={setSelectedCategory}
+            selectedValueState={[selectedCategory, setSelectedCategory]}
             values={categories}
             label="Categoria"
             dialogTitle="Selecione a categoria"
           />
 
-          {selectedCategory === "medicamento" && (
-            <TextField
-              type="text"
-              name="medicamento"
-              label="Medicamento"
-              placeholder="Selecione o medicamento"
-            />
-          )}
+          <View style={{ gap: 20, flexDirection: "row", width: "100%" }}>
+            <View style={{ flex: 1 }}>
+              <SelectField
+                selectedValueState={[weekDayContext, setWeekDayContext]}
+                values={weekDays}
+                label="Dia da Semana"
+                dialogTitle="Selecione o dia da semana"
+              />
+            </View>
+
+            <View>
+              <TimeField
+                hour={date.getHours()}
+                minutes={date.getMinutes()}
+                showFuncion={showPicker}
+              />
+              {showTimepicker && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={date}
+                  mode="time"
+                  is24Hour={true}
+                  onChange={onChange}
+                />
+              )}
+            </View>
+          </View>
+
+          {categories
+            .filter((category) => category.value === selectedCategory)
+            .map((category, index) => category.inputs(index))}
         </ModalCustom>
       </View>
     </View>
@@ -195,5 +287,8 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 10,
     alignSelf: "center",
+  },
+  mainGap: {
+    gap: 20,
   },
 });
