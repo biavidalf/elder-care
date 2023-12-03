@@ -40,8 +40,8 @@ const formSchema = yup
   .required();
 
 export const Drugs = ({ navigation }) => {
-  const [loadingSubmit, setLoadingSubmit] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [drugs, setDrugs] = useState([]);
 
@@ -63,7 +63,7 @@ export const Drugs = ({ navigation }) => {
     sideEffects,
   }) => {
     try {
-      setLoadingSubmit(true);
+      setIsLoadingSubmit(true);
 
       const id = await addDrug({
         name,
@@ -102,7 +102,7 @@ export const Drugs = ({ navigation }) => {
     } catch (error) {
       Alert.alert(error.message);
     } finally {
-      setLoadingSubmit(false);
+      setIsLoadingSubmit(false);
     }
   };
 
@@ -113,7 +113,7 @@ export const Drugs = ({ navigation }) => {
       } catch (error) {
         Alert.alert(error.message);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -122,7 +122,7 @@ export const Drugs = ({ navigation }) => {
     <View style={screenMainStyle.main}>
       <View>
         <Text style={textStyles.title}>Medicamentos</Text>
-        {loading ? (
+        {isLoading ? (
           <ActivityIndicator color={Colors.BLUE} style={styles.loading} />
         ) : (
           <>
@@ -142,10 +142,10 @@ export const Drugs = ({ navigation }) => {
         )}
       </View>
 
-      {!loading && (
+      {!isLoading && (
         <ModalCustom
           title="Adicionar Remédio"
-          loading={loadingSubmit}
+          isLoading={isLoadingSubmit}
           modalState={[isModalVisible, setIsModalVisible]}
           onPress={handleSubmit(onSubmit)}
         >

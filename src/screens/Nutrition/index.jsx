@@ -14,37 +14,21 @@ import { ModalCustom } from "../../components/Modal";
 import { Title } from "../../components/Title";
 import { TextField } from "../../components/TextField";
 
-import { textStyles } from "../../assets/styles/textStyles";
 import { Colors } from "../../utils/Colors";
+import { textStyles } from "../../assets/styles/textStyles";
+import { getMeals } from "../../utils/firebase/database/meal";
 import { getRestrictions } from "../../utils/firebase/database/restriction";
 
 const windowHeight = Dimensions.get("window").height;
 
 export const Nutrition = ({ navigation }) => {
   const [restrictions, setRestrictions] = useState([]);
-  const [restrictionsLoading, setRestrictionsLoading] = useState(true);
+  const [meals, setMeals] = useState([]);
+  const [areRestrictionsLoading, setAreRestrictionsLoading] = useState(true);
+  const [areMealsLoading, setAreMealsLoading] = useState(true);
   const [isRestrictionModalVisible, setIsRestrictionModalVisible] =
     useState(false);
   const [isMealModalVisible, setIsMealModalVisible] = useState(false);
-
-  const meals = [
-    {
-      id: "0",
-      label: "Feijão preto com frango",
-    },
-    {
-      id: "1",
-      label: "Salada de repolho",
-    },
-    {
-      id: "2",
-      label: "Canja de frango",
-    },
-    {
-      id: "3",
-      label: "Feijão verde com purê",
-    },
-  ];
 
   useEffect(() => {
     (async () => {
@@ -53,7 +37,17 @@ export const Nutrition = ({ navigation }) => {
       } catch (error) {
         Alert.alert(error.message);
       } finally {
-        setRestrictionsLoading(false);
+        setAreRestrictionsLoading(false);
+      }
+    })();
+
+    (async () => {
+      try {
+        setMeals(await getMeals());
+      } catch (error) {
+        Alert.alert(error.message);
+      } finally {
+        setAreMealsLoading(false);
       }
     })();
   }, []);
@@ -66,7 +60,7 @@ export const Nutrition = ({ navigation }) => {
         <View>
           <Text style={textStyles.subTitle}>Restrições alimentares</Text>
 
-          {restrictionsLoading ? (
+          {areRestrictionsLoading ? (
             <ActivityIndicator color={Colors.BLUE} />
           ) : (
             <>
@@ -112,37 +106,44 @@ export const Nutrition = ({ navigation }) => {
 
         <View>
           <Text style={textStyles.subTitle}>Refeições recomendadas</Text>
-          <View style={styles.list}>
-            <ScrollView>
-              {meals.map((meal) => {
-                return <TaskContainer data={meal} key={meal.id} />;
-              })}
-            </ScrollView>
-          </View>
 
-          <ModalCustom
-            title="Adicionar Refeição"
-            modalState={[isMealModalVisible, setIsMealModalVisible]}
-          >
-            <TextField
-              type="text"
-              name="name"
-              label="Nome"
-              placeholder="Canja de frango"
-            />
-            <TextField
-              type="text"
-              name="ingredients"
-              label="Ingredientes"
-              placeholder="Frango, pimentão, arroz"
-            />
-            <TextField
-              type="text"
-              name="calories"
-              label="Calorias"
-              placeholder="350cal"
-            />
-          </ModalCustom>
+          {areMealsLoading ? (
+            <ActivityIndicator color={Colors.BLUE} />
+          ) : (
+            <>
+              <View style={styles.list}>
+                <ScrollView>
+                  {meals.map((meal) => {
+                    return <TaskContainer data={meal} key={meal.id} />;
+                  })}
+                </ScrollView>
+              </View>
+
+              <ModalCustom
+                title="Adicionar Refeição"
+                modalState={[isMealModalVisible, setIsMealModalVisible]}
+              >
+                <TextField
+                  type="text"
+                  name="name"
+                  label="Nome"
+                  placeholder="Canja de frango"
+                />
+                <TextField
+                  type="text"
+                  name="ingredients"
+                  label="Ingredientes"
+                  placeholder="Frango, pimentão, arroz"
+                />
+                <TextField
+                  type="text"
+                  name="calories"
+                  label="Calorias"
+                  placeholder="350cal"
+                />
+              </ModalCustom>
+            </>
+          )}
         </View>
       </ScrollView>
     </View>

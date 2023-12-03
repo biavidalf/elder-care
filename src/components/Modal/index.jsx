@@ -12,7 +12,7 @@ export const ModalCustom = ({
   title,
   children,
   modalState,
-  loading = false,
+  isLoading = false,
   ...otherProps
 }) => {
   const [isModalVisible, setIsModalVisible] = modalState;
@@ -39,7 +39,7 @@ export const ModalCustom = ({
             <Button
               title="Salvar"
               type="secondary"
-              loading={loading}
+              isLoading={isLoading}
               {...otherProps}
             />
             <Button

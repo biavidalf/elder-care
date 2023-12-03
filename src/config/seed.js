@@ -1,5 +1,6 @@
 import { addDrug } from "../utils/firebase/database/drug";
 import { addRestriction } from "../utils/firebase/database/restriction";
+import { addMeal } from "../utils/firebase/database/meal";
 // import { addPrecaution } from "../utils/firebase/database/drug";
 
 const drugs = [
@@ -78,22 +79,17 @@ const drugs = [
 ];
 
 const restrictions = [
-  {
-    label: "Intolerância à lactose",
-    color: "RED",
-  },
-  {
-    label: "Alergia à amendoim",
-    color: "LIGHT_GREEN",
-  },
-  {
-    label: "Alergia à frutos do mar",
-    color: "YELLOW",
-  },
-  {
-    label: "Alergia à glúten",
-    color: "RED",
-  },
+  { label: "Intolerância à lactose", color: "RED" },
+  { label: "Alergia à amendoim", color: "LIGHT_GREEN" },
+  { label: "Alergia à frutos do mar", color: "YELLOW" },
+  { label: "Alergia à glúten", color: "RED" },
+];
+
+const meals = [
+  { label: "Feijão preto com frango" },
+  { label: "Salada de repolho" },
+  { label: "Canja de frango" },
+  { label: "Feijão verde com purê" },
 ];
 
 // const precautions = [
@@ -112,6 +108,7 @@ const restrictions = [
   restrictions.forEach(
     async (restriction) => await addRestriction(restriction)
   );
+  meals.forEach(async (meal) => await addMeal(meal));
   // precautions.forEach(async ({ title, description }) => {
   //   await addDrug(title, description);
   // });

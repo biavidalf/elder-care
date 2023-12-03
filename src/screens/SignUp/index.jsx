@@ -37,11 +37,11 @@ export const SignUp = ({ navigation }) => {
   } = useForm({
     resolver: yupResolver(formSchema),
   });
-  const [loadingSubmit, setLoadingSubmit] = useState(false);
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
 
   const onSubmit = async ({ firstName, lastName, email, password }) => {
     try {
-      setLoadingSubmit(true);
+      setIsLoadingSubmit(true);
 
       await createUser(firstName, lastName, email, password);
 
@@ -54,7 +54,7 @@ export const SignUp = ({ navigation }) => {
     } catch (error) {
       Alert.alert(error.message);
     } finally {
-      setLoadingSubmit(false);
+      setIsLoadingSubmit(false);
     }
   };
 
@@ -110,7 +110,7 @@ export const SignUp = ({ navigation }) => {
       <Button
         title="Criar"
         type="primary"
-        loading={loadingSubmit}
+        isLoading={isLoadingSubmit}
         onPress={handleSubmit(onSubmit)}
       />
     </View>

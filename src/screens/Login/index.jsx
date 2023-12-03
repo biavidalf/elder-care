@@ -32,11 +32,11 @@ export const Login = ({ navigation }) => {
   } = useForm({
     resolver: yupResolver(formSchema),
   });
-  const [loadingSubmit, setLoadingSubmit] = useState(false);
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
 
   const onSubmit = async ({ email, password }) => {
     try {
-      setLoadingSubmit(true);
+      setIsLoadingSubmit(true);
 
       await authenticateUser(email, password);
 
@@ -47,7 +47,7 @@ export const Login = ({ navigation }) => {
     } catch (error) {
       Alert.alert(error.message);
     } finally {
-      setLoadingSubmit(false);
+      setIsLoadingSubmit(false);
     }
   };
 
@@ -81,7 +81,7 @@ export const Login = ({ navigation }) => {
       <Button
         title="Login"
         type="primary"
-        loading={loadingSubmit}
+        isLoading={isLoadingSubmit}
         onPress={handleSubmit(onSubmit)}
       />
     </View>

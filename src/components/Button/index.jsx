@@ -3,20 +3,20 @@ import { StyleSheet, Text, ActivityIndicator } from "react-native";
 import { Colors } from "../../utils/Colors";
 import { Pressable } from "../../components/Pressable";
 
-export const Button = ({ title, type, children, loading, ...otherProps }) => {
+export const Button = ({ title, type, children, isLoading, ...otherProps }) => {
   const containerStyle = styles[type];
   const textStyle = styles[`${type}Text`];
 
   return (
     <Pressable
       activeOpacity={0.7}
-      disabled={loading}
+      disabled={isLoading}
       style={[styles.button, containerStyle]}
       {...otherProps}
     >
       {children}
       <Text style={[styles.text, textStyle]}>
-        {loading ? (
+        {isLoading ? (
           <ActivityIndicator
             color={type === "primary" ? Colors.WHITE_200 : Colors.BLUE}
             style={styles.loading}
