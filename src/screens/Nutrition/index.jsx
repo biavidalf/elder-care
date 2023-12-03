@@ -8,6 +8,9 @@ import {
   Text,
   View,
 } from "react-native";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 import { TaskContainer } from "../../components/ItemList";
 import { ModalCustom } from "../../components/Modal";
@@ -17,18 +20,74 @@ import { TextField } from "../../components/TextField";
 import { Colors } from "../../utils/Colors";
 import { textStyles } from "../../assets/styles/textStyles";
 import { getMeals } from "../../utils/firebase/database/meal";
-import { getRestrictions } from "../../utils/firebase/database/restriction";
+import {
+  addRestriction,
+  getRestrictions,
+} from "../../utils/firebase/database/restriction";
+import { getRestrictionLevels } from "../../utils/firebase/database/restrictionLevel";
+import { SelectField } from "../../components/SelectField";
 
 const windowHeight = Dimensions.get("window").height;
 
+const restrictionFormSchema = yup
+  .object()
+  .shape({
+    label: yup.string().required("O campo nome é obrigatório."),
+    suggestion: yup.string().required("O campo recomendação é obrigatório."),
+  })
+  .required();
+
 export const Nutrition = ({ navigation }) => {
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(restrictionFormSchema) });
+
   const [restrictions, setRestrictions] = useState([]);
   const [meals, setMeals] = useState([]);
+  const [restrictionLevels, setRestrictionLevels] = useState([]);
+  const [selectedLevel, setSelectedLevel] = useState();
+
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
   const [areRestrictionsLoading, setAreRestrictionsLoading] = useState(true);
   const [areMealsLoading, setAreMealsLoading] = useState(true);
+
   const [isRestrictionModalVisible, setIsRestrictionModalVisible] =
     useState(false);
   const [isMealModalVisible, setIsMealModalVisible] = useState(false);
+
+  const onSubmit = async ({ label, suggestion }) => {
+    try {
+      setIsLoadingSubmit(true);
+
+      const id = await addRestriction({
+        label,
+        color: selectedLevel,
+        suggestion,
+      });
+
+      setRestrictions([
+        ...restrictions,
+        {
+          id,
+          label,
+          color: selectedLevel,
+          suggestion,
+        },
+      ]);
+
+      setIsRestrictionModalVisible(false);
+
+      // Reset field values
+      ["label", "suggestion"].forEach((field) => setValue(field, ""));
+    } catch (error) {
+      Alert.alert(error.message);
+    } finally {
+      setIsLoadingSubmit(false);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -39,15 +98,19 @@ export const Nutrition = ({ navigation }) => {
       } finally {
         setAreRestrictionsLoading(false);
       }
-    })();
 
-    (async () => {
       try {
         setMeals(await getMeals());
       } catch (error) {
         Alert.alert(error.message);
       } finally {
         setAreMealsLoading(false);
+      }
+
+      try {
+        setRestrictionLevels(await getRestrictionLevels());
+      } catch (error) {
+        Alert.alert(error.message);
       }
     })();
   }, []);
@@ -64,40 +127,54 @@ export const Nutrition = ({ navigation }) => {
             <ActivityIndicator color={Colors.BLUE} />
           ) : (
             <>
-              <View style={styles.list}>
-                <ScrollView>
-                  {restrictions.map((restriction) => {
-                    return (
-                      <TaskContainer data={restriction} key={restriction.id} />
-                    );
-                  })}
-                </ScrollView>
-              </View>
+              {restrictions.length ? (
+                <View style={styles.list}>
+                  <ScrollView>
+                    {restrictions.map((restriction) => {
+                      return (
+                        <TaskContainer
+                          data={restriction}
+                          key={restriction.id}
+                        />
+                      );
+                    })}
+                  </ScrollView>
+                </View>
+              ) : (
+                <Text style={styles.text}>Nenhuma restrição cadastrada.</Text>
+              )}
 
               <ModalCustom
                 title="Adicionar Restrição"
+                isLoading={isLoadingSubmit}
                 modalState={[
                   isRestrictionModalVisible,
                   setIsRestrictionModalVisible,
                 ]}
+                onPress={handleSubmit(onSubmit)}
               >
                 <TextField
                   type="text"
-                  name="name"
+                  name="label"
                   label="Nome"
                   placeholder="Alergia à amendoim"
+                  error={errors?.label}
+                  onChangeText={(value) => setValue("label", value)}
+                  {...register("label")}
                 />
-                <TextField
-                  type="text"
-                  name="level"
-                  label="Nível"
-                  placeholder="Grave"
+                <SelectField
+                  label={"Nível"}
+                  values={restrictionLevels}
+                  selectedValueState={[selectedLevel, setSelectedLevel]}
                 />
                 <TextField
                   type="text"
                   name="suggestion"
                   label="Recomendação"
                   placeholder="Encaminhar para o hospital"
+                  error={errors?.suggestion}
+                  onChangeText={(value) => setValue("suggestion", value)}
+                  {...register("suggestion")}
                 />
               </ModalCustom>
             </>
@@ -111,13 +188,17 @@ export const Nutrition = ({ navigation }) => {
             <ActivityIndicator color={Colors.BLUE} />
           ) : (
             <>
-              <View style={styles.list}>
-                <ScrollView>
-                  {meals.map((meal) => {
-                    return <TaskContainer data={meal} key={meal.id} />;
-                  })}
-                </ScrollView>
-              </View>
+              {meals.length ? (
+                <View style={styles.list}>
+                  <ScrollView>
+                    {meals.map((meal) => {
+                      return <TaskContainer data={meal} key={meal.id} />;
+                    })}
+                  </ScrollView>
+                </View>
+              ) : (
+                <Text style={styles.text}>Nenhuma refeição cadastrada.</Text>
+              )}
 
               <ModalCustom
                 title="Adicionar Refeição"
@@ -161,5 +242,9 @@ const styles = StyleSheet.create({
   },
   list: {
     maxHeight: windowHeight / 2,
+  },
+  text: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 16,
   },
 });

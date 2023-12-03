@@ -50,9 +50,7 @@ export const Drugs = ({ navigation }) => {
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(formSchema),
-  });
+  } = useForm({ resolver: yupResolver(formSchema) });
 
   const onSubmit = async ({
     name,
@@ -129,7 +127,7 @@ export const Drugs = ({ navigation }) => {
             <Text style={textStyles.subTitle}>Sua lista de medicamentos</Text>
             <View style={styles.screen}>
               <ScrollView>
-                {drugs.length > 0 ? (
+                {drugs.length ? (
                   drugs.map((drug) => <Accordion key={drug.id} drug={drug} />)
                 ) : (
                   <Text style={styles.text}>

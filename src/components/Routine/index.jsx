@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { StyleSheet, View, Text, Dimensions, ScrollView } from "react-native";
 
 import { TaskContainer } from "../ItemList";
@@ -7,13 +8,14 @@ import { useWeekDay } from "../../contexts/WeekDayContext";
 import { ModalCustom } from "../Modal";
 import { SelectField } from "../SelectField";
 import { TextField } from "../TextField";
-import { useState } from "react";
 
 const windowHeight = Dimensions.get("window").height;
 
 export const Routine = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const { weekDayContext, setWeekDayContext } = useWeekDay();
   const [selectedCategory, setSelectedCategory] = useState("geral");
+
   const categories = [
     {
       label: "Geral",
@@ -139,7 +141,10 @@ export const Routine = () => {
         </ScrollView>
       </View>
       <View style={styles.button}>
-        <ModalCustom title="Adicionar Tarefa">
+        <ModalCustom
+          title="Adicionar Tarefa"
+          modalState={[isModalVisible, setIsModalVisible]}
+        >
           <SelectField
             selectedValue={selectedCategory}
             setSelectedValue={setSelectedCategory}
@@ -147,17 +152,15 @@ export const Routine = () => {
             label="Categoria"
             dialogTitle="Selecione a categoria"
           />
-          
-          {
-            selectedCategory === "medicamento" &&
+
+          {selectedCategory === "medicamento" && (
             <TextField
               type="text"
               name="medicamento"
               label="Medicamento"
               placeholder="Selecione o medicamento"
             />
-          }
-
+          )}
         </ModalCustom>
       </View>
     </View>

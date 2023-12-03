@@ -24,7 +24,7 @@ function MyTabs() {
   return (
     <WeekDayContextProvider>
       <Tab.Navigator>
-        <Tab.Screen
+        {/* <Tab.Screen
           name="Home"
           component={Home}
           options={{
@@ -54,7 +54,7 @@ function MyTabs() {
               );
             },
           }}
-        />
+        /> */}
 
         <Tab.Screen
           name="Nutrition"
@@ -95,10 +95,10 @@ function MyTabs() {
 function MyStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Tab" component={MyTabs} />
       <Stack.Screen name="Landing" component={Landing} />
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Tab" component={MyTabs} />
       <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
   );

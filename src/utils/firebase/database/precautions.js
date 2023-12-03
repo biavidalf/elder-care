@@ -1,5 +1,6 @@
 import { collection, addDoc } from "firebase/firestore";
 
+import { getDocuments } from ".";
 import { db } from "../../../config/firebase";
 
 const COLLECTION = "precautions";
@@ -14,12 +15,5 @@ export const addPrecautions = async (title, description) => {
 };
 
 export const getPrecautions = async () => {
-  const querySnapshot = await getDocs(collection(db, COLLECTION));
-  const documents = [];
-  querySnapshot.forEach((document) => {
-    documents.push(document.data());
-  });
-
-  return documents;
+  return getDocuments(COLLECTION);
 };
-

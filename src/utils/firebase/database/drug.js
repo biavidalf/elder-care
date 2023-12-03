@@ -1,5 +1,6 @@
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 
+import { getDocuments } from ".";
 import { db } from "../../../config/firebase";
 
 const COLLECTION = "drugs";
@@ -25,11 +26,5 @@ export const addDrug = async ({
 };
 
 export const getDrugs = async () => {
-  const querySnapshot = await getDocs(collection(db, COLLECTION));
-  const documents = [];
-  querySnapshot.forEach((document) => {
-    documents.push({ id: document.id, ...document.data() });
-  });
-
-  return documents;
+  return getDocuments(COLLECTION);
 };

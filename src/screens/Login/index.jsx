@@ -29,9 +29,7 @@ export const Login = ({ navigation }) => {
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(formSchema),
-  });
+  } = useForm({ resolver: yupResolver(formSchema) });
   const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
 
   const onSubmit = async ({ email, password }) => {

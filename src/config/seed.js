@@ -1,6 +1,7 @@
 import { addDrug } from "../utils/firebase/database/drug";
 import { addRestriction } from "../utils/firebase/database/restriction";
 import { addMeal } from "../utils/firebase/database/meal";
+import { addRestrictionLevel } from "../utils/firebase/database/restrictionLevel";
 // import { addPrecaution } from "../utils/firebase/database/drug";
 
 const drugs = [
@@ -79,10 +80,28 @@ const drugs = [
 ];
 
 const restrictions = [
-  { label: "Intolerância à lactose", color: "RED" },
-  { label: "Alergia à amendoim", color: "LIGHT_GREEN" },
-  { label: "Alergia à frutos do mar", color: "YELLOW" },
-  { label: "Alergia à glúten", color: "RED" },
+  {
+    label: "Intolerância à lactose",
+    color: "RED",
+    suggestion: "Vá ao médico.",
+  },
+  {
+    label: "Alergia à amendoim",
+    color: "LIGHT_GREEN",
+    suggestion: "Vá ao médico.",
+  },
+  {
+    label: "Alergia à frutos do mar",
+    color: "YELLOW",
+    suggestion: "Vá ao médico.",
+  },
+  { label: "Alergia à glúten", color: "RED", suggestion: "Vá ao médico." },
+];
+
+const restrictionLevels = [
+  { label: "Leve", value: "LIGHT_GREEN" },
+  { label: "Médio", value: "YELLOW" },
+  { label: "Grave", value: "RED" },
 ];
 
 const meals = [
@@ -107,6 +126,9 @@ const meals = [
   drugs.forEach(async (drug) => await addDrug(drug));
   restrictions.forEach(
     async (restriction) => await addRestriction(restriction)
+  );
+  restrictionLevels.forEach(
+    async (restrictionLevel) => await addRestrictionLevel(restrictionLevel)
   );
   meals.forEach(async (meal) => await addMeal(meal));
   // precautions.forEach(async ({ title, description }) => {
