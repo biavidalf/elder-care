@@ -7,34 +7,53 @@ import { Pressable } from "../../components/Pressable";
 
 import { shadowStyle } from "../../assets/styles/shadowStyle";
 
-export function Accordion({ title, data, key }) {
+export function Accordion({
+  drug: {
+    name,
+    maximumDailyDosage,
+    fastingBefore,
+    fastingAfter,
+    treatment,
+    sideEffects,
+  },
+}) {
   const [expanded, setExpanded] = useState(false);
 
-  function toggleItem() {
-    setExpanded(!expanded);
-  }
-
   return (
-    <View key={key} style={[styles.container, shadowStyle.lightShadow]}>
-      <Pressable activeOpacity={0.7} style={styles.button} onPress={toggleItem}>
-        <Text style={styles.title}>{title}</Text>
-        {expanded ? (
-          <Feather name="chevron-up" size={22} color={Colors.BLACK} />
-        ) : (
-          <Feather name="chevron-down" size={22} color={Colors.BLACK} />
-        )}
+    <View style={[styles.container, shadowStyle.lightShadow]}>
+      <Pressable
+        activeOpacity={0.7}
+        style={styles.button}
+        onPress={() => setExpanded(!expanded)}
+      >
+        <Text style={styles.title}>{name}</Text>
+        <Feather
+          name={expanded ? "chevron-up" : "chevron-down"}
+          size={22}
+          color={Colors.BLACK}
+        />
       </Pressable>
       {expanded && (
         <View style={styles.content}>
-          {Object.entries(data).map(([key, value]) => {
-            return (
-              !["id", "name"].includes(key) && (
-                <Text style={styles.textItem} key={key}>
-                  {value}
-                </Text>
-              )
-            );
-          })}
+          <Text style={styles.textItem}>
+            <Text style={styles.textItemTitle}>Dosagem diária máxima:</Text>{" "}
+            {maximumDailyDosage}
+          </Text>
+          <Text style={styles.textItem}>
+            <Text style={styles.textItemTitle}>Jejum antes (horas):</Text>{" "}
+            {fastingBefore}
+          </Text>
+          <Text style={styles.textItem}>
+            <Text style={styles.textItemTitle}>Jejum depois (horas):</Text>{" "}
+            {fastingAfter}
+          </Text>
+          <Text style={styles.textItem}>
+            <Text style={styles.textItemTitle}>Tratamento:</Text> {treatment}
+          </Text>
+          <Text style={styles.textItem}>
+            <Text style={styles.textItemTitle}>Efeitos colaterais:</Text>{" "}
+            {sideEffects}
+          </Text>
         </View>
       )}
     </View>
@@ -52,7 +71,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "Poppins-Medium",
-    fontSize: 13,
+    fontSize: 16,
     color: Colors.BLACK,
   },
   button: {
@@ -65,7 +84,11 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   textItem: {
-    fontSize: 13,
+    fontFamily: "Poppins-Regular",
+    fontSize: 14,
     color: Colors.BLACK,
+  },
+  textItemTitle: {
+    fontFamily: "Poppins-Medium",
   },
 });

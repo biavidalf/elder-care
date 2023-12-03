@@ -4,18 +4,20 @@ import { db } from "../../../config/firebase";
 
 const COLLECTION = "drugs";
 
-export const addDrug = async (
+export const addDrug = async ({
   name,
   maximumDailyDosage,
+  fastingBefore,
+  fastingAfter,
   treatment,
-  fastingPeriod,
-  sideEffects
-) => {
+  sideEffects,
+}) => {
   const docRef = await addDoc(collection(db, COLLECTION), {
     name,
     maximumDailyDosage,
+    fastingBefore,
+    fastingAfter,
     treatment,
-    fastingPeriod,
     sideEffects,
   });
 

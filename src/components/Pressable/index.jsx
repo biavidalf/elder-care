@@ -5,6 +5,7 @@ export const Pressable = ({
   children,
   style,
   activeOpacity,
+  disabled,
   ...otherProps
 }) => {
   const _style = useCallback(
@@ -13,7 +14,7 @@ export const Pressable = ({
   );
 
   return (
-    <RNPressable style={_style} {...otherProps}>
+    <RNPressable style={_style} disabled={disabled} {...otherProps}>
       {children}
     </RNPressable>
   );
