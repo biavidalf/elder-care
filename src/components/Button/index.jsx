@@ -1,20 +1,27 @@
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, ActivityIndicator } from "react-native";
 
 import { Colors } from "../../utils/Colors";
 import { Pressable } from "../../components/Pressable";
 
-export const Button = ({ title, type, children, ...otherProps }) => {
+export const Button = ({ title, type, children, loading, ...otherProps }) => {
   const containerStyle = styles[type];
   const textStyle = styles[`${type}Text`];
 
   return (
     <Pressable
       activeOpacity={0.7}
-      {...otherProps}
+      disabled={loading}
       style={[styles.button, containerStyle]}
+      {...otherProps}
     >
       {children}
-      <Text style={[styles.text, textStyle]}>{title}</Text>
+      <Text style={[styles.text, textStyle]}>
+        {loading ? (
+          <ActivityIndicator color={Colors.WHITE_200} style={styles.loading} />
+        ) : (
+          title
+        )}
+      </Text>
     </Pressable>
   );
 };
@@ -52,5 +59,8 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     fontFamily: "Poppins-Medium",
+  },
+  loading: {
+    display: "flex",
   },
 });

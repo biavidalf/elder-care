@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert, StyleSheet, View } from "react-native";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -36,19 +37,24 @@ export const SignUp = ({ navigation }) => {
   } = useForm({
     resolver: yupResolver(formSchema),
   });
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
 
   const onSubmit = async ({ firstName, lastName, email, password }) => {
     try {
+      setLoadingSubmit(true);
+
       await createUser(firstName, lastName, email, password);
 
       navigation.navigate("Tab");
 
       // Reset field values
-      ["firstName", "lastName", "email", "password"].forEach((field) => {
-        setValue(field, "");
-      });
+      ["firstName", "lastName", "email", "password"].forEach((field) =>
+        setValue(field, "")
+      );
     } catch (error) {
       Alert.alert(error.message);
+    } finally {
+      setLoadingSubmit(false);
     }
   };
 
@@ -101,7 +107,12 @@ export const SignUp = ({ navigation }) => {
         />
       </View>
 
-      <Button title="Criar" type="primary" onPress={handleSubmit(onSubmit)} />
+      <Button
+        title="Criar"
+        type="primary"
+        loading={loadingSubmit}
+        onPress={handleSubmit(onSubmit)}
+      />
     </View>
   );
 };

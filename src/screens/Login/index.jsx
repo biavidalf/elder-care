@@ -10,6 +10,7 @@ import { Button } from "../../components/Button";
 
 import { Colors } from "../../utils/Colors";
 import { authenticateUser } from "../../utils/firebase/auth";
+import { useState } from "react";
 
 const formSchema = yup
   .object()
@@ -31,19 +32,22 @@ export const Login = ({ navigation }) => {
   } = useForm({
     resolver: yupResolver(formSchema),
   });
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
 
   const onSubmit = async ({ email, password }) => {
     try {
+      setLoadingSubmit(true);
+
       await authenticateUser(email, password);
 
       navigation.navigate("Tab");
 
       // Reset field values
-      ["email", "password"].forEach((field) => {
-        setValue(field, "");
-      });
+      ["email", "password"].forEach((field) => setValue(field, ""));
     } catch (error) {
       Alert.alert(error.message);
+    } finally {
+      setLoadingSubmit(false);
     }
   };
 
@@ -74,7 +78,12 @@ export const Login = ({ navigation }) => {
           {...register("password")}
         />
       </View>
-      <Button title="Login" type="primary" onPress={handleSubmit(onSubmit)} />
+      <Button
+        title="Login"
+        type="primary"
+        loading={loadingSubmit}
+        onPress={handleSubmit(onSubmit)}
+      />
     </View>
   );
 };

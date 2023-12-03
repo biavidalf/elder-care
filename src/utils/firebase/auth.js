@@ -17,10 +17,12 @@ export const createUser = async (firstName, lastName, email, password) => {
     await addUser(firstName, lastName, email);
 
     return userCredential.user;
-  } catch ({ code }) {
-    if (code === "auth/email-already-in-use") {
+  } catch (error) {
+    if (error.code === "auth/email-already-in-use") {
       throw new Error("E-mail já cadastrado.");
     }
+
+    throw new Error(error);
   }
 };
 
@@ -33,9 +35,16 @@ export const authenticateUser = async (email, password) => {
     );
 
     return userCredential.user;
-  } catch ({ code }) {
-    if (code === "auth/invalid-login-credentials") {
-      throw new Error("Endereço de e-mail e/ou senha inválidos.");
+  } catch (error) {
+    switch (error.code) {
+      case "auth/invalid-login-credentials":
+        throw new Error("Endereço de e-mail e/ou senha inválidos.");
+      case "auth/too-many-requests":
+        throw new Error(
+          "Muitas tentivas consecutivas. Por favor tente novamente daqui alguns segundos."
+        );
     }
+
+    throw new Error(error);
   }
 };
