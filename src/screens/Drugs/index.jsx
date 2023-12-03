@@ -123,11 +123,7 @@ export const Drugs = ({ navigation }) => {
       <View>
         <Text style={textStyles.title}>Medicamentos</Text>
         {loading ? (
-          <ActivityIndicator
-            color={Colors.BLUE}
-            size="large"
-            style={styles.loading}
-          />
+          <ActivityIndicator color={Colors.BLUE} style={styles.loading} />
         ) : (
           <>
             <Text style={textStyles.subTitle}>Sua lista de medicamentos</Text>
@@ -150,7 +146,7 @@ export const Drugs = ({ navigation }) => {
         <ModalCustom
           title="Adicionar Remédio"
           loading={loadingSubmit}
-          modalState={{ isModalVisible, setIsModalVisible }}
+          modalState={[isModalVisible, setIsModalVisible]}
           onPress={handleSubmit(onSubmit)}
         >
           <TextField

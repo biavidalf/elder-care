@@ -10,12 +10,12 @@ const windowHeight = Dimensions.get("window").height;
 
 export const ModalCustom = ({
   title,
-  loading,
   children,
   modalState,
+  loading = false,
   ...otherProps
 }) => {
-  const { isModalVisible, setIsModalVisible } = modalState;
+  const [isModalVisible, setIsModalVisible] = modalState;
 
   return (
     <View style={styles.main}>

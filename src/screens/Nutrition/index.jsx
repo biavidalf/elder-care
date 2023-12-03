@@ -1,38 +1,31 @@
-import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Alert,
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
-import {TaskContainer} from "../../components/ItemList";
+import { TaskContainer } from "../../components/ItemList";
 import { ModalCustom } from "../../components/Modal";
 import { Title } from "../../components/Title";
 import { TextField } from "../../components/TextField";
+
+import { textStyles } from "../../assets/styles/textStyles";
 import { Colors } from "../../utils/Colors";
+import { getRestrictions } from "../../utils/firebase/database/restriction";
 
 const windowHeight = Dimensions.get("window").height;
 
-import { textStyles } from "../../assets/styles/textStyles";
-
 export const Nutrition = ({ navigation }) => {
-  const restrictions = [
-    {
-      id: "0",
-      label: "Intolerância à lactose",
-      color: "RED",
-    },
-    {
-      id: "1",
-      label: "Alergia à amendoim",
-      color: "LIGHT_GREEN",
-    },
-    {
-      id: "2",
-      label: "Alergia à frutos do mar",
-      color: "YELLOW",
-    },
-    {
-      id: "3",
-      label: "Alergia à glúten",
-      color: "RED",
-    },
-  ];
+  const [restrictions, setRestrictions] = useState([]);
+  const [restrictionsLoading, setRestrictionsLoading] = useState(true);
+  const [isRestrictionModalVisible, setIsRestrictionModalVisible] =
+    useState(false);
+  const [isMealModalVisible, setIsMealModalVisible] = useState(false);
 
   const meals = [
     {
@@ -53,42 +46,68 @@ export const Nutrition = ({ navigation }) => {
     },
   ];
 
+  useEffect(() => {
+    (async () => {
+      try {
+        setRestrictions(await getRestrictions());
+      } catch (error) {
+        Alert.alert(error.message);
+      } finally {
+        setRestrictionsLoading(false);
+      }
+    })();
+  }, []);
+
   return (
     <View style={styles.main}>
       <Title>Nutrição</Title>
-      
+
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View>
           <Text style={textStyles.subTitle}>Restrições alimentares</Text>
 
-          <View style={styles.list}>
-            <ScrollView>
-              {restrictions.map((restriction) => {
-                return <TaskContainer data={restriction} key={restriction.id} />;
-              })}
-            </ScrollView>
-          </View>
+          {restrictionsLoading ? (
+            <ActivityIndicator color={Colors.BLUE} />
+          ) : (
+            <>
+              <View style={styles.list}>
+                <ScrollView>
+                  {restrictions.map((restriction) => {
+                    return (
+                      <TaskContainer data={restriction} key={restriction.id} />
+                    );
+                  })}
+                </ScrollView>
+              </View>
 
-          <ModalCustom title="Adicionar Restrição">
-            <TextField
-              type="text"
-              name="name"
-              label="Nome"
-              placeholder="Alergia à amendoim"
-            />
-            <TextField
-              type="text"
-              name="level"
-              label="Nível"
-              placeholder="Grave"
-            />
-            <TextField
-              type="text"
-              name="suggestion"
-              label="Recomendação"
-              placeholder="Encaminhar para o hospital"
-            />
-          </ModalCustom>
+              <ModalCustom
+                title="Adicionar Restrição"
+                modalState={[
+                  isRestrictionModalVisible,
+                  setIsRestrictionModalVisible,
+                ]}
+              >
+                <TextField
+                  type="text"
+                  name="name"
+                  label="Nome"
+                  placeholder="Alergia à amendoim"
+                />
+                <TextField
+                  type="text"
+                  name="level"
+                  label="Nível"
+                  placeholder="Grave"
+                />
+                <TextField
+                  type="text"
+                  name="suggestion"
+                  label="Recomendação"
+                  placeholder="Encaminhar para o hospital"
+                />
+              </ModalCustom>
+            </>
+          )}
         </View>
 
         <View>
@@ -101,7 +120,10 @@ export const Nutrition = ({ navigation }) => {
             </ScrollView>
           </View>
 
-          <ModalCustom title="Adicionar Refeição">
+          <ModalCustom
+            title="Adicionar Refeição"
+            modalState={[isMealModalVisible, setIsMealModalVisible]}
+          >
             <TextField
               type="text"
               name="name"
