@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, View, Text, ScrollView, Alert } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -19,7 +26,10 @@ import {
   addGeneralTask,
   addNutritionTask,
   addPhysicalActivityTask,
+  getTasks,
 } from "../../utils/firebase/database/task";
+import { Colors } from "../../utils/Colors";
+import { Timestamp } from "firebase/firestore";
 
 const formGeneralSchema = yup
   .object()
@@ -93,16 +103,27 @@ export const Routine = () => {
   const { weekDayContext, setWeekDayContext } = useWeekDay();
 
   const [weekDay, setWeekDay] = useState(weekDayContext);
+  const [tasks, setTasks] = useState([]);
   const [drugs, setDrugs] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedDrug, setSelectedDrug] = useState("");
-  const [showTimepicker, setShowTimepicker] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("geral");
-
   const [date, setDate] = useState(new Date(1598051730000));
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [showTimepicker, setShowTimepicker] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
 
   useEffect(() => {
     (async () => {
+      try {
+        setTasks(await getTasks());
+      } catch (error) {
+        Alert.alert(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+
       try {
         setDrugs(await getDrugs());
       } catch (error) {
@@ -123,6 +144,8 @@ export const Routine = () => {
 
   const onSubmitGeneral = async ({ title, comments }) => {
     try {
+      setIsLoadingSubmit(true);
+
       const id = await addGeneralTask({
         category: selectedCategory,
         color: categoryColors[selectedCategory],
@@ -132,15 +155,31 @@ export const Routine = () => {
         comments,
       });
 
+      setTasks([
+        ...tasks,
+        {
+          id,
+          category: selectedCategory,
+          color: categoryColors[selectedCategory],
+          day: weekDay,
+          time: Timestamp.fromDate(date),
+          label: title,
+          comments,
+        },
+      ]);
       setIsModalVisible(false);
       ["title", "comments"].forEach((field) => setValueGeneral(field, ""));
     } catch (error) {
       Alert.alert(error.message);
+    } finally {
+      setIsLoadingSubmit(false);
     }
   };
 
   const onSubmitDrug = async ({ quantity }) => {
     try {
+      setIsLoadingSubmit(true);
+
       const id = await addDrugTask({
         category: selectedCategory,
         color: categoryColors[selectedCategory],
@@ -150,15 +189,31 @@ export const Routine = () => {
         quantity,
       });
 
+      setTasks([
+        ...tasks,
+        {
+          id,
+          category: selectedCategory,
+          color: categoryColors[selectedCategory],
+          day: weekDay,
+          time: Timestamp.fromDate(date),
+          label: selectedDrug,
+          quantity,
+        },
+      ]);
       setIsModalVisible(false);
       ["quantity"].forEach((field) => setValueDrug(field, ""));
     } catch (error) {
       Alert.alert(error.message);
+    } finally {
+      setIsLoadingSubmit(false);
     }
   };
 
   const onSubmitNutrition = async ({ resume, ingredients }) => {
     try {
+      setIsLoadingSubmit(true);
+
       const id = await addNutritionTask({
         category: selectedCategory,
         color: categoryColors[selectedCategory],
@@ -168,15 +223,31 @@ export const Routine = () => {
         ingredients,
       });
 
+      setTasks([
+        ...tasks,
+        {
+          id,
+          category: selectedCategory,
+          color: categoryColors[selectedCategory],
+          day: weekDay,
+          time: Timestamp.fromDate(date),
+          label: resume,
+          ingredients,
+        },
+      ]);
       setIsModalVisible(false);
       ["resume", "ingredients"].forEach((field) => setValueDrug(field, ""));
     } catch (error) {
       Alert.alert(error.message);
+    } finally {
+      setIsLoadingSubmit(false);
     }
   };
 
   const onSubmitPhysicalActivity = async ({ activityType, location }) => {
     try {
+      setIsLoadingSubmit(true);
+
       const id = await addPhysicalActivityTask({
         category: selectedCategory,
         color: categoryColors[selectedCategory],
@@ -186,10 +257,24 @@ export const Routine = () => {
         location,
       });
 
+      setTasks([
+        ...tasks,
+        {
+          id,
+          category: selectedCategory,
+          color: categoryColors[selectedCategory],
+          day: weekDay,
+          time: Timestamp.fromDate(date),
+          label: activityType,
+          location,
+        },
+      ]);
       setIsModalVisible(false);
       ["acivityType", "location"].forEach((field) => setValueDrug(field, ""));
     } catch (error) {
       Alert.alert(error.message);
+    } finally {
+      setIsLoadingSubmit(false);
     }
   };
 
@@ -333,72 +418,6 @@ export const Routine = () => {
     "Domingo",
   ];
 
-  const tasks = [
-    {
-      id: 0,
-      hour: "7:20",
-      label: "Acordar",
-      color: "GRAY",
-      day: "Segunda-Feira",
-    },
-    {
-      id: 1,
-      hour: "7:30",
-      label: "Remédio 1",
-      color: "LIGHT_GREEN",
-      day: "Segunda-Feira",
-    },
-    {
-      id: 2,
-      hour: "7:40",
-      label: "Café da manhã terça",
-      color: "YELLOW",
-      day: "Terça-Feira",
-    },
-    {
-      id: 3,
-      hour: "7:40",
-      label: "Café da manhã quarta",
-      color: "YELLOW",
-      day: "Quarta-Feira",
-    },
-    {
-      id: 4,
-      hour: "7:40",
-      label: "Café da manhã quarta",
-      color: "YELLOW",
-      day: "Quarta-Feira",
-    },
-    {
-      id: 5,
-      hour: "7:40",
-      label: "Café da manhã quinta",
-      color: "YELLOW",
-      day: "Quinta-Feira",
-    },
-    {
-      id: 6,
-      hour: "7:40",
-      label: "Café da manhã sexta",
-      color: "YELLOW",
-      day: "Sexta-Feira",
-    },
-    {
-      id: 7,
-      hour: "7:40",
-      label: "Acordar sab",
-      color: "YELLOW",
-      day: "Sábado",
-    },
-    {
-      id: 8,
-      hour: "7:40",
-      label: "Acordar dom",
-      color: "YELLOW",
-      day: "Domingo",
-    },
-  ];
-
   return (
     <View style={styles.routine}>
       <Text style={styles.routineTitle}>Rotina diária</Text>
@@ -422,59 +441,68 @@ export const Routine = () => {
       <Text style={[styles.routineDayTitle]}>{weekDayContext}</Text>
 
       <View style={styles.screen}>
-        <ScrollView>
-          {tasks
-            .filter((task) => task.day === weekDayContext)
-            .map((task, index) => {
-              return <TaskContainer key={index} data={task} />;
-            })}
-        </ScrollView>
+        {isLoading ? (
+          <ActivityIndicator color={Colors.BLUE} />
+        ) : tasks.filter((task) => task.day === weekDayContext).length ? (
+          <ScrollView>
+            {tasks
+              .filter((task) => task.day === weekDayContext)
+              .map((task, index) => {
+                return <TaskContainer key={index} data={task} />;
+              })}
+          </ScrollView>
+        ) : (
+          <Text style={styles.text}>Nenhuma tarefa cadastrada.</Text>
+        )}
       </View>
 
-      <ModalCustom
-        title="Adicionar Tarefa"
-        modalState={[isModalVisible, setIsModalVisible]}
-        onPress={categoryHandleSubmit[selectedCategory]}
-      >
-        <SelectField
-          selectedValueState={[selectedCategory, setSelectedCategory]}
-          values={categories}
-          label="Categoria"
-          dialogTitle="Selecione a categoria"
-        />
+      {!isLoading && (
+        <ModalCustom
+          title="Adicionar Tarefa"
+          isLoading={isLoadingSubmit}
+          modalState={[isModalVisible, setIsModalVisible]}
+          onPress={categoryHandleSubmit[selectedCategory]}
+        >
+          <SelectField
+            selectedValueState={[selectedCategory, setSelectedCategory]}
+            values={categories}
+            label="Categoria"
+            dialogTitle="Selecione a categoria"
+          />
 
-        <View style={{ gap: 20, flexDirection: "row", width: "100%" }}>
-          <View style={{ flex: 1 }}>
-            <SelectField
-              selectedValueState={[weekDay, setWeekDay]}
-              values={weekDays}
-              label="Dia da Semana"
-              dialogTitle="Selecione o dia da semana"
-            />
-          </View>
-
-          <View>
-            <TimeField
-              hour={date.getHours()}
-              minutes={date.getMinutes()}
-              showFuncion={showPicker}
-            />
-            {showTimepicker && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date}
-                mode="time"
-                is24Hour={true}
-                onChange={onChange}
+          <View style={{ gap: 20, flexDirection: "row", width: "100%" }}>
+            <View style={{ flex: 1 }}>
+              <SelectField
+                selectedValueState={[weekDay, setWeekDay]}
+                values={weekDays}
+                label="Dia da Semana"
+                dialogTitle="Selecione o dia da semana"
               />
-            )}
-          </View>
-        </View>
+            </View>
 
-        {categories
-          .filter((category) => category.value === selectedCategory)
-          .map((category, index) => category.inputs(index))}
-      </ModalCustom>
+            <View>
+              <TimeField
+                hour={date.getHours()}
+                minutes={date.getMinutes()}
+                showFuncion={showPicker}
+              />
+              {showTimepicker && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={date}
+                  mode="time"
+                  is24Hour={true}
+                  onChange={onChange}
+                />
+              )}
+            </View>
+          </View>
+
+          {categories
+            .filter((category) => category.value === selectedCategory)
+            .map((category, index) => category.inputs(index))}
+        </ModalCustom>
+      )}
     </View>
   );
 };
@@ -510,5 +538,9 @@ const styles = StyleSheet.create({
   },
   mainGap: {
     gap: 20,
+  },
+  text: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 16,
   },
 });

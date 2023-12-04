@@ -1,8 +1,68 @@
+import { addTask } from "../utils/firebase/database/task";
 import { addDrug } from "../utils/firebase/database/drug";
 import { addRestriction } from "../utils/firebase/database/restriction";
 import { addMeal } from "../utils/firebase/database/meal";
 import { addRestrictionLevel } from "../utils/firebase/database/restrictionLevel";
 import { addPrecaution } from "../utils/firebase/database/precautions";
+
+const tasks = [
+  {
+    category: "geral",
+    color: "GRAY",
+    day: "Segunda-Feira",
+    time: new Date(1598051730000),
+    label: "Acordar",
+  },
+  {
+    category: "medicamento",
+    color: "LIGHT_GREEN",
+    day: "Segunda-Feira",
+    time: new Date(1598051730000),
+    label: "Remédio 1",
+  },
+  {
+    category: "alimentacao",
+    color: "YELLOW",
+    day: "Terça-Feira",
+    time: new Date(1598051730000),
+    label: "Café da manhã terça",
+  },
+  {
+    category: "alimentacao",
+    color: "YELLOW",
+    day: "Quarta-Feira",
+    time: new Date(1598051730000),
+    label: "Café da manhã quarta",
+  },
+  {
+    category: "alimentacao",
+    color: "YELLOW",
+    day: "Quinta-Feira",
+    time: new Date(1598051730000),
+    label: "Café da manhã quinta",
+  },
+  {
+    category: "alimentacao",
+    color: "YELLOW",
+    day: "Sexta-Feira",
+    time: new Date(1598051730000),
+    label: "Café da manhã sexta",
+  },
+  {
+    category: "geral",
+    color: "YELLOW",
+    day: "Sábado",
+    time: new Date(1598051730000),
+    label: "Acordar",
+  },
+  {
+    category: "atividadeFisica",
+    color: "YELLOW",
+    day: "Domingo",
+    time: new Date(1598051730000),
+    label: "Malhar",
+  },
+];
 
 const drugs = [
   {
@@ -136,6 +196,7 @@ const precautions = [
 ];
 
 (async () => {
+  tasks.forEach(async (task) => await addTask(task));
   drugs.forEach(async (drug) => await addDrug(drug));
   restrictions.forEach(
     async (restriction) => await addRestriction(restriction)

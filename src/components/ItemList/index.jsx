@@ -18,7 +18,15 @@ export const TaskContainer = ({ data }) => {
         },
       ]}
     >
-      {data.hour && <Text style={styles.hourText}>{data.hour}</Text>}
+      {data.time && (
+        <Text style={styles.hourText}>
+          {data.time.toDate().toLocaleTimeString("en-US", {
+            hour12: false,
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </Text>
+      )}
       <Text style={styles.labelText}>{data.label}</Text>
       <Pressable activeOpacity={0.7} style={styles.iconContainer}>
         <Feather name="more-horizontal" size={20} color={Colors.GRAY} />

@@ -5,7 +5,14 @@ import { db } from "../../../config/firebase";
 
 const COLLECTION = "tasks";
 
-const addTask = async ({ category, color, day, time, label, ...rest }) => {
+export const addTask = async ({
+  category,
+  color,
+  day,
+  time,
+  label,
+  ...rest
+}) => {
   const docRef = await addDoc(collection(db, COLLECTION), {
     category,
     color,
