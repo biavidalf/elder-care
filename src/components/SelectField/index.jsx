@@ -13,7 +13,9 @@ export function SelectField({
 
   useEffect(() => {
     if (!selectedValue && values.length) {
-      setSelectedValue(values[0].value);
+      setSelectedValue(
+        values[0] instanceof Object ? values[0].value : values[0]
+      );
     }
   }, []);
 
@@ -26,7 +28,7 @@ export function SelectField({
           prompt={dialogTitle}
           style={styles.input}
           selectedValue={selectedValue}
-          onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+          onValueChange={(itemValue) => setSelectedValue(itemValue)}
         >
           {values.map((value, index) => {
             return (

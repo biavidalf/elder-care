@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
-  Dimensions,
   ScrollView,
   StyleSheet,
   Text,
@@ -20,8 +19,6 @@ import { Colors } from "../../utils/Colors";
 import { textStyles } from "../../assets/styles/textStyles";
 import { screenMainStyle } from "../../assets/styles/screenMainStyle";
 import { addDrug, getDrugs } from "../../utils/firebase/database/drug";
-
-const windowHeight = Dimensions.get("window").height;
 
 const formSchema = yup
   .object()

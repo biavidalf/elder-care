@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
-  Dimensions,
   ScrollView,
   StyleSheet,
   Text,
@@ -27,8 +26,6 @@ import {
   getRestrictions,
 } from "../../utils/firebase/database/restriction";
 import { getRestrictionLevels } from "../../utils/firebase/database/restrictionLevel";
-
-const windowHeight = Dimensions.get("window").height;
 
 const restrictionFormSchema = yup
   .object()

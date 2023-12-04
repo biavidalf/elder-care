@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  Dimensions,
   ScrollView,
   StyleSheet,
   Text,
@@ -19,8 +18,6 @@ import {
   addPrecaution,
   getPrecautions,
 } from "../../utils/firebase/database/precautions";
-
-const windowHeight = Dimensions.get("window").height;
 
 import { screenMainStyle } from "../../assets/styles/screenMainStyle";
 import { textStyles } from "../../assets/styles/textStyles";
