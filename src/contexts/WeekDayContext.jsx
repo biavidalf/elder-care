@@ -1,9 +1,12 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext } from "react";
+import { WeekDays } from "../utils/WeekDays";
 
 export const WeekDayContext = createContext();
 
 export function WeekDayContextProvider({ children }) {
-  const [weekDayContext, setWeekDayContext] = useState('Segunda-Feira');
+  const [weekDayContext, setWeekDayContext] = useState(
+    WeekDays[new Date().getDay()]
+  );
 
   return (
     <WeekDayContext.Provider value={{ weekDayContext, setWeekDayContext }}>
@@ -16,9 +19,7 @@ export function useWeekDay() {
   const context = useContext(WeekDayContext);
 
   if (!context) {
-    throw new Error(
-      'useWeekDay must be used within a WeekDayContextProvider.'
-    );
+    throw new Error("useWeekDay must be used within a WeekDayContextProvider.");
   }
 
   const { weekDayContext, setWeekDayContext } = context;

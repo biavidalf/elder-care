@@ -1,28 +1,39 @@
-import { Pressable, Text, TouchableOpacity, StyleSheet } from "react-native";
-
+import { Text, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { Colors } from "../../utilities/Colors";
-import { useFonts, Poppins_400Regular } from "@expo-google-fonts/poppins";
 
-function TaskContainer({ data }) {
-  const [fontsLoaded, fontError] = useFonts({ Poppins_400Regular });
+import { Pressable } from "../Pressable";
+import { Colors } from "../../utils/Colors";
 
-  if (!fontsLoaded && !fontError) {
-    return null;
-  }
+import { shadowStyle } from "../../assets/styles/shadowStyle";
 
+export const TaskContainer = ({ data }) => {
   return (
     <Pressable
-      style={[styles.taskContainer, { borderLeftColor: Colors[data.color] }]}
+      style={[
+        styles.taskContainer,
+        shadowStyle.lightShadow,
+        data.color && {
+          borderLeftWidth: 3,
+          borderLeftColor: Colors[data.color],
+        },
+      ]}
     >
-      <Text style={styles.hourText}>{data.hour}</Text>
+      {data.time && (
+        <Text style={styles.hourText}>
+          {data.time.toDate().toLocaleTimeString("en-US", {
+            hour12: false,
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </Text>
+      )}
       <Text style={styles.labelText}>{data.label}</Text>
-      <TouchableOpacity style={styles.iconContainer}>
+      <Pressable activeOpacity={0.7} style={styles.iconContainer}>
         <Feather name="more-horizontal" size={20} color={Colors.GRAY} />
-      </TouchableOpacity>
+      </Pressable>
     </Pressable>
   );
-}
+};
 
 const styles = StyleSheet.create({
   taskContainer: {
@@ -31,24 +42,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginHorizontal: 5,
     paddingHorizontal: 14,
     paddingVertical: 10,
-    borderLeftWidth: 3,
-    marginBottom: 10
+    marginBottom: 10,
   },
   hourText: {
     color: Colors.GRAY,
-    fontFamily: "Poppins_400Regular",
+    fontFamily: "Poppins-Regular",
   },
   labelText: {
     flex: 1,
     marginHorizontal: 10,
-    fontFamily: "Poppins_400Regular",
-    fontSize: '1rem'
+    fontFamily: "Poppins-Regular",
+    fontSize: 16,
   },
   iconContainer: {
     paddingHorizontal: 4,
   },
 });
-
-export default TaskContainer;

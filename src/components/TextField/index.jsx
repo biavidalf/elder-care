@@ -1,44 +1,54 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
-import { useFonts, Poppins_400Regular } from "@expo-google-fonts/poppins";
 
-import { Colors } from "../../utilities/Colors";
+import { Colors } from "../../utils/Colors";
+import { forwardRef } from "react";
 
-export const TextField = ({ label, name, ...props }) => {
-  const [fontsLoaded, fontError] = useFonts({ Poppins_400Regular });
-
-  if (!fontsLoaded && !fontError) {
-    return null;
+export const TextField = forwardRef(
+  ({ label, name, isEdit = true, error, ...otherProps }, ref) => {
+    return (
+      <View style={styles.container}>
+        <Text
+          htmlFor={name}
+          style={[styles.label, !isEdit && { color: Colors.GRAY }]}
+        >
+          {label}
+        </Text>
+        <TextInput
+          ref={ref}
+          id={name}
+          name={name}
+          placeholderTextColor={Colors.GRAY}
+          style={[styles.input, !isEdit && { borderColor: "transparent" }]}
+          {...otherProps}
+        />
+        {error && <Text style={styles.error}>{error.message}</Text>}
+      </View>
+    );
   }
-
-  return (
-    <View style={styles.container}>
-      <Text htmlFor={name} style={styles.label}>
-        {label}
-      </Text>
-      <TextInput id={name} name={name} style={styles.input} {...props} />
-    </View>
-  );
-};
+);
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    display: "flex",
+    width: "auto",
     gap: 4,
   },
   label: {
     color: Colors.BLACK,
     fontSize: 12,
-    fontFamily: "Poppins_400Regular",
+    fontFamily: "Poppins-Regular",
   },
   input: {
-    color: Colors.BLACK,
-    placeholderTextColor: Colors.GRAY,
     fontSize: 16,
-    fontFamily: "Poppins_400Regular",
+    color: Colors.BLACK,
+    fontFamily: "Poppins-Regular",
     height: 32,
     paddingHorizontal: 4,
     borderBottomWidth: 1,
     borderBottomColor: Colors.LIGHT_GRAY,
+  },
+  error: {
+    color: Colors.RED,
+    fontFamily: "Poppins-Regular",
+    fontSize: 12,
   },
 });

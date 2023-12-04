@@ -1,33 +1,19 @@
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import {
-  useFonts,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-} from "@expo-google-fonts/poppins";
+
+import { Pressable } from "../Pressable";
+import { ProfilePicture } from "../Icons";
 
 export default function Header({ navigation }) {
-  const [fontsLoaded, fontError] = useFonts({
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-  });
-
-  if (!fontsLoaded && !fontError) {
-    return null;
-  }
-
   return (
     <View style={styles.header}>
       <View style={styles.profileContainer}>
         <Pressable
           onPress={() => {
-            navigation.navigate("Perfil");
+            navigation.navigate("Profile");
           }}
         >
-          <Image
-            style={{ width: 40, height: 40 }}
-            source={require("./../../assets/images/profile-pic.svg")}
-          />
+          <ProfilePicture size={40} />
         </Pressable>
 
         <View style={styles.profile}>
@@ -35,12 +21,9 @@ export default function Header({ navigation }) {
           <Text style={styles.profileTitle}>Beatriz Vidal</Text>
         </View>
       </View>
-      <Pressable
-        onPress={() => {
-          navigation.navigate("Login");
-        }}
-      >
-        <Feather name="bell" size={22} />
+
+      <Pressable activeOpacity={0.7}>
+        <Feather name="bell" size={24} />
       </Pressable>
     </View>
   );
@@ -48,10 +31,10 @@ export default function Header({ navigation }) {
 
 const styles = StyleSheet.create({
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
     height: 50,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   profileContainer: {
     flexDirection: "row",
@@ -61,15 +44,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   profileSubtitle: {
+    color: "#8696BB",
     fontSize: 14,
     lineHeight: 18,
-    color: "#8696BB",
-    fontFamily: "Poppins_500Medium",
+    fontFamily: "Poppins-Medium",
   },
   profileTitle: {
     color: "#2C72DA",
     fontSize: 18,
     lineHeight: 18,
-    fontFamily: "Poppins_500Medium",
+    fontFamily: "Poppins-Medium",
   },
 });

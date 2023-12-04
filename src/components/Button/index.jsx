@@ -1,43 +1,38 @@
-import { Text, StyleSheet, TouchableOpacity } from "react-native";
-import { useFonts, Poppins_500Medium } from "@expo-google-fonts/poppins";
+import { StyleSheet, Text, ActivityIndicator } from "react-native";
 
-import { Colors } from "../../utilities/Colors";
+import { Colors } from "../../utils/Colors";
+import { Pressable } from "../../components/Pressable";
 
-export const Button = ({ title, type, children, ...props }) => {
-  const [fontsLoaded, fontError] = useFonts({ Poppins_500Medium });
-
-  if (!fontsLoaded && !fontError) {
-    return null;
-  }
+export const Button = ({ title, type, children, isLoading, ...otherProps }) => {
+  const containerStyle = styles[type];
+  const textStyle = styles[`${type}Text`];
 
   return (
-    <TouchableOpacity
+    <Pressable
       activeOpacity={0.7}
-      {...props}
-      style={[
-        styles.button,
-        {
-          backgroundColor: type === "primary" ? Colors.BLUE : Colors.LIGHT_BLUE,
-        },
-      ]}
+      disabled={isLoading}
+      style={[styles.button, containerStyle]}
+      {...otherProps}
     >
       {children}
-      <Text
-        style={[
-          styles.text,
-          { color: type === "primary" ? "white" : Colors.BLUE },
-        ]}
-      >
-        {title}
+      <Text style={[styles.text, textStyle]}>
+        {isLoading ? (
+          <ActivityIndicator
+            color={type === "primary" ? Colors.WHITE_200 : Colors.BLUE}
+            style={styles.loading}
+          />
+        ) : (
+          title
+        )}
       </Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
     height: 40,
-    gap: 3,
+    gap: 4,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -45,8 +40,30 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     borderRadius: 40,
   },
+  primary: {
+    backgroundColor: Colors.BLUE,
+  },
+  primaryText: {
+    color: Colors.WHITE,
+  },
+  secondary: {
+    backgroundColor: Colors.LIGHT_BLUE,
+  },
+  secondaryText: {
+    color: Colors.BLUE,
+  },
+  cancel: {
+    backgroundColor: "transparent",
+  },
+  cancelText: {
+    color: Colors.RED,
+    textDecorationLine: "underline",
+  },
   text: {
-    fontSize: '1rem',
-    fontFamily: "Poppins_500Medium",
+    fontSize: 16,
+    fontFamily: "Poppins-Medium",
+  },
+  loading: {
+    display: "flex",
   },
 });

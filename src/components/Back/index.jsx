@@ -1,25 +1,19 @@
 import { Feather } from "@expo/vector-icons";
-import { StyleSheet, TouchableOpacity } from "react-native";
 
-import { Colors } from "../../utilities/Colors";
+import { Colors } from "../../utils/Colors";
+import { Pressable } from "../../components/Pressable";
 
-const Back = ({ navigation, ...props }) => {
+const Back = ({ navigation, style, ...otherProps }) => {
   return (
-    <TouchableOpacity
-      style={styles.icon}
+    <Pressable
+      activeOpacity={0.7}
+      style={style}
       onPress={() => navigation.goBack()}
-      {...props}
+      {...otherProps}
     >
-      <Feather name="chevron-left" size={26} color={Colors.BLACK} />
-    </TouchableOpacity>
+      <Feather name="chevron-left" size={32} color={Colors.BLACK} />
+    </Pressable>
   );
 };
-
-const styles = StyleSheet.create({
-  icon: {
-    position: "absolute",
-    top: 68,
-  },
-});
 
 export { Back };

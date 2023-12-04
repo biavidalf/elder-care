@@ -1,5 +1,6 @@
-import { StyleSheet, View, Alert } from "react-native";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Alert, StyleSheet, View } from "react-native";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -9,21 +10,25 @@ import { TextField } from "../../components/TextField";
 import { Button } from "../../components/Button";
 
 import { Colors } from "../../utils/Colors";
-import { authenticateUser } from "../../utils/firebase/auth";
-import { useState } from "react";
+import { createUser } from "../../utils/firebase/auth";
 
 const formSchema = yup
   .object()
   .shape({
+    firstName: yup.string().required("O campo nome é obrigatório."),
+    lastName: yup.string().required("O campo sobrenome é obrigatório."),
     email: yup
       .string()
       .required("O campo e-mail é obrigatório.")
       .email("Digite um e-mail válido."),
-    password: yup.string().required("O campo senha é obrigatório."),
+    password: yup
+      .string()
+      .required("O campo senha é obrigatório.")
+      .min(8, "A senha deve possuir pelo menos 8 caracteres."),
   })
   .required();
 
-export const Login = ({ navigation }) => {
+export const SignUp = ({ navigation }) => {
   const {
     register,
     setValue,
@@ -32,16 +37,18 @@ export const Login = ({ navigation }) => {
   } = useForm({ resolver: yupResolver(formSchema) });
   const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
 
-  const onSubmit = async ({ email, password }) => {
+  const onSubmit = async ({ firstName, lastName, email, password }) => {
     try {
       setIsLoadingSubmit(true);
 
-      await authenticateUser(email, password);
+      await createUser(firstName, lastName, email, password);
 
       navigation.navigate("Tab");
 
       // Reset field values
-      ["email", "password"].forEach((field) => setValue(field, ""));
+      ["firstName", "lastName", "email", "password"].forEach((field) =>
+        setValue(field, "")
+      );
     } catch (error) {
       Alert.alert(error.message);
     } finally {
@@ -53,18 +60,39 @@ export const Login = ({ navigation }) => {
     <View style={styles.container}>
       <Back navigation={navigation} style={styles.back} />
 
-      <Title>Login</Title>
+      <Title>Criar Conta</Title>
 
       <View style={styles.inputs}>
+        <TextField
+          type="text"
+          name="firstName"
+          label="Nome"
+          placeholder="John"
+          error={errors?.firstName}
+          onChangeText={(value) => setValue("firstName", value)}
+          {...register("firstName")}
+        />
+
+        <TextField
+          type="text"
+          name="lastName"
+          label="Sobrenome"
+          placeholder="Doe"
+          error={errors?.lastName}
+          onChangeText={(value) => setValue("lastName", value)}
+          {...register("lastName")}
+        />
+
         <TextField
           type="email"
           name="email"
           label="E-mail"
-          placeholder="example@email.com"
           error={errors?.email}
+          placeholder="example@email.com"
           onChangeText={(value) => setValue("email", value)}
           {...register("email")}
         />
+
         <TextField
           type="password"
           name="password"
@@ -76,8 +104,9 @@ export const Login = ({ navigation }) => {
           {...register("password")}
         />
       </View>
+
       <Button
-        title="Login"
+        title="Criar"
         type="primary"
         isLoading={isLoadingSubmit}
         onPress={handleSubmit(onSubmit)}
@@ -89,9 +118,9 @@ export const Login = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.WHITE,
-    flex: 1,
     paddingTop: 80,
     paddingHorizontal: 40,
+    flex: 1,
   },
   inputs: {
     width: "auto",

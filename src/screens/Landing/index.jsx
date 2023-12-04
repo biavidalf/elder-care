@@ -1,21 +1,11 @@
 import React from "react";
 import { Text, View, StyleSheet, Image } from "react-native";
-import {
-  useFonts,
-  Poppins_500Medium,
-  Poppins_400Regular,
-} from "@expo-google-fonts/poppins";
 
 import { Button } from "../../components/Button";
 
-import { Colors } from "../../utilities/Colors";
+import { Colors } from "../../utils/Colors";
 
 export const Landing = ({ navigation }) => {
-  const [fontsLoaded, fontError] = useFonts({
-    Poppins_500Medium,
-    Poppins_400Regular,
-  });
-
   return (
     <View style={styles.main}>
       <View style={styles.titleContainer}>
@@ -24,7 +14,7 @@ export const Landing = ({ navigation }) => {
       </View>
 
       <Image
-        style={styles.imageSize}
+        style={styles.image}
         source={require("../../assets/images/home-banner.png")}
       />
 
@@ -46,7 +36,7 @@ export const Landing = ({ navigation }) => {
           <Button
             title="Criar Conta"
             type="secondary"
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate("SignUp")}
           />
         </View>
       </View>
@@ -55,22 +45,22 @@ export const Landing = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  titleText: {
-    fontSize: 24,
-    fontFamily: "Poppins_500Medium",
-  },
   main: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 24,
-    padding: 40,
     backgroundColor: Colors.WHITE,
+    padding: 40,
+    gap: 24,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
   titleContainer: {
     flexDirection: "row",
   },
-  imageSize: {
+  titleText: {
+    fontSize: 24,
+    fontFamily: "Poppins-Medium",
+  },
+  image: {
     width: 256,
     height: 256,
   },
@@ -83,15 +73,15 @@ const styles = StyleSheet.create({
   welcomeTitle: {
     fontSize: 20,
     textAlign: "center",
-    fontFamily: "Poppins_500Medium",
+    fontFamily: "Poppins-Medium",
   },
   welcomeSubtitle: {
     fontSize: 13,
     textAlign: "center",
-    fontFamily: "Poppins_400Regular",
+    fontFamily: "Poppins-Regular",
   },
   buttonsContainer: {
-    flex: 1,
+    width: "auto",
     flexDirection: "column",
     gap: 12,
   },
