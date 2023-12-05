@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
+import { Text, View, StyleSheet, ActivityIndicator } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 import { Title } from "../../components/Title";
@@ -11,8 +11,31 @@ import { Colors } from "../../utils/Colors";
 import { Pressable } from "../../components/Pressable";
 import { ElderCareLogo, ProfilePicture } from "../../components/Icons";
 
+import { getAuth } from "firebase/auth";
+
+import { getUsers } from "../../utils/firebase/database/user";
+
 export const Profile = ({ navigation }) => {
   const [editMode, setEditMode] = useState(false);
+  const [loggedUser, setLoggedUser] = useState();
+  const auth = getAuth();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const users = await getUsers();
+        if (auth.currentUser) {
+          setLoggedUser(
+            users.filter((user) => user.email == auth.currentUser.email)[0]
+          );
+          setIsLoading(false);
+        }
+      } catch (error) {
+        Alert.alert(error.message);
+      }
+    })();
+  }, []);
 
   return (
     <View style={styles.main}>
@@ -31,64 +54,77 @@ export const Profile = ({ navigation }) => {
           </Pressable>
         </View>
 
-        <View style={styles.imageContainer}>
-          <View style={styles.editIcon}>
-            <Feather name="edit" size={23} color={Colors.WHITE_300} />
-          </View>
+        {isLoading ? (
+          <ActivityIndicator color={Colors.BLUE} />
+        ) : (
+          <View style={styles.content}>
+            <View style={styles.imageContainer}>
+              <View style={styles.editIcon}>
+                <Feather name="edit" size={23} color={Colors.WHITE_300} />
+              </View>
 
-          <ProfilePicture size={135} />
-          <Title>Beatriz Vidal</Title>
-        </View>
+              <ProfilePicture size={135} />
+              <Title>
+                {loggedUser
+                  ? `${loggedUser.firstName} ${loggedUser.lastName}`
+                  : "Nome Sobrenome"}
+              </Title>
+            </View>
 
-        <Pressable
-          style={styles.rightScreen}
-          onPress={() => {
-            setEditMode(!editMode);
-          }}
-        >
-          <Text
-            style={[styles.actionText, editMode ? styles.cancel : styles.edit]}
-          >
-            {editMode ? "Cancelar" : "Editar"}
-          </Text>
-        </Pressable>
-
-        <View style={styles.inputs}>
-          <TextField
-            label="Nome"
-            name="nome"
-            value="Beatriz"
-            isEdit={editMode}
-          />
-          <TextField
-            label="Sobrenome"
-            name="sobrenome"
-            value="Vidal"
-            isEdit={editMode}
-          />
-          <TextField
-            label="Telefone"
-            name="telefone"
-            value="(85) 96516-1531"
-            isEdit={editMode}
-          />
-          <TextField
-            label="E-mail"
-            name="email"
-            value="beatriz@gmail.com"
-            isEdit={editMode}
-          />
-        </View>
-
-        {editMode && (
-          <View style={styles.buttonContainer}>
-            <Button
-              type="primary"
-              title="Salvar"
+            <Pressable
+              style={styles.rightScreen}
               onPress={() => {
-                setEditMode(false);
+                setEditMode(!editMode);
               }}
-            />
+            >
+              <Text
+                style={[
+                  styles.actionText,
+                  editMode ? styles.cancel : styles.edit,
+                ]}
+              >
+                {editMode ? "Cancelar" : "Editar"}
+              </Text>
+            </Pressable>
+
+            <View style={styles.inputs}>
+              <TextField
+                label="Nome"
+                name="nome"
+                value={loggedUser ? loggedUser.firstName : "Nome"}
+                isEdit={editMode}
+              />
+              <TextField
+                label="Sobrenome"
+                name="sobrenome"
+                value={loggedUser ? loggedUser.lastName : "Sobrenome"}
+                isEdit={editMode}
+              />
+              <TextField
+                label="Telefone"
+                name="telefone"
+                value="(85) 96516-1531"
+                isEdit={editMode}
+              />
+              <TextField
+                label="E-mail"
+                name="email"
+                value={loggedUser ? loggedUser.email : "example@gmail.com"}
+                isEdit={editMode}
+              />
+            </View>
+
+            {editMode && (
+              <View style={styles.buttonContainer}>
+                <Button
+                  type="primary"
+                  title="Salvar"
+                  onPress={() => {
+                    setEditMode(false);
+                  }}
+                />
+              </View>
+            )}
           </View>
         )}
       </View>
@@ -119,7 +155,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: "#fff",
-    paddingTop: 80,
+    paddingTop: 65,
     paddingBottom: 100,
     paddingHorizontal: 40,
   },
